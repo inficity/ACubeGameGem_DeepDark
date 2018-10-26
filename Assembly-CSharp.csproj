@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Card.cs" />
+     <None Include="Assets\JsonDotNet\link.xml" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>/Users/singyujo/workspace/acube_deepdark/Life/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
@@ -272,6 +273,9 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>/Users/singyujo/Library/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>/Users/singyujo/workspace/acube_deepdark/Life/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>
