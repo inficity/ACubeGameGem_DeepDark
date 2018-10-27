@@ -51,6 +51,12 @@ namespace DeepDark.Server.States
 			{
 				case TurnAction.AttackPlayer:
 					{
+						if (enemyState.Field.Count != 0)
+						{
+							this.__sendResponseMessage(networkMessage.conn.connectionId, false);
+							return;
+						}
+
 						var damager = state.findServerCharacter(message.damagerInstanceId);
 
 						if (!damager.attack())
