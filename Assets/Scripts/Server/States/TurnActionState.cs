@@ -89,7 +89,10 @@ namespace DeepDark.Server.States
 						this.__sendCharacterStateChangedMessage(damagee);
 
 						if (damagee.HP < 1)
+						{
+							enemyState.removeServerCharacter(damagee);
 							this.__sendDestroyedMessage(damagee);
+						}
 					}
 					break;
 				case TurnAction.TurnEnd:
@@ -139,6 +142,11 @@ namespace DeepDark.Server.States
 
 					this.__sendResponseMessage(networkMessage.conn.connectionId, true);
 					this.__sendStateChangedMessage(networkMessage.conn.connectionId, state);
+
+					if (card.IsNegative)
+						state.removeNegativeCard(message.cardId);
+					else
+						state.removePositiveCard(message.cardId);
 
 					if (card.OnUseCard != null)
 						card.OnUseCard(state, enemyState);

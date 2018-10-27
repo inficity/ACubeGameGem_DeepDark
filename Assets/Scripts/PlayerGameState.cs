@@ -123,5 +123,10 @@ namespace DeepDark
 
 			return null;
 		}
+
+		public void removeServerCharacter(ServerCharacter serverCharacter)
+		{
+			this.Field.Remove(serverCharacter);
+		}
 	}
 }
