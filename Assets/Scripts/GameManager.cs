@@ -17,6 +17,13 @@ public class CardImageReferer
 	public int CardId;
 	public Sprite Sprite;
 }
+
+public class Direction
+{
+	public bool NeedWaitPreviousDirection;
+	public System.Action<System.Action> Action;
+}
+
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
@@ -74,26 +81,30 @@ public class GameManager : MonoBehaviour {
 			waitActionResponse = false;
 		});
 		NetworkManager.Instance.onTurnActionEventNotifier
-		.SelectMany(msg => {
+		.Subscribe(msg => {
 			switch (msg.turnActionEvent)
 			{
 				case TurnActionEvent.Instantiated:
 				{
 					if (pendingCard != null && pendingCard.Card.Id == msg.cardId)
 					{
-						pendingCard.IsCharacterCard = true;
-						pendingCard.InstanceId = msg.instanceId;
-						pendingCard.SetHP(msg.hp);
-						pendingCard.SetAttack(msg.attack);
-						(msg.clientId == NetworkManager.Instance.clientId ? MyCharacters : OpCharacters)
-							.Add(pendingCard);
+						var card = pendingCard;
 						pendingCard = null;
-						AlignCards();
-						return Observable.Timer(TimeSpan.FromSeconds(0.6)).ToAwaitableEnumerator();
+						AddDirection(true, close => {
+							card.IsCharacterCard = true;
+							card.InstanceId = msg.instanceId;
+							card.SetHP(msg.hp);
+							card.SetAttack(msg.attack);
+							(msg.playerId == NetworkManager.Instance.clientId ? MyCharacters : OpCharacters)
+								.Add(card);
+							AlignCards();
+							Observable.Timer(TimeSpan.FromSeconds(0.6))
+								.Subscribe(_ => close());
+						});
 					}
 					else
 					{
-						return Observable.Timer(TimeSpan.FromSeconds(0)).ToAwaitableEnumerator();
+						
 					}
 				}
 				break;
@@ -102,7 +113,7 @@ public class GameManager : MonoBehaviour {
 					
 				}
 				break;
-				case TurnActionEvent.CharacterHPChanged:
+				case TurnActionEvent.CharacterStateChanged:
 				{
 					
 				}
@@ -123,9 +134,7 @@ public class GameManager : MonoBehaviour {
 				}
 				break;
 			}
-			return Observable.Timer(TimeSpan.FromSeconds(0.6)).ToAwaitableEnumerator();
-		})
-		.Subscribe(_ => {});
+		});
 	}
 
 	public void TestGame() {
@@ -135,6 +144,13 @@ public class GameManager : MonoBehaviour {
 		// 	.Subscribe(_ => {
 		// 		SpawnCard(samples[Random.Range(0, samples.Count())]);
 		// 	});
+		new int[]{2, 3, 2, 3}.ToObservable()
+			.SelectMany(i => {
+				return Observable.Timer(TimeSpan.FromSeconds(i));
+			})
+			.Subscribe(i => {
+				Debug.Log(i);
+			});
 	}
 
 	List<PlayCard> OpCharacters = new List<PlayCard>();
@@ -167,15 +183,29 @@ public class GameManager : MonoBehaviour {
 		return playCard;
 	}
 
-	Queue<IEnumerator> DirectionQueue = new Queue<IEnumerator>();
+	Queue<Direction> DirectionQueue = new Queue<Direction>();
+	int ActiveDirectionCount = 0;
+
+	void AddDirection(bool needWaitPreviousDirection, System.Action<System.Action> direction)
+	{
+		var d = new Direction();
+		d.NeedWaitPreviousDirection = needWaitPreviousDirection;
+		d.Action = close => {
+			++ActiveDirectionCount;
+			direction(close);
+		};
+	}
 
 	IEnumerator DirectionLoop() {
 		while (true) {
 			yield return null;
 			if (DirectionQueue.Count == 0)
 				continue;
-			var direction = DirectionQueue.Dequeue();
-			yield return StartCoroutine(direction);
+			var peek = DirectionQueue.Peek();
+			if (peek.NeedWaitPreviousDirection && ActiveDirectionCount > 0)
+				continue;
+			DirectionQueue.Dequeue();
+			peek.Action(() => { --ActiveDirectionCount; });
 		}
 	}
 
