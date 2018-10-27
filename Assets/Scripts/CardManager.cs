@@ -131,6 +131,33 @@ namespace DeepDark
 				};
 				Cards.Add(card.Id, card);
 			}
+
+
+			{
+				var card = new Card();
+				card.Id = 202;
+				card.Name = "야근";
+				card.Description = "오늘도 새벽까지 야근이다...\n나에게 데미지3";
+				card.Cost = 5;
+				card.IsNegative = true;
+				card.OnUseCard = (me, op) => {
+					//me.damage(3);
+				};
+				Cards.Add(card.Id, card);
+			}
+			{
+				var card = new Card();
+				card.Id = 203;
+				card.Name = "임금체불";
+				card.Description = "내돈은 어디로... 벌써 3달째다\n나에게 데미지6";
+				card.Cost = 5;
+				card.IsNegative = true;
+				card.OnUseCard = (me, op) => {
+					//me.damage(6);
+				};
+				Cards.Add(card.Id, card);
+			}
+
 			{
 				var card = new Card();
 				card.Id = 202;

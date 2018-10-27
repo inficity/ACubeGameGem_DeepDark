@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour {
 	public Text MyCostText;
 	public Text OpHpText;
 	public Text MyHpText;
+	int MyHp;
+	int OpHp;
+	public Transform OpDmgPos;
+	public Transform MyDmgPos;
 
 	public GameObject MyTurn;
 	public GameObject OpTurn;
@@ -74,6 +78,8 @@ public class GameManager : MonoBehaviour {
 			NetworkUI.Instance.gameObject.SetActive(false);
 			MyCostText.text = $"{msg.cost}";
 			OpCostText.text = $"{msg.enemyCost}";
+			MyHp = msg.hp;
+			OpHp = msg.enemyHP;
 			MyHpText.text = $"{msg.hp}";
 			OpHpText.text = $"{msg.enemyHP}";
 			msg.negativeHand.Concat(msg.positiveHand).ToObservable()
@@ -160,12 +166,44 @@ public class GameManager : MonoBehaviour {
 				{
 					Debug.Log($"{msg.playerId} {msg.hp} {msg.cost}");
 					if (msg.playerId == NetworkManager.Instance.clientId) {
+						var dmg = MyHp - msg.hp;
+						MyHp = msg.hp;
 						MyHpText.text = $"<b>{msg.hp}</b>";
 						MyCostText.text = $"<b>{msg.cost}</b>";
+						if (dmg > 0)
+						{
+							AddDirection(true, close => {
+								DmgEffect.transform.position = MyDmgPos.position;
+								DmgText.text = $"{dmg}";
+								DmgEffect.SetActive(true);
+								DmgEffect.transform.DOShakePosition(0.6f);
+								GameUI.transform.DOShakePosition(0.4f, 30, 30);
+								Timer(0.8f, () => {
+									DmgEffect.SetActive(false);
+									close();
+								});
+							});
+						}
 					}
 					else {
+						var dmg = OpHp - msg.hp;
+						OpHp = msg.hp;
 						OpHpText.text = $"<b>{msg.hp}</b>";
 						OpCostText.text = $"<b>{msg.cost}</b>";
+						if (dmg > 0)
+						{
+							AddDirection(true, close => {
+								DmgEffect.transform.position = OpDmgPos.position;
+								DmgText.text = $"{dmg}";
+								DmgEffect.SetActive(true);
+								DmgEffect.transform.DOShakePosition(0.6f);
+								GameUI.transform.DOShakePosition(0.4f, 30, 30);
+								Timer(0.8f, () => {
+									DmgEffect.SetActive(false);
+									close();
+								});
+							});
+						}
 					}
 				}
 				break;
@@ -178,15 +216,14 @@ public class GameManager : MonoBehaviour {
 						if (card._HP != msg.hp)
 						{
 							// 데미지
-							var baseX = card.transform.localScale.x;
 							AddDirection(true, close => {
 								var dmg = card._HP - msg.hp;
 								DmgEffect.transform.position = card.transform.position;
 								DmgText.text = $"{dmg}";
 								DmgEffect.SetActive(true);
-								DmgEffect.transform.DOShakePosition(0.5f);
-								GameUI.transform.DOShakePosition(0.3f, 30);
-								Timer(0.6f, () => {
+								DmgEffect.transform.DOShakePosition(0.6f);
+								GameUI.transform.DOShakePosition(0.4f, 30, 30);
+								Timer(0.8f, () => {
 									DmgEffect.SetActive(false);
 									close();
 								});
@@ -208,15 +245,14 @@ public class GameManager : MonoBehaviour {
 						if (card._HP != msg.hp)
 						{
 							// 데미지
-							var baseX = card.transform.localScale.x;
 							AddDirection(true, close => {
 								var dmg = card._HP - msg.hp;
 								DmgEffect.transform.position = card.transform.position;
 								DmgText.text = $"{dmg}";
 								DmgEffect.SetActive(true);
-								DmgEffect.transform.DOShakePosition(0.5f);
-								GameUI.transform.DOShakePosition(0.3f, 30);
-								Timer(0.6f, () => {
+								DmgEffect.transform.DOShakePosition(0.6f);
+								GameUI.transform.DOShakePosition(0.4f, 30, 30);
+								Timer(0.8f, () => {
 									DmgEffect.SetActive(false);
 									close();
 								});
@@ -284,7 +320,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void TestGame() {
-		var samples = new int[]{101, 102, 103, 301, 302, 303};
+		var samples = new int[]{203, 102, 103, 301, 302, 303};
 		samples.ToObservable()
 			.Subscribe(id => {
 				var card = SpawnCard(id);
