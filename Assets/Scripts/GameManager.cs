@@ -84,9 +84,18 @@ public class GameManager : MonoBehaviour {
 		NetworkManager.Instance.onTurnStartedNotifier
 		.Subscribe(msg => {
 			var obj = (msg.clientId == NetworkManager.Instance.clientId) ? MyTurn : OpTurn;
+			msg.negative.Concat(msg.positive).ToObservable()
+				.Subscribe(id => {
+					AddDirection(true, close => {
+						var card = SpawnCard(id);
+						(card.Card.IsNegative ? NegHands : PosHands).Add(card);
+						AlignCards();
+						Timer(0.6f, close);
+					});
+				});
 			AddDirection(true, close => {
 				obj.SetActive(true);
-				Timer(2f, () => {
+				Timer(3f, () => {
 					obj.SetActive(false);
 					close();
 				});
