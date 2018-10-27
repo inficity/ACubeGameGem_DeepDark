@@ -47,7 +47,8 @@ namespace DeepDark.Server.States
 			{
 				case TurnAction.Attack:
 
-
+					//message.damagerInstanceId
+					
 
 					break;
 				case TurnAction.TurnEnd:
@@ -102,6 +103,14 @@ namespace DeepDark.Server.States
 			message.approved = approved;
 
 			GameServer.Instance.sendMessage(playerId, Messages.Type.TURN_ACTION_RESPONSE, message);
+		}
+
+		private void __sendDestroyedMessage(ServerCharacter serverCharacter)
+		{
+			var message = new Messages.TurnActionEventMessage();
+			message.instanceId = serverCharacter.Id;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_RESPONSE, message);
 		}
 	}
 }

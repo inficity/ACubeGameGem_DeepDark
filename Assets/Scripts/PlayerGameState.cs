@@ -41,17 +41,25 @@ namespace DeepDark
 		{
 			this.Cost += amount;
 		}
-		
-		public void fillHand(PlayerGameSetting playerGameSetting)
+
+		public KeyValuePair<List<int>, List<int>> fillHand(PlayerGameSetting playerGameSetting)
 		{
-			PlayerGameState.__fillHand(this.NegativeDeck, this.NegativeHand, playerGameSetting.MaxNegativeHand);
-			PlayerGameState.__fillHand(this.PositiveDeck, this.PositiveHand, playerGameSetting.MaxPositiveHand);
+			return new KeyValuePair<List<int>, List<int>>(
+				PlayerGameState.__fillHand(this.NegativeDeck, this.NegativeHand, playerGameSetting.MaxNegativeHand),
+				PlayerGameState.__fillHand(this.PositiveDeck, this.PositiveHand, playerGameSetting.MaxPositiveHand));
 		}
 
-		private static void __fillHand(Queue<Card> deck, List<Card> hand, int maxHand)
+		private static List<int> __fillHand(Queue<Card> deck, List<Card> hand, int maxHand)
 		{
+			List<int> card = new List<int>();
+
 			while (hand.Count < maxHand)
+			{
+				card.Add(deck.Peek().Id);
 				hand.Add(deck.Dequeue());
+			}
+
+			return card;
 		}
 
 		public Card removeNegativeCard(int id)

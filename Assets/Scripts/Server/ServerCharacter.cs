@@ -24,5 +24,11 @@ namespace DeepDark.Server
 		{
 			this.AttackChance = attackChance;
 		}
+
+		public void onTurnBegin(PlayerGameState state, PlayerGameState enemyState)
+		{
+			if (this.card.OnBeginTurn != null)
+				this.card.OnBeginTurn(this, state, enemyState);
+		}
 	}
 }

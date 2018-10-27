@@ -62,6 +62,12 @@ namespace DeepDark
 		{
 			public int clientId;
 			public int timeout;
+
+			public List<int> negative;
+			public List<int> positive;
+
+			public List<int> enemyNegative;
+			public List<int> enemyPositive;
 		}
 
 		public class TurnActionMessage
@@ -73,7 +79,7 @@ namespace DeepDark
 			public int damageeInstanceId;
 
 			//UseCard
-			public int id;
+			public int cardId;
 
 			//TurnEnd
 			//Empty.
@@ -87,7 +93,7 @@ namespace DeepDark
 		public class TurnActionEventMessage
 		{
 			public TurnActionEvent turnActionEvent;
-
+			
 			//HPChanged
 			public int clientId;
 			public int amount;
