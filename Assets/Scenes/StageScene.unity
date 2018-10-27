@@ -524,17 +524,65 @@ MonoBehaviour:
   UseCardArea: {fileID: 1289423427}
   CardImages:
   - CardId: 101
-    Sprite: {fileID: 21300000, guid: 1ad897d63e3af42ccafc6000e4de0159, type: 3}
+    Sprite: {fileID: 21300000, guid: 1cf17f396ec4e284bace5f59ffbd0fc3, type: 3}
   - CardId: 102
-    Sprite: {fileID: 21300000, guid: cfcebe543ea2345198dd457d85ce3dd3, type: 3}
+    Sprite: {fileID: 21300000, guid: 3508f5d311045894e8bc840b330953ab, type: 3}
   - CardId: 103
+    Sprite: {fileID: 21300000, guid: f7c439f348d304549ad4f5caf9610083, type: 3}
+  - CardId: 104
+    Sprite: {fileID: 21300000, guid: ce2ef218b1449db48b2a3482e0649bc2, type: 3}
+  - CardId: 105
+    Sprite: {fileID: 21300000, guid: aad0a7f4a802a0c4a8c29ae3d1756c48, type: 3}
+  - CardId: 106
+    Sprite: {fileID: 21300000, guid: 4d6abadf3de703c4cb428bb3c4944d62, type: 3}
+  - CardId: 107
+    Sprite: {fileID: 21300000, guid: 9c0a16ddcd0bf11458801b3bf69f5246, type: 3}
+  - CardId: 201
+    Sprite: {fileID: 21300000, guid: cfcebe543ea2345198dd457d85ce3dd3, type: 3}
+  - CardId: 202
     Sprite: {fileID: 21300000, guid: 48267733bd5ce4430a97f4c2bafd5489, type: 3}
+  - CardId: 203
+    Sprite: {fileID: 21300000, guid: 6d8bb2f4e9f50fe4cad4963acd570617, type: 3}
+  - CardId: 204
+    Sprite: {fileID: 21300000, guid: 345d1fd77dbb9b747b086a1079dc74e7, type: 3}
+  - CardId: 205
+    Sprite: {fileID: 21300000, guid: ae0959f7adef7164eb4ca6e20d15bf66, type: 3}
+  - CardId: 206
+    Sprite: {fileID: 21300000, guid: 05e205e9b0a9e1d4f90933ff4697ac23, type: 3}
+  - CardId: 207
+    Sprite: {fileID: 21300000, guid: 922e861508441544ab0ef0b398f4c669, type: 3}
+  - CardId: 208
+    Sprite: {fileID: 0}
   - CardId: 301
     Sprite: {fileID: 21300000, guid: 25b9955bc82994b6fa21f9f4f6737275, type: 3}
   - CardId: 302
-    Sprite: {fileID: 21300000, guid: d9bc5f323788c4c619e271456b1b67f3, type: 3}
+    Sprite: {fileID: 21300000, guid: 1ad897d63e3af42ccafc6000e4de0159, type: 3}
   - CardId: 303
+    Sprite: {fileID: 21300000, guid: 837dc3c34a9775549b1f38e7a03c781c, type: 3}
+  - CardId: 304
+    Sprite: {fileID: 21300000, guid: 9d818d731600a254eb9f5bc9568bb0fc, type: 3}
+  - CardId: 305
+    Sprite: {fileID: 21300000, guid: d9bc5f323788c4c619e271456b1b67f3, type: 3}
+  - CardId: 306
+    Sprite: {fileID: 21300000, guid: 332119db043774397bfa72f5f85dcfd3, type: 3}
+  - CardId: 307
+    Sprite: {fileID: 21300000, guid: 3ddf9c2efe56425429e96112291f6516, type: 3}
+  - CardId: 401
+    Sprite: {fileID: 21300000, guid: 9cc30e0caa508db419939a294b836be0, type: 3}
+  - CardId: 402
+    Sprite: {fileID: 21300000, guid: 0053b5893fc9570488fc9b351152c5b6, type: 3}
+  - CardId: 403
+    Sprite: {fileID: 21300000, guid: 8e4e3bb631488493e9e338e818720654, type: 3}
+  - CardId: 404
     Sprite: {fileID: 21300000, guid: 8712fa9c8952347e38e69d41cf54822c, type: 3}
+  - CardId: 405
+    Sprite: {fileID: 21300000, guid: a34312b4b5a64441b9dc322f4ecfadb6, type: 3}
+  - CardId: 406
+    Sprite: {fileID: 21300000, guid: df7c7c5803bbe42a2a03ffec0c0ef885, type: 3}
+  - CardId: 407
+    Sprite: {fileID: 21300000, guid: 675fcf2f89022424b935f66cc3dc5f3a, type: 3}
+  - CardId: 408
+    Sprite: {fileID: 0}
   OpCostText: {fileID: 804261558}
   MyCostText: {fileID: 201860788}
   OpHpText: {fileID: 1608341166}
