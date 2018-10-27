@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour {
 			var obj = (msg.clientId == NetworkManager.Instance.clientId) ? MyTurn : OpTurn;
 			msg.negative.Concat(msg.positive).ToObservable()
 				.Subscribe(id => {
+					Debug.Log($"draw card {id}");
 					AddDirection(true, close => {
 						var card = SpawnCard(id);
 						(card.Card.IsNegative ? NegHands : PosHands).Add(card);
