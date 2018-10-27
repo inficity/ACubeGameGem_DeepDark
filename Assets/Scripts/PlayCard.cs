@@ -52,6 +52,10 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			{
 				Debug.Log($"No attack {Card.Name}");
 			}
+			if (!GameManager.Instance.MyCharacters.Contains(this))
+			{
+				Debug.Log($"Attack only by my character {Card.Name}");
+			}
 			DraggingPunch = true;
 			GameManager.Instance.PunchEnd.SetActive(true);
 			GameManager.Instance.PunchEnd.transform.position = eventData.position;
