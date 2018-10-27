@@ -31,13 +31,22 @@ namespace DeepDark.Server
 				this.card.OnBeginTurn(this, state, enemyState);
 		}
 
+		public bool attack()
+		{
+			if (this.AttackChance < 1)
+				return false;
+
+			--this.AttackChance;
+
+			return true;
+		}
+
 		public bool damagedBy(ServerCharacter serverCharacter)
 		{
-			if (serverCharacter.AttackChance < 1)
+			if (!serverCharacter.attack())
 				return false;
 
 			this.HP -= serverCharacter.Power;
-			--serverCharacter.AttackChance;
 
 			return true;
 		}
