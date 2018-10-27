@@ -184,9 +184,9 @@ public class GameManager : MonoBehaviour {
 								DmgEffect.transform.position = card.transform.position;
 								DmgText.text = $"{dmg}";
 								DmgEffect.SetActive(true);
-								DmgEffect.transform.DOShakePosition(0.5f);
-								GameUI.transform.DOShakePosition(0.3f, 30);
-								Timer(0.6f, () => {
+								DmgEffect.transform.DOShakePosition(0.6f);
+								GameUI.transform.DOShakePosition(0.4f, 30, 30);
+								Timer(0.8f, () => {
 									DmgEffect.SetActive(false);
 									close();
 								});
@@ -214,9 +214,9 @@ public class GameManager : MonoBehaviour {
 								DmgEffect.transform.position = card.transform.position;
 								DmgText.text = $"{dmg}";
 								DmgEffect.SetActive(true);
-								DmgEffect.transform.DOShakePosition(0.5f);
-								GameUI.transform.DOShakePosition(0.3f, 30);
-								Timer(0.6f, () => {
+								DmgEffect.transform.DOShakePosition(0.6f);
+								GameUI.transform.DOShakePosition(0.4f, 30, 30);
+								Timer(0.8f, () => {
 									DmgEffect.SetActive(false);
 									close();
 								});
