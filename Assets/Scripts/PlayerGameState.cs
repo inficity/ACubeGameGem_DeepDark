@@ -16,6 +16,7 @@ namespace DeepDark
 		public List<Card> NegativeHand { get; private set; }
 		public List<Card> PositiveHand { get; private set; }
 		public List<ServerCharacter> Field { get; private set; }
+		public List<Buff> BuffList { get; private set; }
 
 		public PlayerGameState(int id, bool turn, PlayerGameSetting playerGameSetting)
 		{
@@ -30,6 +31,7 @@ namespace DeepDark
 			this.NegativeHand = new List<Card>();
 			this.PositiveHand = new List<Card>();
 			this.Field = new List<ServerCharacter>();
+			this.BuffList = new List<Buff>();
 
 			this.fillHand(playerGameSetting);
 		}
@@ -51,13 +53,24 @@ namespace DeepDark
 
 		public void sendChangedMessage()
 		{
-			var message = new Messages.TurnActionEventMessage();
-			message.turnActionEvent = TurnActionEvent.StateChanged;
-			message.playerId = this.Id;
-			message.hp = this.HP;
-			message.cost = this.Cost;
+			{
+				var message = new Messages.TurnActionEventMessage();
+				message.turnActionEvent = TurnActionEvent.StateChanged;
+				message.playerId = this.Id;
+				message.hp = this.HP;
+				message.cost = this.Cost;
 
-			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+				GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+			}
+
+			if (this.HP < 1)
+			{
+				var message = new Messages.GameEndMessage();
+				message.winner = GameServer.Instance.FirstId == this.Id ? GameServer.Instance.SecondId : GameServer.Instance.FirstId;
+
+				GameServer.Instance.sendMessage(Messages.Type.GAME_END, message);
+				StateManager.Instance.makeTransition<Server.States.ReadyState>();
+			}
 		}
 
 		public KeyValuePair<List<int>, List<int>> fillHand(PlayerGameSetting playerGameSetting)
@@ -138,6 +151,27 @@ namespace DeepDark
 		public void removeServerCharacter(ServerCharacter serverCharacter)
 		{
 			this.Field.Remove(serverCharacter);
+		}
+
+		public void addBuff(Buff buff)
+		{
+			this.BuffList.Add(buff);
+
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.BuffAttached;
+			message.playerId = this.Id;
+			message.buffName = buff.Name;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+		}
+
+		public bool haveTag(string tag)
+		{
+			foreach (var buff in this.BuffList)
+				if (buff.haveTag(tag))
+					return true;
+
+			return false;
 		}
 	}
 }

@@ -21,6 +21,14 @@ namespace DeepDark.Server.States
 					GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId],
 					GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId == GameServer.Instance.FirstId ? GameServer.Instance.SecondId : GameServer.Instance.FirstId]);
 
+			foreach (var buff in GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId].BuffList)
+				if (buff.OnBeginTurn != null)
+					buff.OnBeginTurn(
+						GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId],
+						GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId == GameServer.Instance.FirstId ? GameServer.Instance.SecondId : GameServer.Instance.FirstId]);
+
+			GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId].BuffList.RemoveAll(buff => buff.ended(currentTurnId));
+
 			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.FirstId, currentTurnId == GameServer.Instance.FirstId ? pair.Key : new List<int>(), currentTurnId == GameServer.Instance.FirstId ? pair.Value : new List<int>());
 			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.SecondId, currentTurnId == GameServer.Instance.SecondId ? pair.Key : new List<int>(), currentTurnId == GameServer.Instance.SecondId ? pair.Value : new List<int>());
 
