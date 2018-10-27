@@ -1,4 +1,6 @@
 ﻿
+using DeepDark.Client;
+
 using UnityEngine.Networking;
 
 namespace DeepDark.Server
@@ -36,8 +38,23 @@ namespace DeepDark.Server
 			this.stateManager = new StateManager();
 			this.stateManager.makeTransition<States.ReadyState>();
 
-			NetworkServer.Configure(new ConnectionConfig(), 2);
 			NetworkServer.Listen(8888);
+		}
+
+		public void sendMessage<T>(short messageType, T message)
+		{
+			var json = new Messages.JSONMessage();
+			json.from(message);
+
+			NetworkServer.SendToAll(messageType, json);
+		}
+
+		public void sendMessage<T>(NetworkConnection connection, short messageType, T message)
+		{
+			var json = new Messages.JSONMessage();
+			json.from(message);
+
+			NetworkServer.SendToClient(connection.connectionId, messageType, json);
 		}
 	}
 }

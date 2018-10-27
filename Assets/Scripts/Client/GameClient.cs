@@ -24,5 +24,13 @@ namespace DeepDark.Client
 
 			this.Client.Connect(ip, port);
 		}
+
+		public void sendMessage<T>(short messageType, T message)
+		{
+			var json = new Messages.JSONMessage();
+			json.from(message);
+
+			this.Client.Send(messageType, json);
+		}
 	}
 }
