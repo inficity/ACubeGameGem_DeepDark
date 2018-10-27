@@ -160,32 +160,37 @@ public class GameManager : MonoBehaviour {
 					var card = OpCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (card != null)
 					{
-						var baseX = card.transform.localScale.x;
-						AddDirection(true, close => {
-							card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
-							Timer(0.1f, close);
-						});
-						AddDirection(true, close => {
-							card.SetHP(msg.hp);
-							card.SetAttack(msg.attack);
-							card.transform.DOScale(Vector3.one * baseX, 0.1f);
-							Timer(0.1f, close);
-						});
+						card.SetHP(msg.hp);
+						card.SetAttack(msg.attack);
+
+						// var baseX = card.transform.localScale.x;
+						// AddDirection(true, close => {
+						// 	card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
+						// 	Timer(0.1f, close);
+						// });
+						// AddDirection(true, close => {
+						// 	card.SetHP(msg.hp);
+						// 	card.SetAttack(msg.attack);
+						// 	card.transform.DOScale(Vector3.one * baseX, 0.1f);
+						// 	Timer(0.1f, close);
+						// });
 					}
 					card = MyCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (card != null)
 					{
-						var baseX = card.transform.localScale.x;
-						AddDirection(true, close => {
-							card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
-							Timer(0.1f, close);
-						});
-						AddDirection(true, close => {
-							card.SetHP(msg.hp);
-							card.SetAttack(msg.attack);
-							card.transform.DOScale(Vector3.one * baseX, 0.1f);
-							Timer(0.1f, close);
-						});
+						card.SetHP(msg.hp);
+						card.SetAttack(msg.attack);
+						// var baseX = card.transform.localScale.x;
+						// AddDirection(true, close => {
+						// 	card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
+						// 	Timer(0.1f, close);
+						// });
+						// AddDirection(true, close => {
+						// 	card.SetHP(msg.hp);
+						// 	card.SetAttack(msg.attack);
+						// 	card.transform.DOScale(Vector3.one * baseX, 0.1f);
+						// 	Timer(0.1f, close);
+						// });
 					}
 				}
 				break;
