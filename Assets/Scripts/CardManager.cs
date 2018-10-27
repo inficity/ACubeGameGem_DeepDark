@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DeepDark
 {
@@ -82,14 +83,31 @@ namespace DeepDark
 
 		static public Card GetCard(int id)
 		{
-			if (Instance == null)
-			{
-				Instance = new CardManager();
-			}
+			Init();
 			Card value;
 			if (Instance.Cards.TryGetValue(id, out value))
 				return value;
 			return null;
+		}
+
+		static public List<Card> GetAllPositiveCards() {
+			Init();
+			return Instance.Cards.Values.Where(c => !c.IsNegative)
+				.ToList();
+		}
+		
+		static public List<Card> GetAllNegativeCards() {
+			Init();
+			return Instance.Cards.Values.Where(c => c.IsNegative)
+				.ToList();
+		}
+
+		static void Init()
+		{
+			if (Instance == null)
+			{
+				Instance = new CardManager();
+			}
 		}
 	}
 }
