@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.13257027, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -285,6 +285,7 @@ MonoBehaviour:
   Power: {fileID: 114757128332812264}
   HP: {fileID: 114835781303356254}
   Cost: {fileID: 114865055368353232}
+  Glow: {fileID: 114373657934547864}
 --- !u!114 &114544435346739418
 MonoBehaviour:
   m_ObjectHideFlags: 1

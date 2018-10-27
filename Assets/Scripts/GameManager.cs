@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour {
 		playCard.Power.text = $"<b>{card.Power}</b>";
 		playCard.HP.text = $"<b>{card.HP}</b>";
 		playCard.Cost.text = $"<b>{card.Cost}</b>";
+		playCard.Glow.color = card.IsNegative ? Color.red : Color.blue;
 
 		(card.IsNegative ? NegHands : PosHands).Add(playCard);
 		playCard.transform.SetParent(MyPosHandPosition);

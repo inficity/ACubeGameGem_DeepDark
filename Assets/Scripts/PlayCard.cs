@@ -18,6 +18,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public Text Power;
 	public Text HP;
 	public Text Cost;
+	public Image Glow;
 	
 	// Update is called once per frame
 
