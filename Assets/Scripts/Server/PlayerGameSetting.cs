@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DeepDark.Network.Server
+namespace DeepDark.Server
 {
 	public class PlayerGameSetting
 	{
@@ -35,11 +35,11 @@ namespace DeepDark.Network.Server
 
 		public void shuffleDeck()
 		{
-			PlayerGameSetting.shuffleDeck(this.NegativeDeck);
-			PlayerGameSetting.shuffleDeck(this.PositiveDeck);
+			PlayerGameSetting.__shuffleDeck(this.NegativeDeck);
+			PlayerGameSetting.__shuffleDeck(this.PositiveDeck);
 		}
 
-		private static void shuffleDeck(List<Card> deck)
+		private static void __shuffleDeck(List<Card> deck)
 		{
 			Random rand = new Random();
 
