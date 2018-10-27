@@ -16,8 +16,13 @@ namespace DeepDark.Server.States
 			UnityEngine.Debug.Log(NetworkServer.connections == null);
 			UnityEngine.Debug.Log(this.readyMap == null);
 
-			foreach (var id in NetworkServer.connections)
-				this.readyMap[id.connectionId] = false;
+			foreach (var connection in NetworkServer.connections)
+			{
+				if (connection == null)
+					continue;
+
+				this.readyMap[connection.connectionId] = false;
+			}
 
 			NetworkServer.RegisterHandler(MsgType.Connect, this.__handle_CONNECT);
 			NetworkServer.RegisterHandler(MsgType.Disconnect, this.__handle_DISCONNECT);

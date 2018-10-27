@@ -46,12 +46,12 @@ namespace DeepDark.Server.States
 			message.hp = state.HP;
 			message.cost = state.Cost;
 			message.negativeHand = state.NegativeHand.Select(card => card.Id).ToList();
-			message.positiveHand = state.NegativeHand.Select(card => card.Id).ToList();
+			message.positiveHand = state.PositiveHand.Select(card => card.Id).ToList();
 
 			message.enemyHP = enemyState.HP;
 			message.enemyCost = enemyState.Cost;
 			message.enemyNegativeHand = enemyState.NegativeHand.Select(card => card.Id).ToList();
-			message.enemyPositiveHand = enemyState.NegativeHand.Select(card => card.Id).ToList();
+			message.enemyPositiveHand = enemyState.PositiveHand.Select(card => card.Id).ToList();
 
 			GameServer.Instance.sendMessage(playerId, Messages.Type.GAME_START, message);
 		}
