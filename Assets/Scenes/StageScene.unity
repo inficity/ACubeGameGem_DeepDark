@@ -451,6 +451,19 @@ MonoBehaviour:
   OpCharacterPosition: {fileID: 1604299245}
   MyPosHandPosition: {fileID: 766731212}
   MyNegHandPosition: {fileID: 457163929}
+  CardImages:
+  - CardId: 101
+    Sprite: {fileID: 21300000, guid: 1ad897d63e3af42ccafc6000e4de0159, type: 3}
+  - CardId: 102
+    Sprite: {fileID: 21300000, guid: cfcebe543ea2345198dd457d85ce3dd3, type: 3}
+  - CardId: 103
+    Sprite: {fileID: 21300000, guid: 48267733bd5ce4430a97f4c2bafd5489, type: 3}
+  - CardId: 301
+    Sprite: {fileID: 21300000, guid: 25b9955bc82994b6fa21f9f4f6737275, type: 3}
+  - CardId: 302
+    Sprite: {fileID: 21300000, guid: d9bc5f323788c4c619e271456b1b67f3, type: 3}
+  - CardId: 303
+    Sprite: {fileID: 21300000, guid: 8712fa9c8952347e38e69d41cf54822c, type: 3}
 --- !u!1 &353828161
 GameObject:
   m_ObjectHideFlags: 0
