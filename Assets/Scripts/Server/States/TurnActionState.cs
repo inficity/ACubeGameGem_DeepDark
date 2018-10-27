@@ -114,6 +114,12 @@ namespace DeepDark.Server.States
 
 					if (card.IsNegative)
 					{
+						if (this.negativeUsed)
+						{
+							this.__sendResponseMessage(networkMessage.conn.connectionId, false);
+							return;
+						}
+
 						this.negativeUsed = true;
 						state.addCost(card.Cost);
 					}
