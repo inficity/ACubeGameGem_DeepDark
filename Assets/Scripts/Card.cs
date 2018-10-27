@@ -19,23 +19,4 @@ namespace DeepDark
 		public int Power { get; private set; }
 		public int HP { get; private set; }
 	}
-
-	namespace Client
-	{
-		public class PlayCard : MonoBehaviour
-		{
-			public Card Card;
-			public Texture2D Image { get; private set; }
-			
-			// Update is called once per frame
-			void Update () {
-				
-			}
-
-			public void OnUse() {
-				GameManager.Instance.UseCard(this);
-			}
-		}
-	}
-
 }
