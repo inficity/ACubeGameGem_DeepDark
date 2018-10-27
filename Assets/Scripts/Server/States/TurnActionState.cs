@@ -149,7 +149,7 @@ namespace DeepDark.Server.States
 		private void __sendStateChangedMessage(int playerId, PlayerGameState state)
 		{
 			var message = new Messages.TurnActionEventMessage();
-			message.turnActionEvent = TurnActionEvent.HPChanged;
+			message.turnActionEvent = TurnActionEvent.StateChanged;
 			message.playerId = playerId;
 			message.hp = state.HP;
 			message.cost = state.Cost;

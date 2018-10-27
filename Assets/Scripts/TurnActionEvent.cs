@@ -3,7 +3,7 @@ namespace DeepDark
 {
 	public enum TurnActionEvent
 	{
-		HPChanged,
+		StateChanged,
 		CharacterStateChanged,
 		Instantiated,
 		Destroyed,

@@ -140,9 +140,16 @@ public class GameManager : MonoBehaviour {
 					}
 				}
 				break;
-				case TurnActionEvent.HPChanged:
+				case TurnActionEvent.StateChanged:
 				{
-					
+					if (msg.playerId == NetworkManager.Instance.clientId) {
+						MyHpText.text = $"<b>{msg.hp}</b>";
+						MyCostText.text = $"<b>{msg.cost}</b>";
+					}
+					else {
+						OpHpText.text = $"<b>{msg.hp}</b>";
+						OpCostText.text = $"<b>{msg.cost}</b>";
+					}
 				}
 				break;
 				case TurnActionEvent.CharacterStateChanged:
