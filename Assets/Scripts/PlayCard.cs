@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using UniRx;
 
 namespace DeepDark.Client
 {
-public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
 	public Card Card;
 	public Image Image;
@@ -29,7 +30,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public void SetHP(int hp)
 	{
 		_HP = hp;
-		HP.text = $"<b>{hp}</b>";
+		HP.text = _HP == 0 ? "" : $"<b>{hp}</b>";
 	}
 	public void SetAttack(int attack)
 	{
@@ -38,7 +39,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public void SetPower(int power)
 	{
 		_Power = power;
-		Power.text = $"<b>{power}</b>";
+		Power.text = _Power == 0 ? "" : $"<b>{power}</b>";
 	}
 	
 	bool Dragging;
@@ -69,10 +70,10 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		else
 		{
 			Dragging = true;
-
 		}
 	}
 	public void OnDrag(PointerEventData eventData) {
+		++PointerEnterExitCount;
 		if (Dragging)
 		{
 			this.transform.position = eventData.position;
@@ -116,5 +117,38 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			}
 		}
 	}
+
+
+	int PointerEnterExitCount = 0;
+    public void OnPointerEnter(PointerEventData eventData)
+	{
+		var t = ++PointerEnterExitCount;
+		Observable.Timer(System.TimeSpan.FromSeconds(0.5f))
+			.Where(_ => t == PointerEnterExitCount)
+			.Subscribe(_ => {
+				var d = GameManager.Instance.DetailCard;
+				d.gameObject.SetActive(true);
+				d.Cost.text = Cost.text;
+				d.Title.text = Title.text;
+				d.Description.text = Description.text;
+				d.SetPower(_Power);
+				d.SetHP(_HP);
+				d.Glow.color = Glow.color;
+				d.Image.sprite = Image.sprite;
+				Observable.Interval(System.TimeSpan.FromSeconds(0.5f)).StartWith(0)
+					.TakeWhile(a => t == PointerEnterExitCount)
+					.Last()
+					.Subscribe(a => {
+						d.gameObject.SetActive(false);
+					});
+			});
+		Debug.Log("OnPointerEnter");
+	}
+    public void OnPointerExit(PointerEventData eventData)
+	{
+		++PointerEnterExitCount;
+		Debug.Log("OnPointerExit");
+	}
+
 }
 }

@@ -347,10 +347,10 @@ public class GameManager : MonoBehaviour {
 		samples.ToObservable()
 			.Subscribe(id => {
 				var card = SpawnCard(id);
-				card.IsCharacterCard = true;
+				card.IsCharacterCard = false;
 				card.InstanceId = id;
 				card._Attack = 1;
-				(card.Card.IsNegative ? OpCharacters : MyCharacters).Add(card);
+				(card.Card.IsNegative ? NegHands : PosHands).Add(card);
 			});
 		AlignCards();
 	}
