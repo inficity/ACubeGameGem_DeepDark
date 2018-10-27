@@ -114,31 +114,29 @@ public class GameManager : MonoBehaviour {
 					{
 						var card = pendingCard;
 						pendingCard = null;
+						card.IsCharacterCard = true;
+						card.InstanceId = msg.instanceId;
+						card.SetHP(msg.hp);
+						card.SetAttack(msg.attack);
+						(msg.playerId == NetworkManager.Instance.clientId ? MyCharacters : OpCharacters)
+							.Add(card);
 						AddDirection(true, close => {
-							card.IsCharacterCard = true;
-							card.InstanceId = msg.instanceId;
-							card.SetHP(msg.hp);
-							card.SetAttack(msg.attack);
-							(msg.playerId == NetworkManager.Instance.clientId ? MyCharacters : OpCharacters)
-								.Add(card);
 							AlignCards();
-							Observable.Timer(TimeSpan.FromSeconds(0.6))
-								.Subscribe(_ => close());
+							Timer(0.6f, close);
 						});
 					}
 					else
 					{
 						var card = SpawnCard(msg.cardId);
+						card.IsCharacterCard = true;
+						card.InstanceId = msg.instanceId;
+						card.SetHP(msg.hp);
+						card.SetAttack(msg.attack);
+						(msg.playerId == NetworkManager.Instance.clientId ? MyCharacters : OpCharacters)
+							.Add(card);
 						AddDirection(true, close => {
-							card.IsCharacterCard = true;
-							card.InstanceId = msg.instanceId;
-							card.SetHP(msg.hp);
-							card.SetAttack(msg.attack);
-							(msg.playerId == NetworkManager.Instance.clientId ? MyCharacters : OpCharacters)
-								.Add(card);
 							AlignCards();
-							Observable.Timer(TimeSpan.FromSeconds(0.6))
-								.Subscribe(_ => close());
+							Timer(0.6f, close);
 						});
 					}
 				}
