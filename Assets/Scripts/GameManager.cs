@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour {
 
 	public Text OpCostText;
 	public Text MyCostText;
+	public Text OpHpText;
+	public Text MyHpText;
 
 	void Awake() {
 		DOTween.Init();
@@ -45,6 +47,8 @@ public class GameManager : MonoBehaviour {
 			NetworkUI.Instance.gameObject.SetActive(false);
 			MyCostText.text = $"{msg.cost}";
 			OpCostText.text = $"{msg.enemyCost}";
+			MyHpText.text = $"{msg.hp}";
+			OpHpText.text = $"{msg.enemyHP}";
 			msg.negativeHand.Concat(msg.positiveHand).ToObservable()
 				.Zip(Observable.Interval(TimeSpan.FromSeconds(0.6f))
 				, (id, _) => id)
@@ -159,6 +163,11 @@ public class GameManager : MonoBehaviour {
 		if (waitActionResponse) return;
 		waitActionResponse = true;
 		NetworkManager.Instance.sendUseCard(card.Card.Id);
+	}
+
+	public void EndTurn() {
+		if (waitActionResponse) return;
+		waitActionResponse = true;
 	}
 	
 }
