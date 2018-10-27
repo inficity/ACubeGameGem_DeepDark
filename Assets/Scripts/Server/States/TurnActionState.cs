@@ -47,7 +47,17 @@ namespace DeepDark.Server.States
 					{
 						var damager = state.findServerCharacter(message.damagerInstanceId);
 
+						if (!damager.attack())
+						{
+							this.__sendResponseMessage(networkMessage.conn.connectionId, false);
+							return;
+						}
 
+						state.addHP(-damager.HP);
+						this.__sendResponseMessage(networkMessage.conn.connectionId, true);
+
+						this.__sendHPChangedMessage(networkMessage.conn.connectionId, state.HP);
+						this.__sendCharacterStateChangedMessage(damager);
 					}
 					break;
 				case TurnAction.AttackCharacter:

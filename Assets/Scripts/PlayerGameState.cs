@@ -37,6 +37,11 @@ namespace DeepDark
 			this.Turn = !this.Turn;
 		}
 
+		public void addHP(int amount)
+		{
+			this.HP += amount;
+		}
+
 		public void addCost(int amount)
 		{
 			this.Cost += amount;
