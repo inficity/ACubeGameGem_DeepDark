@@ -41,6 +41,12 @@ namespace DeepDark.Server.States
 			var state = GameServer.Instance.GlobalPlayerGameState.Map[networkMessage.conn.connectionId];
 			var enemyState = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId == networkMessage.conn.connectionId ? GameServer.Instance.SecondId : GameServer.Instance.FirstId];
 
+			if (!state.Turn)
+			{
+				this.__sendResponseMessage(networkMessage.conn.connectionId, false);
+				return;
+			}
+
 			switch (message.turnAction)
 			{
 				case TurnAction.AttackPlayer:
