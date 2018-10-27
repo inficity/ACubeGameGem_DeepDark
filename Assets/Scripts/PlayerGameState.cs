@@ -95,7 +95,7 @@ namespace DeepDark
 			return null;
 		}
 
-		public void spawnCard(int cardId)
+		public ServerCharacter spawnCard(int cardId)
 		{
 			var serverCharacter = new ServerCharacter(CardManager.GetCard(cardId));
 
@@ -111,6 +111,8 @@ namespace DeepDark
 			message.attack = serverCharacter.AttackChance;
 
 			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+
+			return serverCharacter;
 		}
 
 		public ServerCharacter findServerCharacter(int instanceId)

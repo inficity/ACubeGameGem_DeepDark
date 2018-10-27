@@ -23,6 +23,14 @@ namespace DeepDark.Server
 		public void setAttackChance(int attackChance)
 		{
 			this.AttackChance = attackChance;
+
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.CharacterStateChanged;
+			message.instanceId = this.Id;
+			message.hp = this.HP;
+			message.attack = this.AttackChance;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
 		}
 
 		public void onTurnBegin(PlayerGameState state, PlayerGameState enemyState)
