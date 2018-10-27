@@ -51,13 +51,24 @@ namespace DeepDark
 
 		public void sendChangedMessage()
 		{
-			var message = new Messages.TurnActionEventMessage();
-			message.turnActionEvent = TurnActionEvent.StateChanged;
-			message.playerId = this.Id;
-			message.hp = this.HP;
-			message.cost = this.Cost;
+			{
+				var message = new Messages.TurnActionEventMessage();
+				message.turnActionEvent = TurnActionEvent.StateChanged;
+				message.playerId = this.Id;
+				message.hp = this.HP;
+				message.cost = this.Cost;
 
-			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+				GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+			}
+
+			if (this.HP < 1)
+			{
+				var message = new Messages.GameEndMessage();
+				message.winner = GameServer.Instance.FirstId == this.Id ? GameServer.Instance.SecondId : GameServer.Instance.FirstId;
+
+				GameServer.Instance.sendMessage(Messages.Type.GAME_END, message);
+				StateManager.Instance.makeTransition<Server.States.ReadyState>();
+			}
 		}
 
 		public KeyValuePair<List<int>, List<int>> fillHand(PlayerGameSetting playerGameSetting)
