@@ -24,37 +24,37 @@ namespace DeepDark
 
 		public void onConnected()
 		{
-			throw new System.NotImplementedException();
+			Debug.Log("onConnected");
 		}
 
 		public void onDisconnected()
 		{
-			throw new System.NotImplementedException();
+			Debug.Log("onDisconnected");
 		}
 
 		public void onGameStarted(Messages.GameStartMessage message)
 		{
-			throw new System.NotImplementedException();
+			Debug.Log("onConGameStartMessagenected");
 		}
 
 		public void onTurnStarted(Messages.TurnStartMessage message)
 		{
-			throw new System.NotImplementedException();
+			Debug.Log("TurnStartMessage");
 		}
 
 		public void onTurnActionResponded(Messages.TurnActionResponseMessage message)
 		{
-			throw new System.NotImplementedException();
+			Debug.Log("TurnActionResponseMessage");
 		}
 
 		public void onTurnActionEvent(Messages.TurnActionEventMessage message)
 		{
-			throw new System.NotImplementedException();
+			Debug.Log("TurnActionEventMessage");
 		}
 
 		public void onGameEnded(Messages.GameEndMessage message)
 		{
-			throw new System.NotImplementedException();
+			Debug.Log("GameEndMessage");
 		}
 	}
 }
