@@ -23,14 +23,20 @@ public class GameManager : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-		Observable.Interval(TimeSpan.FromSeconds(1))
+			
+		StartCoroutine(DirectionLoop());
+	}
+
+	public void TestGame() {
+		Observable.Interval(TimeSpan.FromSeconds(0.7f))
 			.Take(6)
 			.Subscribe(_ => {
 				SpawnCard(_ < 3);
 			});
-			
-		StartCoroutine(DirectionLoop());
 	}
+
+	List<PlayCard> OpCharacters = new List<PlayCard>();
+	List<PlayCard> MyCharacters = new List<PlayCard>();
 
 	List<PlayCard> PosHands = new List<PlayCard>();
 	List<PlayCard> NegHands = new List<PlayCard>();
@@ -56,7 +62,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	void AlignCards() {
+	public void AlignCards() {
 		const float angleStep = 23.0f;
 		const float distance = 700.0f;
 		var distanceAdjust = new float[]{-20, 0, -20, 0, -20};
@@ -64,9 +70,10 @@ public class GameManager : MonoBehaviour {
 			var idx = 0;
 			float beginAngle = (PosHands.Count - 1) / 2.0f * angleStep;
 			PosHands.ForEach(card => {
-				var pos = MyPosHandPosition.position + Quaternion.AngleAxis(+90 + beginAngle - angleStep * idx, Vector3.forward) * new Vector3(distance + distanceAdjust[idx], 0, 0);
+				var pos = MyPosHandPosition.position + new Vector3(0, -distance, 0) + Quaternion.AngleAxis(+90 + beginAngle - angleStep * idx, Vector3.forward) * new Vector3(distance + distanceAdjust[idx], 0, 0);
 				card.transform.DOMove(pos, 0.5f);
 				card.transform.DORotateQuaternion(Quaternion.AngleAxis(beginAngle - angleStep * idx, Vector3.forward), 0.5f);
+				card.transform.DOScale(Vector3.one, 0.5f);
 				idx++;
 			});
 		}
@@ -74,16 +81,48 @@ public class GameManager : MonoBehaviour {
 			var idx = 0;
 			float beginAngle = (NegHands.Count - 1) / 2.0f * angleStep;
 			NegHands.ForEach(card => {
-				var pos = MyNegHandPosition.position + Quaternion.AngleAxis(+90 + beginAngle - angleStep * idx, Vector3.forward) * new Vector3(distance + distanceAdjust[idx], 0, 0);
+				var pos = MyNegHandPosition.position + new Vector3(0, -distance, 0) + Quaternion.AngleAxis(+90 + beginAngle - angleStep * idx, Vector3.forward) * new Vector3(distance + distanceAdjust[idx], 0, 0);
 				card.transform.DOMove(pos, 0.5f);
 				card.transform.DORotateQuaternion(Quaternion.AngleAxis(beginAngle - angleStep * idx, Vector3.forward), 0.5f);
+				card.transform.DOScale(Vector3.one, 0.5f);
+				idx++;
+			});
+		}
+		{
+			const float step = 150;
+			var idx = 0;
+			MyCharacters.ForEach(card => {
+				var pos = MyCharacterPosition.position - new Vector3((MyCharacters.Count - 1) / 2.0f * step, 0, 0);
+				card.transform.DOMove(pos + new Vector3(step * idx, 0, 0), 0.5f);
+				card.transform.DORotateQuaternion(Quaternion.identity, 0.5f);
+				card.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.5f);
+				idx++;
+			});
+		}
+		{
+			const float step = 150;
+			var idx = 0;
+			OpCharacters.ForEach(card => {
+				var pos = OpCharacterPosition.position - new Vector3((OpCharacters.Count - 1) / 2.0f * step, 0, 0);
+				card.transform.DOMove(pos + new Vector3(step * idx, 0, 0), 0.5f);
+				card.transform.DORotateQuaternion(Quaternion.AngleAxis(180, Vector3.forward), 0.5f);
+				card.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.5f);
 				idx++;
 			});
 		}
 	}
 
 	public void UseCard(PlayCard card) {
-		Debug.Log("asdasd");
+		if (PosHands.Remove(card))
+		{
+			MyCharacters.Add(card);
+			AlignCards();
+		}
+		if (NegHands.Remove(card))
+		{
+			OpCharacters.Add(card);
+			AlignCards();
+		}
 	}
 	
 	// Update is called once per frame
