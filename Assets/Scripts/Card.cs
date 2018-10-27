@@ -7,6 +7,7 @@ namespace DeepDark
 		Magic,
 
 	}
+
 	public class Card
 	{
 		public int Id { get; set; }
@@ -17,5 +18,7 @@ namespace DeepDark
 		public string Description { get; set; }
 		public int Power { get; set; }
 		public int HP { get; set; }
+
+		public System.Action<PlayerGameState, PlayerGameState> OnUseCard;
 	}
 }
