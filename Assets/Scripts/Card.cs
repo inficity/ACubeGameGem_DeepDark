@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using System;
 
 namespace DeepDark
 {
@@ -19,6 +20,6 @@ namespace DeepDark
 		public int Power { get; set; }
 		public int HP { get; set; }
 
-		public System.Action<PlayerGameState, PlayerGameState> OnUseCard;
+		public Action<PlayerGameState, PlayerGameState> OnUseCard;
 	}
 }

@@ -14,7 +14,7 @@ namespace DeepDark.Server.States
 			TurnStartState.__sendMessage(GameServer.Instance.FirstId);
 			TurnStartState.__sendMessage(GameServer.Instance.SecondId);
 
-			StateManager.Instance.makeTransition<States.ReadyState>();
+			StateManager.Instance.makeTransition<States.TurnActionState>();
 		}
 
 		public void end()

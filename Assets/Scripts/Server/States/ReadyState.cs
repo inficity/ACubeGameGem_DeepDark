@@ -13,8 +13,6 @@ namespace DeepDark.Server.States
 		public void start()
 		{
 			UnityEngine.Debug.Log("ReadyState.start");
-			UnityEngine.Debug.Log(NetworkServer.connections == null);
-			UnityEngine.Debug.Log(this.readyMap == null);
 
 			foreach (var connection in NetworkServer.connections)
 			{
@@ -38,8 +36,6 @@ namespace DeepDark.Server.States
 
 		private void __handle_CONNECT(NetworkMessage networkMessage)
 		{
-			UnityEngine.Debug.Log("client incoming!");
-
 			this.readyMap.Add(networkMessage.conn.connectionId, false);
 		}
 
