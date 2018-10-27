@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\Global.cs" />
      <Compile Include="Assets\Scripts\Messages.cs" />
      <Compile Include="Assets\Scripts\NetworkManager.cs" />
+     <Compile Include="Assets\Scripts\NetworkUI.cs" />
      <Compile Include="Assets\Scripts\NetworkUIManager.cs" />
      <Compile Include="Assets\Scripts\PlayCard.cs" />
      <Compile Include="Assets\Scripts\PlayerGameState.cs" />
