@@ -46,6 +46,10 @@ public class GameManager : MonoBehaviour {
 	public GameObject OpTurn;
 	public GameObject PunchEnd;
 
+	public GameObject DmgEffect;
+	public Text DmgText;
+	public GameObject GameUI;
+
 
 	void Awake() {
 		DOTween.Init();
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour {
 		StartCoroutine(DirectionLoop());
 
 		PunchEnd.SetActive(false);
+		DmgEffect.SetActive(false);
 
 		NetworkManager.Instance.onGameStartedNotifier
 		.Subscribe(msg => {
@@ -175,14 +180,16 @@ public class GameManager : MonoBehaviour {
 							// 데미지
 							var baseX = card.transform.localScale.x;
 							AddDirection(true, close => {
-								card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
-								Timer(0.1f, close);
-							});
-							AddDirection(true, close => {
-								card.SetHP(msg.hp);
-								card.SetAttack(msg.attack);
-								card.transform.DOScale(Vector3.one * baseX, 0.1f);
-								Timer(0.1f, close);
+								var dmg = card._HP - msg.hp;
+								DmgEffect.transform.position = card.transform.position;
+								DmgText.text = $"{dmg}";
+								DmgEffect.SetActive(true);
+								DmgEffect.transform.DOShakePosition(0.5f);
+								GameUI.transform.DOShakePosition(0.3f, 30);
+								Timer(0.6f, () => {
+									DmgEffect.SetActive(false);
+									close();
+								});
 							});
 						}
 						else
@@ -203,14 +210,16 @@ public class GameManager : MonoBehaviour {
 							// 데미지
 							var baseX = card.transform.localScale.x;
 							AddDirection(true, close => {
-								card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
-								Timer(0.1f, close);
-							});
-							AddDirection(true, close => {
-								card.SetHP(msg.hp);
-								card.SetAttack(msg.attack);
-								card.transform.DOScale(Vector3.one * baseX, 0.1f);
-								Timer(0.1f, close);
+								var dmg = card._HP - msg.hp;
+								DmgEffect.transform.position = card.transform.position;
+								DmgText.text = $"{dmg}";
+								DmgEffect.SetActive(true);
+								DmgEffect.transform.DOShakePosition(0.5f);
+								GameUI.transform.DOShakePosition(0.3f, 30);
+								Timer(0.6f, () => {
+									DmgEffect.SetActive(false);
+									close();
+								});
 							});
 						}
 						else
