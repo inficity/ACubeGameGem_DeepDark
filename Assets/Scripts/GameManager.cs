@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 	public Transform OpCharacterPosition;
 	public Transform MyPosHandPosition;
 	public Transform MyNegHandPosition;
+	
 
 	void Awake() {
 		DOTween.Init();
@@ -130,13 +131,13 @@ public class GameManager : MonoBehaviour {
 
 	}
 
-	void JsonTest() {
-		// var a = new Newtonsoft.Json.JsonSerializer();
-		var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(new {
-			A = 10,
-		});
-		Newtonsoft.Json.JsonConvert.DeserializeObject<GameManager>("{}");
-		// a.Serialize()
-	}
+	// void JsonTest() {
+	// 	// var a = new Newtonsoft.Json.JsonSerializer();
+	// 	var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(new {
+	// 		A = 10,
+	// 	});
+	// 	Newtonsoft.Json.JsonConvert.DeserializeObject<GameManager>("{}");
+	// 	// a.Serialize()
+	// }
 }
 }
