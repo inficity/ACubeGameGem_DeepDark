@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
 	public Transform OpCharacterPosition;
 	public Transform MyPosHandPosition;
 	public Transform MyNegHandPosition;
+	public RectTransform UseCardArea;
 
 	[SerializeField]
 	public List<CardImageReferer> CardImages;
@@ -55,6 +56,10 @@ public class GameManager : MonoBehaviour {
 				.Subscribe(id => {
 					SpawnCard(id);
 				});
+		});
+		NetworkManager.Instance.onTurnActionRespondedNotifier
+		.Subscribe(msg => {
+			waitActionResponse = false;
 		});
 	}
 
@@ -157,6 +162,10 @@ public class GameManager : MonoBehaviour {
 			});
 		}
 	}
+
+	public bool CanAction { get {
+		return !waitActionResponse;
+	}}
 
 	bool waitActionResponse;
 	public void UseCard(PlayCard card) {

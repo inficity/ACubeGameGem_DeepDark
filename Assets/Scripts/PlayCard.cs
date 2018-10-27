@@ -10,8 +10,6 @@ namespace DeepDark.Client
 public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 	public Card Card;
-	// public Texture2D Image { get; private set; }
-
 	public Image Image;
 	public Text Title;
 	public Text Description;
@@ -19,22 +17,40 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public Text HP;
 	public Text Cost;
 	public Image Glow;
+	public bool IsCharacterCard;
+	public int InstanceId;
 	
-	// Update is called once per frame
-
 	bool Dragging;
 	public void OnBeginDrag(PointerEventData eventData) {
+		if (!GameManager.Instance.CanAction) return;
 		Dragging = true;
 	}
-	public void OnDrag(PointerEventData data) {
-		this.transform.position = data.position;
+	public void OnDrag(PointerEventData eventData) {
+		if (Dragging)
+		{
+			this.transform.position = eventData.position;
+		}
 	}
 	public void OnEndDrag(PointerEventData eventData) {
-		Dragging = false;
-		GameManager.Instance.AlignCards();
-	}
-	public void OnUse() {
-		GameManager.Instance.UseCard(this);
+		if (Dragging)
+		{
+			Dragging = false;
+			var corners = new Vector3[4];
+			GameManager.Instance.UseCardArea.GetWorldCorners(corners);
+			var rect = new Rect();
+			rect.xMin = corners[0].x;
+			rect.xMax = corners[2].x;
+			rect.yMin = corners[0].y;
+			rect.yMax = corners[2].y;
+			if (rect.Contains(eventData.position))
+			{
+				GameManager.Instance.UseCard(this);
+			}
+			else
+			{
+				GameManager.Instance.AlignCards();
+			}
+		}
 	}
 }
 }
