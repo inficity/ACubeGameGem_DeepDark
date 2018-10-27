@@ -45,16 +45,19 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		if (!GameManager.Instance.CanAction)
 		{
 			Debug.Log($"Cant action {Card.Name}");
+			return;
 		}
 		if (IsCharacterCard)
 		{
 			if (_Attack <= 0)
 			{
 				Debug.Log($"No attack {Card.Name}");
+				return;
 			}
 			if (!GameManager.Instance.MyCharacters.Contains(this))
 			{
 				Debug.Log($"Attack only by my character {Card.Name}");
+				return;
 			}
 			DraggingPunch = true;
 			GameManager.Instance.PunchEnd.SetActive(true);
@@ -100,11 +103,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		{
 			var targetCard = eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<PlayCard>();
 			var t = eventData.pointerCurrentRaycast.gameObject.transform;
-			while (t != null)
-			{
-				Debug.Log($"{t.name}");
-				t = t.parent;
-			}
+			
 			if (GameManager.Instance.OpCharacters.Contains(targetCard))
 			{
 				GameManager.Instance.AttackCard(this, targetCard);
