@@ -26,6 +26,7 @@ namespace DeepDark
 		public void onConnected()
 		{
 			Debug.Log("onConnected");
+			NetworkUI.Instance.ShowConnectUI(false);
 		}
 
 		public void onDisconnected()
