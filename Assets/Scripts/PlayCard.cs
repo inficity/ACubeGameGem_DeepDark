@@ -38,14 +38,30 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	}
 	
 	bool Dragging;
+	bool DraggingPunch;
 	public void OnBeginDrag(PointerEventData eventData) {
 		if (!GameManager.Instance.CanAction) return;
-		Dragging = true;
+		if (IsCharacterCard)
+		{
+			if (_Attack <= 0) return;
+			DraggingPunch = true;
+			GameManager.Instance.PunchEnd.SetActive(true);
+			GameManager.Instance.PunchEnd.transform.position = eventData.position;
+		}
+		else
+		{
+			Dragging = true;
+
+		}
 	}
 	public void OnDrag(PointerEventData eventData) {
 		if (Dragging)
 		{
 			this.transform.position = eventData.position;
+		}
+		if (DraggingPunch)
+		{
+			GameManager.Instance.PunchEnd.transform.position = eventData.position;
 		}
 	}
 	public void OnEndDrag(PointerEventData eventData) {
@@ -67,6 +83,15 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			{
 				GameManager.Instance.AlignCards();
 			}
+		}
+		if (DraggingPunch)
+		{
+			var targetCard = eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<PlayCard>();
+			if (GameManager.Instance.OpCharacters.Contains(targetCard))
+			{
+				
+			}
+			GameManager.Instance.PunchEnd.SetActive(false);
 		}
 	}
 }

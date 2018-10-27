@@ -53,6 +53,16 @@ namespace DeepDark
 			msg.cardId = id;
 			gameClient.sendMessage(Messages.Type.TURN_ACTION, msg);
 		}
+		public void sendAttackCharacter(int instanceId, int targetId)
+		{
+			if (gameClient == null) return;
+			Debug.Log($"send Attack {instanceId} -> {targetId}");
+			var msg = new Messages.TurnActionMessage();
+			msg.turnAction = TurnAction.AttackCharacter;
+			msg.damagerInstanceId = instanceId;
+			msg.damageeInstanceId = targetId;
+			gameClient.sendMessage(Messages.Type.TURN_ACTION, msg);
+		}
 		public void sendEndTurn()
 		{
 			if (gameClient == null) return;

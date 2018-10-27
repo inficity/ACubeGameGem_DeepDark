@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject MyTurn;
 	public GameObject OpTurn;
+	public GameObject PunchEnd;
 
 
 	void Awake() {
@@ -60,6 +61,8 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(DirectionLoop());
+
+		PunchEnd.SetActive(false);
 
 		NetworkManager.Instance.onGameStartedNotifier
 		.Subscribe(msg => {
@@ -154,12 +157,66 @@ public class GameManager : MonoBehaviour {
 				break;
 				case TurnActionEvent.CharacterStateChanged:
 				{
-					
+					var card = OpCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
+					if (card != null)
+					{
+						var baseX = card.transform.localScale.x;
+						AddDirection(true, close => {
+							card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
+							Timer(0.1f, close);
+						});
+						AddDirection(true, close => {
+							card.SetHP(msg.hp);
+							card.SetAttack(msg.attack);
+							card.transform.DOScale(Vector3.one * baseX, 0.1f);
+							Timer(0.1f, close);
+						});
+					}
+					card = MyCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
+					if (card != null)
+					{
+						var baseX = card.transform.localScale.x;
+						AddDirection(true, close => {
+							card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
+							Timer(0.1f, close);
+						});
+						AddDirection(true, close => {
+							card.SetHP(msg.hp);
+							card.SetAttack(msg.attack);
+							card.transform.DOScale(Vector3.one * baseX, 0.1f);
+							Timer(0.1f, close);
+						});
+					}
 				}
 				break;
 				case TurnActionEvent.Destroyed:
 				{
-					
+					var card = OpCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
+					if (card != null)
+					{
+						OpCharacters.Remove(card);
+						AddDirection(true, close => {
+							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);
+							Timer(0.6f, close);
+						});
+						AddDirection(true, close => {
+							AlignCards();
+							Timer(0.6f, close);
+						});
+					}
+					card = MyCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
+					if (card != null)
+					{
+						MyCharacters.Remove(card);
+						AddDirection(true, close => {
+							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);
+							Timer(0.6f, close);
+						});
+						AddDirection(true, close => {
+							AlignCards();
+							Timer(0.6f, close);
+						});
+					}
 				}
 				break;
 				case TurnActionEvent.BuffAttached:
@@ -177,26 +234,27 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void TestGame() {
-		// var samples = new int[]{101, 102, 103, 301, 302, 303};
-		// Observable.Interval(TimeSpan.FromSeconds(0.7f))
-		// 	.Take(6)
-		// 	.Subscribe(_ => {
-		// 		SpawnCard(samples[Random.Range(0, samples.Count())]);
-		// 	});
-		new int[]{2, 3, 2, 3}.ToObservable()
-			.SelectMany(i => {
-				return Observable.Timer(TimeSpan.FromSeconds(i));
-			})
-			.Subscribe(i => {
-				Debug.Log(i);
+		var samples = new int[]{101, 102, 103, 301, 302, 303};
+		samples.ToObservable()
+			.Subscribe(id => {
+				var card = SpawnCard(id);
+				card.IsCharacterCard = true;
+				card.InstanceId = id;
+				card._Attack = 1;
+				(card.Card.IsNegative ? OpCharacters : MyCharacters).Add(card);
 			});
+		AlignCards();
 	}
 
-	List<PlayCard> OpCharacters = new List<PlayCard>();
-	List<PlayCard> MyCharacters = new List<PlayCard>();
+	[System.NonSerialized]
+	public List<PlayCard> OpCharacters = new List<PlayCard>();
+	[System.NonSerialized]
+	public List<PlayCard> MyCharacters = new List<PlayCard>();
 
-	List<PlayCard> PosHands = new List<PlayCard>();
-	List<PlayCard> NegHands = new List<PlayCard>();
+	[System.NonSerialized]
+	public List<PlayCard> PosHands = new List<PlayCard>();
+	[System.NonSerialized]
+	public List<PlayCard> NegHands = new List<PlayCard>();
 
 	PlayCard SpawnCard(int cardId) {
 		var cardInst = Object.Instantiate(Prefab);
@@ -310,6 +368,11 @@ public class GameManager : MonoBehaviour {
 		waitActionResponse = true;
 		pendingCard = card;
 		NetworkManager.Instance.sendUseCard(card.Card.Id);
+	}
+	public void AttackCard(PlayCard attacker, PlayCard attackee) {
+		if (waitActionResponse) return;
+		waitActionResponse = true;
+		NetworkManager.Instance.sendAttackCharacter(attacker.InstanceId, attackee.InstanceId);
 	}
 
 	public void EndTurn() {
