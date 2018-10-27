@@ -53,7 +53,10 @@ public class GameManager : MonoBehaviour {
 	public GameObject DmgEffect;
 	public Text DmgText;
 	public GameObject GameUI;
+	public PlayCard DetailCard;
 
+	public GameObject WinUI;
+	public GameObject LoseUI;
 
 	void Awake() {
 		DOTween.Init();
@@ -72,10 +75,13 @@ public class GameManager : MonoBehaviour {
 
 		PunchEnd.SetActive(false);
 		DmgEffect.SetActive(false);
+		DetailCard.gameObject.SetActive(false);
 
 		NetworkManager.Instance.onGameStartedNotifier
 		.Subscribe(msg => {
 			NetworkUI.Instance.gameObject.SetActive(false);
+			WinUI.SetActive(false);
+			LoseUI.SetActive(false);
 			MyCostText.text = $"{msg.cost}";
 			OpCostText.text = $"{msg.enemyCost}";
 			MyHp = msg.hp;
@@ -315,6 +321,23 @@ public class GameManager : MonoBehaviour {
 					
 				}
 				break;
+			}
+		});
+		NetworkManager.Instance.onGameEndedNotifier
+		.Subscribe(msg => {
+			if (msg.winner == NetworkManager.Instance.clientId)
+			{
+				WinUI.SetActive(true);
+				WinUI.transform.DORotate(new Vector3(0, 0, 720), 5, RotateMode.LocalAxisAdd);
+				WinUI.transform.localScale = Vector3.zero;
+				WinUI.transform.DOScale(Vector3.one, 5);
+			}
+			else
+			{
+				LoseUI.SetActive(true);
+				LoseUI.transform.DORotate(new Vector3(0, 0, 720), 5, RotateMode.LocalAxisAdd);
+				LoseUI.transform.localScale = Vector3.zero;
+				LoseUI.transform.DOScale(Vector3.one, 5);
 			}
 		});
 	}
