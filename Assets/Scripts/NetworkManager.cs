@@ -39,12 +39,14 @@ namespace DeepDark
 
 		public void sendReady()
 		{
+			if (gameClient == null) return;
 			Debug.Log("send READY");
 			gameClient.sendMessage(Messages.Type.READY, new Messages.EmptyMessage());
 		}
 
 		public void sendUseCard(int id)
 		{
+			if (gameClient == null) return;
 			Debug.Log($"send UseCard {id}");
 			var msg = new Messages.TurnActionMessage();
 			msg.turnAction = TurnAction.UseCard;

@@ -286,6 +286,7 @@ MonoBehaviour:
   HP: {fileID: 114835781303356254}
   Cost: {fileID: 114865055368353232}
   Glow: {fileID: 114373657934547864}
+  IsCharacterCard: 0
 --- !u!114 &114544435346739418
 MonoBehaviour:
   m_ObjectHideFlags: 1
