@@ -97,7 +97,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			var targetCard = eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<PlayCard>();
 			if (GameManager.Instance.OpCharacters.Contains(targetCard))
 			{
-
+				GameManager.Instance.AttackCard(this, targetCard);
 			}
 			GameManager.Instance.PunchEnd.SetActive(false);
 		}
