@@ -158,6 +158,7 @@ public class GameManager : MonoBehaviour {
 					var card = OpCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (card != null)
 					{
+						Debug.Log($"CharacterStateChanged op {card.Card.Name} {msg.hp} {msg.attack}");
 						card.SetHP(msg.hp);
 						card.SetAttack(msg.attack);
 
@@ -176,6 +177,7 @@ public class GameManager : MonoBehaviour {
 					card = MyCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (card != null)
 					{
+						Debug.Log($"CharacterStateChanged me {card.Card.Name} {msg.hp} {msg.attack}");
 						card.SetHP(msg.hp);
 						card.SetAttack(msg.attack);
 						// var baseX = card.transform.localScale.x;
@@ -197,6 +199,7 @@ public class GameManager : MonoBehaviour {
 					var card = OpCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (card != null)
 					{
+						Debug.Log($"Destroyed op {card.Card.Name}");
 						OpCharacters.Remove(card);
 						AddDirection(true, close => {
 							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);
@@ -210,6 +213,7 @@ public class GameManager : MonoBehaviour {
 					card = MyCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (card != null)
 					{
+						Debug.Log($"Destroyed me {card.Card.Name}");
 						MyCharacters.Remove(card);
 						AddDirection(true, close => {
 							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);

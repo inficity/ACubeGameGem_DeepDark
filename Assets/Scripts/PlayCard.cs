@@ -26,14 +26,16 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	public void SetHP(int hp)
 	{
+		_HP = hp;
 		HP.text = $"<b>{hp}</b>";
 	}
 	public void SetAttack(int attack)
 	{
-		// HP.text = $"<b>hp</b>";
+		_Attack = attack;
 	}
 	public void SetPower(int power)
 	{
+		_Power = power;
 		Power.text = $"<b>{power}</b>";
 	}
 	
