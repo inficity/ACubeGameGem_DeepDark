@@ -13,7 +13,7 @@ namespace DeepDark
 			var id = 0;
 			{
 				var card = new Card();
-				card.Id = ++id;
+				card.Id = 101;
 				card.Name = "직장 선배";
 				card.Description = "";
 				card.Cost = 3;
@@ -24,7 +24,7 @@ namespace DeepDark
 			}
 			{
 				var card = new Card();
-				card.Id = ++id;
+				card.Id = 102;
 				card.Name = "꼰대 대리";
 				card.Description = "";
 				card.Cost = 3;
@@ -35,7 +35,7 @@ namespace DeepDark
 			}
 			{
 				var card = new Card();
-				card.Id = ++id;
+				card.Id = 103;
 				card.Name = "만년 과장";
 				card.Description = "";
 				card.Cost = 3;
@@ -48,7 +48,7 @@ namespace DeepDark
 
 			{
 				var card = new Card();
-				card.Id = ++id;
+				card.Id = 301;
 				card.Name = "여자 친구";
 				card.Description = "";
 				card.Cost = 3;
@@ -59,7 +59,7 @@ namespace DeepDark
 			}
 			{
 				var card = new Card();
-				card.Id = ++id;
+				card.Id = 302;
 				card.Name = "소꼽 친구";
 				card.Description = "";
 				card.Cost = 3;
@@ -70,7 +70,7 @@ namespace DeepDark
 			}
 			{
 				var card = new Card();
-				card.Id = ++id;
+				card.Id = 303;
 				card.Name = "어머니";
 				card.Description = "";
 				card.Cost = 3;

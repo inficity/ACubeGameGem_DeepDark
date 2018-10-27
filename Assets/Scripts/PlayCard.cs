@@ -10,12 +10,16 @@ namespace DeepDark.Client
 public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 	public Card Card;
-	public Texture2D Image { get; private set; }
+	// public Texture2D Image { get; private set; }
+
+	public Image Image;
+	public Text Title;
+	public Text Description;
+	public Text Power;
+	public Text HP;
+	public Text Cost;
 	
 	// Update is called once per frame
-
-	void Start() {
-	}
 
 	bool Dragging;
 	public void OnBeginDrag(PointerEventData eventData) {

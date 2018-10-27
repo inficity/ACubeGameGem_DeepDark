@@ -2,6 +2,8 @@
 using DeepDark;
 
 using UnityEngine;
+using UniRx;
+using TimeSpan = System.TimeSpan;
 
 public class NetworkUI : MonoBehaviour
 {
@@ -14,14 +16,45 @@ public class NetworkUI : MonoBehaviour
 	{
 		Instance = this;
 		this.networkManager = this.GetComponent<NetworkManager>();
-		IP = "192.168.13.121";
+		IP = "192.168.13.91";
 		ShowReadyUI(false);
 		ShowReadyUI(false);
+
+		// Observable.Timer(TimeSpan.FromSeconds(30))
+		// .Subscribe(_ => {
+
+		// });
+	}
+
+	BooleanNotifier connectNotifier = new BooleanNotifier();
+	BooleanNotifier readyNotifier = new BooleanNotifier();
+
+	void Start()
+	{
+
+		networkManager.onConnectionNotifier.Subscribe(conn => {
+			if (conn)
+			{
+				ShowConnectUI(false);
+				ShowReadyUI(true);
+			}
+			else // disconnnection
+			{
+			}
+		});
+		connectNotifier.ThrottleFirst(TimeSpan.FromSeconds(2))
+			.Subscribe(_ => {
+				this.networkManager.connectServer(this.IP);
+			});
+		readyNotifier.ThrottleFirst(TimeSpan.FromSeconds(2))
+			.Subscribe(_ => {
+				this.networkManager.sendReady();
+			});
 	}
 
 	public void OnConnectBtn()
 	{
-		this.networkManager.connectServer(this.IP);
+		connectNotifier.SwitchValue();
 	}
 
 	public void OnServerBtn()
@@ -33,6 +66,11 @@ public class NetworkUI : MonoBehaviour
 	{
 		this.gameObject.SetActive(false);
 		DeepDark.Client.GameManager.Instance.TestGame();
+	}
+
+	public void OnReadyBtn()
+	{
+		readyNotifier.SwitchValue();
 	}
 
 	public GameObject ConnectionUI;

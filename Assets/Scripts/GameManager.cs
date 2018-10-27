@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 using UniRx;
@@ -8,6 +9,13 @@ using TimeSpan = System.TimeSpan;
 
 namespace DeepDark.Client
 {
+
+[System.Serializable]
+public class CardImageReferer
+{
+	public int CardId;
+	public Sprite Sprite;
+}
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
@@ -17,21 +25,24 @@ public class GameManager : MonoBehaviour {
 	public Transform MyPosHandPosition;
 	public Transform MyNegHandPosition;
 
+	[SerializeField]
+	public List<CardImageReferer> CardImages;
+
 	void Awake() {
 		DOTween.Init();
 		Instance = this;
 	}
 	// Use this for initialization
 	void Start () {
-			
 		StartCoroutine(DirectionLoop());
 	}
 
 	public void TestGame() {
+		var samples = new int[]{101, 102, 103, 301, 302, 303};
 		Observable.Interval(TimeSpan.FromSeconds(0.7f))
 			.Take(6)
 			.Subscribe(_ => {
-				SpawnCard(_ < 3);
+				SpawnCard(samples[Random.Range(0, samples.Count())], _ < 3);
 			});
 	}
 
@@ -40,9 +51,21 @@ public class GameManager : MonoBehaviour {
 
 	List<PlayCard> PosHands = new List<PlayCard>();
 	List<PlayCard> NegHands = new List<PlayCard>();
-	void SpawnCard(bool isPositive) {
+	void SpawnCard(int cardId, bool isPositive) {
 		var cardInst = Object.Instantiate(Prefab);
 		var playCard = cardInst.GetComponent<PlayCard>();
+
+		var card = CardManager.GetCard(cardId);
+		playCard.Card = card;
+
+		var imageReferer = CardImages.FirstOrDefault(c => c.CardId == cardId);
+		if (imageReferer != null)
+			playCard.Image.sprite = imageReferer.Sprite;
+		playCard.Title.text = $"<b>{card.Name}</b>";
+		playCard.Description.text = card.Description;
+		playCard.Power.text = $"<b>{card.Power}</b>";
+		playCard.HP.text = $"<b>{card.HP}</b>";
+		playCard.Cost.text = $"<b>{card.Cost}</b>";
 
 		(isPositive ? PosHands : NegHands).Add(playCard);
 		playCard.transform.SetParent(MyPosHandPosition);
@@ -130,13 +153,13 @@ public class GameManager : MonoBehaviour {
 
 	}
 
-	void JsonTest() {
-		// var a = new Newtonsoft.Json.JsonSerializer();
-		var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(new {
-			A = 10,
-		});
-		Newtonsoft.Json.JsonConvert.DeserializeObject<GameManager>("{}");
-		// a.Serialize()
-	}
+	// void JsonTest() {
+	// 	// var a = new Newtonsoft.Json.JsonSerializer();
+	// 	var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(new {
+	// 		A = 10,
+	// 	});
+	// 	Newtonsoft.Json.JsonConvert.DeserializeObject<GameManager>("{}");
+	// 	// a.Serialize()
+	// }
 }
 }

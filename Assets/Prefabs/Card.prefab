@@ -279,6 +279,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5176d05c984a4497f992993f4557ff5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Image: {fileID: 114637798985509344}
+  Title: {fileID: 114544435346739418}
+  Description: {fileID: 114079257936647862}
+  Power: {fileID: 114757128332812264}
+  HP: {fileID: 114835781303356254}
+  Cost: {fileID: 114865055368353232}
 --- !u!114 &114544435346739418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -612,7 +618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -459, y: -2}
+  m_AnchoredPosition: {x: -760, y: -6}
   m_SizeDelta: {x: 160.9, y: 218.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224342822171116940
