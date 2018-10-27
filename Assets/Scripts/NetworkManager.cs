@@ -19,6 +19,7 @@ namespace DeepDark
 
 		public void connectServer(string ip)
 		{
+			Debug.Log($"connectServer #{ip}");
 			this.gameClient = new GameClient(ip, 8888, this);
 		}
 
