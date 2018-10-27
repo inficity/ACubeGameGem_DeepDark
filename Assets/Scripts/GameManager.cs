@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour {
 					}
 					else
 					{
-						
+
 					}
 				}
 				break;
@@ -194,6 +194,7 @@ public class GameManager : MonoBehaviour {
 			++ActiveDirectionCount;
 			direction(close);
 		};
+		DirectionQueue.Enqueue(d);
 	}
 
 	IEnumerator DirectionLoop() {
