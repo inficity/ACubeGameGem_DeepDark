@@ -200,8 +200,9 @@ public class GameManager : MonoBehaviour {
 					if (card != null)
 					{
 						Debug.Log($"Destroyed op {card.Card.Name}");
+						var cardTransform = card.transform;
 						AddDirection(true, close => {
-							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);
+							cardTransform.DOScale(Vector3.one * 0.1f, 0.5f);
 							Timer(0.6f, () => {
 								OpCharacters.Remove(card);
 								GameObject.Destroy(card);
@@ -217,8 +218,9 @@ public class GameManager : MonoBehaviour {
 					if (card != null)
 					{
 						Debug.Log($"Destroyed me {card.Card.Name}");
+						var cardTransform = card.transform;
 						AddDirection(true, close => {
-							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);
+							cardTransform.DOScale(Vector3.one * 0.1f, 0.5f);
 							Timer(0.6f, () => {
 								MyCharacters.Remove(card);
 								GameObject.Destroy(card);
