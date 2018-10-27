@@ -416,7 +416,12 @@ public class GameManager : MonoBehaviour {
 		waitActionResponse = true;
 		NetworkManager.Instance.sendAttackCharacter(attacker.InstanceId, attackee.InstanceId);
 	}
-
+	public void AttackPlayer(PlayCard attacker) {
+		if (waitActionResponse) return;
+		Debug.Log($"{attacker.Card.Name} -> player!");
+		waitActionResponse = true;
+		NetworkManager.Instance.sendAttackPlayer(attacker.InstanceId);
+	}
 	public void EndTurn() {
 		if (waitActionResponse) return;
 		waitActionResponse = true;

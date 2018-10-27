@@ -63,6 +63,15 @@ namespace DeepDark
 			msg.damageeInstanceId = targetId;
 			gameClient.sendMessage(Messages.Type.TURN_ACTION, msg);
 		}
+		public void sendAttackPlayer(int instanceId)
+		{
+			if (gameClient == null) return;
+			Debug.Log($"send AttackPlayer {instanceId}");
+			var msg = new Messages.TurnActionMessage();
+			msg.turnAction = TurnAction.AttackPlayer;
+			msg.damagerInstanceId = instanceId;
+			gameClient.sendMessage(Messages.Type.TURN_ACTION, msg);
+		}
 		public void sendEndTurn()
 		{
 			if (gameClient == null) return;
