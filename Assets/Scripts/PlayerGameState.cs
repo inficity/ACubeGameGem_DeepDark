@@ -16,6 +16,7 @@ namespace DeepDark
 		public List<Card> NegativeHand { get; private set; }
 		public List<Card> PositiveHand { get; private set; }
 		public List<ServerCharacter> Field { get; private set; }
+		public List<Buff> BuffList { get; private set; }
 
 		public PlayerGameState(int id, bool turn, PlayerGameSetting playerGameSetting)
 		{
@@ -30,6 +31,7 @@ namespace DeepDark
 			this.NegativeHand = new List<Card>();
 			this.PositiveHand = new List<Card>();
 			this.Field = new List<ServerCharacter>();
+			this.BuffList = new List<Buff>();
 
 			this.fillHand(playerGameSetting);
 		}
@@ -149,6 +151,20 @@ namespace DeepDark
 		public void removeServerCharacter(ServerCharacter serverCharacter)
 		{
 			this.Field.Remove(serverCharacter);
+		}
+
+		public void addBuff(Buff buff)
+		{
+			this.BuffList.Add(buff);
+		}
+
+		public bool haveTag(string tag)
+		{
+			foreach (var buff in this.BuffList)
+				if (buff.haveTag(tag))
+					return true;
+
+			return false;
 		}
 	}
 }
