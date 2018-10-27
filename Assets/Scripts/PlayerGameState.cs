@@ -49,6 +49,17 @@ namespace DeepDark
 			this.Cost += amount;
 		}
 
+		public void sendChangedMessage()
+		{
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.StateChanged;
+			message.playerId = this.Id;
+			message.hp = this.HP;
+			message.cost = this.Cost;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+		}
+
 		public KeyValuePair<List<int>, List<int>> fillHand(PlayerGameSetting playerGameSetting)
 		{
 			return new KeyValuePair<List<int>, List<int>>(
