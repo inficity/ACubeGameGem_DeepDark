@@ -1,29 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
+using DeepDark;
+
 using UnityEngine;
 
-public class NetworkUI : MonoBehaviour {
+public class NetworkUI : MonoBehaviour
+{
+	public string IP { get; set; }
 
-	public string IP {get; set;}
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	private NetworkManager networkManager;
+
+	private void Awake()
+	{
+		this.networkManager = this.GetComponent<NetworkManager>();
 	}
 
-	public void OnConnectBtn() {
-
+	public void OnConnectBtn()
+	{
+		this.networkManager.connectServer(this.IP);
 	}
 
-	public void OnServerBtn() {
-
+	public void OnServerBtn()
+	{
+		this.networkManager.runServer();
 	}
 
-	public void OnTestBtn() {
+	public void OnTestBtn()
+	{
 		this.gameObject.SetActive(false);
 		DeepDark.Client.GameManager.Instance.TestGame();
 	}

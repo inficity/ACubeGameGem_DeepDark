@@ -1,34 +1,60 @@
 ﻿
+using DeepDark.Client;
+using DeepDark.Server;
+
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace DeepDark
 {
-	public class NetworkManager : MonoBehaviour
+	public class NetworkManager : MonoBehaviour, ClientEventHandler
 	{
-		public enum Type
+		private GameClient gameClient;
+		private GameServer gameServer;
+
+		public void runServer()
 		{
-			Client,
-			Server
+			this.gameServer = new GameServer();
+			this.gameClient = new GameClient("127.0.0.1", 8888, this);
 		}
 
-		public static NetworkManager Instance { get; private set; }
-
-		public Type _Type;
-
-		private void Awake()
+		public void connectServer(string ip)
 		{
-			NetworkManager.Instance = this;
+			this.gameClient = new GameClient(ip, 8888, this);
+		}
 
-			switch(this._Type)
-			{
-				case Type.Client:
+		public void onConnected()
+		{
+			throw new System.NotImplementedException();
+		}
 
-					break;
-				case Type.Server:
-					NetworkServer.Listen(8888);
-					break;
-			}
+		public void onDisconnected()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public void onGameStarted(Messages.GameStartMessage message)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public void onTurnStarted(Messages.TurnStartMessage message)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public void onTurnActionResponded(Messages.TurnActionResponseMessage message)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public void onTurnActionEvent(Messages.TurnActionEventMessage message)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public void onGameEnded(Messages.GameEndMessage message)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }
