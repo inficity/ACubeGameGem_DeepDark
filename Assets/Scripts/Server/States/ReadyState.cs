@@ -13,6 +13,8 @@ namespace DeepDark.Server.States
 		public void start()
 		{
 			UnityEngine.Debug.Log("ReadyState.start");
+			UnityEngine.Debug.Log(NetworkServer.connections == null);
+			UnityEngine.Debug.Log(this.readyMap == null);
 
 			foreach (var id in NetworkServer.connections)
 				this.readyMap[id.connectionId] = false;
