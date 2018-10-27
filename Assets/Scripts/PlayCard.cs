@@ -40,10 +40,16 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	bool Dragging;
 	bool DraggingPunch;
 	public void OnBeginDrag(PointerEventData eventData) {
-		if (!GameManager.Instance.CanAction) return;
+		if (!GameManager.Instance.CanAction)
+		{
+			Debug.Log($"Cant action {Card.Name}");
+		}
 		if (IsCharacterCard)
 		{
-			if (_Attack <= 0) return;
+			if (_Attack <= 0)
+			{
+				Debug.Log($"No attack {Card.Name}");
+			}
 			DraggingPunch = true;
 			GameManager.Instance.PunchEnd.SetActive(true);
 			GameManager.Instance.PunchEnd.transform.position = eventData.position;
@@ -89,7 +95,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			var targetCard = eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<PlayCard>();
 			if (GameManager.Instance.OpCharacters.Contains(targetCard))
 			{
-				
+
 			}
 			GameManager.Instance.PunchEnd.SetActive(false);
 		}
