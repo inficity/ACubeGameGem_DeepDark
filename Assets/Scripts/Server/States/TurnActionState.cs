@@ -43,11 +43,32 @@ namespace DeepDark.Server.States
 
 			switch (message.turnAction)
 			{
-				case TurnAction.Attack:
+				case TurnAction.AttackPlayer:
+					{
+						var damager = state.findServerCharacter(message.damagerInstanceId);
 
-					//message.damagerInstanceId
-					
 
+					}
+					break;
+				case TurnAction.AttackCharacter:
+					{
+						var damager = state.findServerCharacter(message.damagerInstanceId);
+						var damagee = enemyState.findServerCharacter(message.damageeInstanceId);
+
+						if (!damagee.damagedBy(damager))
+						{
+							this.__sendResponseMessage(networkMessage.conn.connectionId, false);
+							return;
+						}
+
+						this.__sendResponseMessage(networkMessage.conn.connectionId, true);
+
+						this.__sendCharacterStateChangedMessage(damager);
+						this.__sendCharacterStateChangedMessage(damagee);
+
+						if (damagee.HP < 1)
+							this.__sendDestroyedMessage(damagee);
+					}
 					break;
 				case TurnAction.TurnEnd:
 
@@ -88,6 +109,8 @@ namespace DeepDark.Server.States
 					else
 						state.addCost(-card.Cost);
 
+					this.__sendResponseMessage(networkMessage.conn.connectionId, true);
+
 					if (card.OnUseCard != null)
 						card.OnUseCard(state, enemyState);
 
@@ -109,7 +132,28 @@ namespace DeepDark.Server.States
 			message.turnActionEvent = TurnActionEvent.Destroyed;
 			message.instanceId = serverCharacter.Id;
 
-			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_RESPONSE, message);
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+		}
+
+		private void __sendHPChangedMessage(int playerId, int hp)
+		{
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.HPChanged;
+			message.playerId = playerId;
+			message.hp = hp;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+		}
+
+		private void __sendCharacterStateChangedMessage(ServerCharacter serverCharacter)
+		{
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.CharacterStateChanged;
+			message.instanceId = serverCharacter.Id;
+			message.hp = serverCharacter.HP;
+			message.attack = serverCharacter.AttackChance;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
 		}
 	}
 }

@@ -104,5 +104,14 @@ namespace DeepDark
 
 			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
 		}
+
+		public ServerCharacter findServerCharacter(int instanceId)
+		{
+			foreach (var serverCharacter in this.Field)
+				if (serverCharacter.Id == instanceId)
+					return serverCharacter;
+
+			return null;
+		}
 	}
 }

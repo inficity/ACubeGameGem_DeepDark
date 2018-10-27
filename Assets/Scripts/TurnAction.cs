@@ -3,7 +3,8 @@ namespace DeepDark
 {
 	public enum TurnAction
 	{
-		Attack,
+		AttackPlayer,
+		AttackCharacter,
 		UseCard,
 		TurnEnd
 	}

@@ -95,19 +95,20 @@ namespace DeepDark
 			public TurnActionEvent turnActionEvent;
 			
 			//HPChanged
-			public int clientId;
-			public int amount;
+			public int playerId;
+			public int hp;
 
-			//CharacterHPChanged
+			//CharacterStateChanged
 			public int instanceId;
-			///public int amount;
+			///public int hp;
+			public int attack;
 
 			//Instantiated
 			public int cardId;
 			///public int instanceId;
-			public int hp;
+			///public int hp;
 			public int power;
-			public int attack;
+			///public int attack;
 
 			//Destroyed
 			///public int instanceId;
