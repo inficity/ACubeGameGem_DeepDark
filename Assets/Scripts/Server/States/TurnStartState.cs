@@ -13,19 +13,14 @@ namespace DeepDark.Server.States
 
 			NetworkServer.RegisterHandler(MsgType.Disconnect, this.__handle_DISCONNECT);
 
-			foreach (var serverCharacter in GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId].Field)
-				serverCharacter.onTurnBegin(
-					GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId],
-					GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.SecondId]);
-
-			foreach (var serverCharacter in GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.SecondId].Field)
-				serverCharacter.onTurnBegin(
-					GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.SecondId],
-					GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId]);
-
 			var firstPair = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId].fillHand(GameServer.Instance.GlobalPlayerGameSetting.Map[GameServer.Instance.FirstId]);
 			var secondPair = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.SecondId].fillHand(GameServer.Instance.GlobalPlayerGameSetting.Map[GameServer.Instance.SecondId]);
 			var currentTurnId = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId].Turn ? GameServer.Instance.FirstId : GameServer.Instance.SecondId;
+
+			foreach (var serverCharacter in GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId].Field)
+				serverCharacter.onTurnBegin(
+					GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId],
+					GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId == GameServer.Instance.FirstId ? GameServer.Instance.SecondId : GameServer.Instance.FirstId]);
 
 			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.FirstId, firstPair.Key, firstPair.Value, secondPair.Key, secondPair.Value);
 			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.SecondId, secondPair.Key, secondPair.Value, firstPair.Key, firstPair.Value);
