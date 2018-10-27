@@ -153,6 +153,7 @@ public class GameManager : MonoBehaviour {
 				break;
 				case TurnActionEvent.StateChanged:
 				{
+					Debug.Log($"{msg.playerId} {msg.hp} {msg.cost}");
 					if (msg.playerId == NetworkManager.Instance.clientId) {
 						MyHpText.text = $"<b>{msg.hp}</b>";
 						MyCostText.text = $"<b>{msg.cost}</b>";
