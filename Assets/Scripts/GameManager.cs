@@ -169,38 +169,54 @@ public class GameManager : MonoBehaviour {
 					if (card != null)
 					{
 						Debug.Log($"CharacterStateChanged op {card.Card.Name} {msg.hp} {msg.attack}");
-						card.SetHP(msg.hp);
-						card.SetAttack(msg.attack);
+						if (card._HP != msg.hp)
+						{
+							// 데미지
+							var baseX = card.transform.localScale.x;
+							AddDirection(true, close => {
+								card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
+								Timer(0.1f, close);
+							});
+							AddDirection(true, close => {
+								card.SetHP(msg.hp);
+								card.SetAttack(msg.attack);
+								card.transform.DOScale(Vector3.one * baseX, 0.1f);
+								Timer(0.1f, close);
+							});
+						}
+						else
+						{
+							card.SetHP(msg.hp);
+							card.SetAttack(msg.attack);
+						}
 
-						// var baseX = card.transform.localScale.x;
-						// AddDirection(true, close => {
-						// 	card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
-						// 	Timer(0.1f, close);
-						// });
-						// AddDirection(true, close => {
-						// 	card.SetHP(msg.hp);
-						// 	card.SetAttack(msg.attack);
-						// 	card.transform.DOScale(Vector3.one * baseX, 0.1f);
-						// 	Timer(0.1f, close);
-						// });
+						
+						return;
 					}
 					card = MyCharacters.FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (card != null)
 					{
 						Debug.Log($"CharacterStateChanged me {card.Card.Name} {msg.hp} {msg.attack}");
-						card.SetHP(msg.hp);
-						card.SetAttack(msg.attack);
-						// var baseX = card.transform.localScale.x;
-						// AddDirection(true, close => {
-						// 	card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
-						// 	Timer(0.1f, close);
-						// });
-						// AddDirection(true, close => {
-						// 	card.SetHP(msg.hp);
-						// 	card.SetAttack(msg.attack);
-						// 	card.transform.DOScale(Vector3.one * baseX, 0.1f);
-						// 	Timer(0.1f, close);
-						// });
+						if (card._HP != msg.hp)
+						{
+							// 데미지
+							var baseX = card.transform.localScale.x;
+							AddDirection(true, close => {
+								card.transform.DOScale(Vector3.one * baseX / 2, 0.1f);
+								Timer(0.1f, close);
+							});
+							AddDirection(true, close => {
+								card.SetHP(msg.hp);
+								card.SetAttack(msg.attack);
+								card.transform.DOScale(Vector3.one * baseX, 0.1f);
+								Timer(0.1f, close);
+							});
+						}
+						else
+						{
+							card.SetHP(msg.hp);
+							card.SetAttack(msg.attack);
+						}
 					}
 				}
 				break;
@@ -293,8 +309,9 @@ public class GameManager : MonoBehaviour {
 			playCard.Image.sprite = imageReferer.Sprite;
 		playCard.Title.text = $"<b>{card.Name}</b>";
 		playCard.Description.text = card.Description;
-		playCard.Power.text = $"<b>{card.Power}</b>";
-		playCard.HP.text = $"<b>{card.HP}</b>";
+		playCard.SetAttack(0);
+		playCard.SetPower(card.Power);
+		playCard.SetHP(card.HP);
 		playCard.Cost.text = $"<b>{card.Cost}</b>";
 		playCard.Glow.color = card.IsNegative ? Color.red : Color.blue;
 
