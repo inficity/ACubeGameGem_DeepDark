@@ -156,6 +156,13 @@ namespace DeepDark
 		public void addBuff(Buff buff)
 		{
 			this.BuffList.Add(buff);
+
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.BuffAttached;
+			message.playerId = this.Id;
+			message.buffName = buff.Name;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
 		}
 
 		public bool haveTag(string tag)

@@ -112,13 +112,12 @@ namespace DeepDark
 			///public int instanceId;
 
 			//BuffAttached
-			///public int clientId;
-			public int buffId;
-			public int buffInstanceId;
+			///public int playerId;
+			public string buffName;
 
 			//BuffRemoved
-			///public int clientId;
-			///public int buffInstanceId;
+			///public int playerId;
+			///public string buffName;
 		}
 
 		public class GameEndMessage
