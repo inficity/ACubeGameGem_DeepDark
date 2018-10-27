@@ -1,0 +1,28 @@
+﻿
+namespace DeepDark.Server
+{
+	public class ServerCharacter
+	{
+		private static int GlobalId = 0;
+
+		public Card card { get; private set; }
+		public int Id { get; private set; }
+		public int HP { get; private set; }
+		public int Power { get; private set; }
+		public int AttackChance { get; private set; }
+
+		public ServerCharacter(Card card)
+		{
+			this.card = card;
+			this.Id = ServerCharacter.GlobalId++;
+			this.HP = card.HP;
+			this.Power = card.Power;
+			this.AttackChance = 0;
+		}
+
+		public void setAttackChance(int attackChance)
+		{
+			this.AttackChance = attackChance;
+		}
+	}
+}

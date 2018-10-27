@@ -73,7 +73,7 @@ namespace DeepDark
 			public int damageeInstanceId;
 
 			//UseCard
-			public int cardId;
+			public int id;
 
 			//TurnEnd
 			//Empty.
@@ -99,6 +99,9 @@ namespace DeepDark
 			//Instantiated
 			public int cardId;
 			///public int instanceId;
+			public int hp;
+			public int power;
+			public bool attack;
 
 			//Destroyed
 			///public int instanceId;

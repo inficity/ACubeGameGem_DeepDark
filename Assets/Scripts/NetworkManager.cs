@@ -48,7 +48,7 @@ namespace DeepDark
 			Debug.Log($"send UseCard {id}");
 			var msg = new Messages.TurnActionMessage();
 			msg.turnAction = TurnAction.UseCard;
-			msg.cardId = id;
+			msg.id = id;
 			gameClient.sendMessage(Messages.Type.TURN_ACTION, msg);
 		}
 
