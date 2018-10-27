@@ -62,12 +62,20 @@
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
      <Compile Include="Assets\Scripts\Card.cs" />
      <Compile Include="Assets\Scripts\CardManager.cs" />
-     <Compile Include="Assets\Scripts\Global.cs" />
-     <Compile Include="Assets\Scripts\Network\Packet.cs" />
-     <Compile Include="Assets\Scripts\Network\Server\GameServer.cs" />
-     <Compile Include="Assets\Scripts\Network\Server\PlayerGameSetting.cs" />
-     <Compile Include="Assets\Scripts\PlayerGameState.cs" />
+     <Compile Include="Assets\Scripts\Client\GameClient.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Global.cs" />
+     <Compile Include="Assets\Scripts\Messages.cs" />
+     <Compile Include="Assets\Scripts\NetworkManager.cs" />
+     <Compile Include="Assets\Scripts\NetworkUIManager.cs" />
+     <Compile Include="Assets\Scripts\PlayerGameState.cs" />
+     <Compile Include="Assets\Scripts\Server\GameServer.cs" />
+     <Compile Include="Assets\Scripts\Server\PlayerGameSetting.cs" />
+     <Compile Include="Assets\Scripts\Server\State.cs" />
+     <Compile Include="Assets\Scripts\Server\StateManager.cs" />
+     <Compile Include="Assets\Scripts\Server\States\GameStartState.cs" />
+     <Compile Include="Assets\Scripts\Server\States\ReadyState.cs" />
+     <Compile Include="Assets\Scripts\Test.cs" />
      <None Include="Assets\JsonDotNet\link.xml" />
      <None Include="Assets\Demigiant\DOTween\readme.txt" />
  <Reference Include="UnityEditor.StandardEvents">
@@ -278,7 +286,10 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.13f1/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.SpatialTracking">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.13f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween">
+ <HintPath>D:/Develop/Unity/ACubeGameGem_DeepDark/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
  <HintPath>D:/Develop/Unity/ACubeGameGem_DeepDark/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
@@ -288,12 +299,6 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/Users/led78/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>/Users/singyujo/Library/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.StandardEvents">
- <HintPath>/Users/singyujo/Library/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>

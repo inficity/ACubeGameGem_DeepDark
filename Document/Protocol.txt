@@ -8,6 +8,9 @@ Initial HP of the bottom
 Initial Cost of the top
 Initial Cost of the bottom
 
+Max Cost of the top
+Max Cost of the bottom
+
 Initial negative hand of the top
 Initial negative hand of the bottom
 
@@ -25,9 +28,13 @@ List<Card> Deck of the bottom
 
 [Data]
 int firstPlayer;
+int currentPlayer;
 
 int topHP;
 int bottomHP;
+
+int topCost;
+int bottomCost;
 
 Queue<Card> topDeck;
 Queue<Card> bottomDeck;
@@ -39,14 +46,14 @@ List<Card> topPositiveHand;
 List<Card> bottomPositiveHand;
 
 [Phase]
-1. Connect					- 네트워크 연결을 수립함
-2. Ready					- 양쪽 모두 준비 버튼을 누름
-3. Game Start				- 서버가 ID 부여하고 선공/후공을 정하고 게임 초기화 후 싱크
-4. Turn Start				- 서버가 턴 시작을 알림(턴당 제한 시간 포함)
-5. Turn Action				- 클라이언트 행동 알림(턴 종료 or 카드 사용)
-6. Turn Action Response		- 서버가 클라이언트 행동 허용 여부를 판단하고 알림
-7. Turn Action Event		- 클라이언트 행동에 의해 이벤트가 발생함
-8. Game End					- 서버가 게임 종료를 알림
+0. Connect					- 네트워크 연결을 수립함
+1. Ready					- 양쪽 모두 준비 버튼을 누름
+2. Game Start				- 서버가 ID 부여하고 선공/후공을 정하고 게임 초기화 후 싱크
+3. Turn Start				- 서버가 턴 시작을 알림(턴당 제한 시간 포함)
+4. Turn Action				- 클라이언트 행동 알림(턴 종료 or 카드 사용)
+5. Turn Action Response		- 서버가 클라이언트 행동 허용 여부를 판단하고 알림
+6. Turn Action Event		- 클라이언트 행동에 의해 이벤트가 발생함
+7. Game End					- 서버가 게임 종료를 알림
 
 [Client Action]
 1. Turn End
