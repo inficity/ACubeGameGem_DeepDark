@@ -7,6 +7,7 @@ namespace DeepDark
 {
 	public class PlayerGameState
 	{
+		public int Id { get; private set; }
 		public bool Turn { get; private set; }
 		public int HP { get; private set; }
 		public int Cost { get; private set; }
@@ -16,10 +17,11 @@ namespace DeepDark
 		public List<Card> PositiveHand { get; private set; }
 		public List<ServerCharacter> Field { get; private set; }
 
-		public PlayerGameState(bool turn, PlayerGameSetting playerGameSetting)
+		public PlayerGameState(int id, bool turn, PlayerGameSetting playerGameSetting)
 		{
 			playerGameSetting.shuffleDeck();
 
+			this.Id = id;
 			this.Turn = turn;
 			this.HP = playerGameSetting.HP;
 			this.Cost = playerGameSetting.Cost;
@@ -101,6 +103,7 @@ namespace DeepDark
 
 			var message = new Messages.TurnActionEventMessage();
 			message.turnActionEvent = TurnActionEvent.Instantiated;
+			message.playerId = this.Id;
 			message.cardId = cardId;
 			message.instanceId = serverCharacter.Id;
 			message.hp = serverCharacter.HP;

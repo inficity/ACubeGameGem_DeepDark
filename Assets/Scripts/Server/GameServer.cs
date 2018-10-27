@@ -75,8 +75,8 @@ namespace DeepDark.Server
 			this.GlobalPlayerGameState = new Global<PlayerGameState>(
 				this.FirstId,
 				this.SecondId,
-				new PlayerGameState(firstFirst, this.GlobalPlayerGameSetting.Map[this.FirstId]),
-				new PlayerGameState(!firstFirst, this.GlobalPlayerGameSetting.Map[this.SecondId]));
+				new PlayerGameState(this.FirstId, firstFirst, this.GlobalPlayerGameSetting.Map[this.FirstId]),
+				new PlayerGameState(this.SecondId, firstFirst, this.GlobalPlayerGameSetting.Map[this.SecondId]));
 		}
 	}
 }
