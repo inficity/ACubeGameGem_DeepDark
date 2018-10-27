@@ -65,10 +65,10 @@ namespace DeepDark.Server.States
 							return;
 						}
 
-						state.addHP(-damager.HP);
+						enemyState.addHP(-damager.HP);
 						this.__sendResponseMessage(networkMessage.conn.connectionId, true);
 
-						this.__sendStateChangedMessage(networkMessage.conn.connectionId, state);
+						this.__sendStateChangedMessage(enemyState.Id, enemyState);
 						this.__sendCharacterStateChangedMessage(damager);
 					}
 					break;
