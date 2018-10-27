@@ -25,6 +25,8 @@ namespace DeepDark.Server.States
 
 		private void __handle_CONNECT(NetworkMessage networkMessage)
 		{
+			UnityEngine.Debug.Log("client incoming!");
+
 			this.readyMap.Add(networkMessage.conn.connectionId, false);
 		}
 
