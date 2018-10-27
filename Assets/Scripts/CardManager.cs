@@ -131,6 +131,33 @@ namespace DeepDark
 				};
 				Cards.Add(card.Id, card);
 			}
+
+
+			{
+				var card = new Card();
+				card.Id = 202;
+				card.Name = "야근";
+				card.Description = "오늘도 새벽까지 야근이다...\n나에게 데미지3";
+				card.Cost = 5;
+				card.IsNegative = true;
+				card.OnUseCard = (me, op) => {
+					//me.damage(3);
+				};
+				Cards.Add(card.Id, card);
+			}
+			{
+				var card = new Card();
+				card.Id = 203;
+				card.Name = "임금체불";
+				card.Description = "내돈은 어디로... 벌써 3달째다\n나에게 데미지6";
+				card.Cost = 5;
+				card.IsNegative = true;
+				card.OnUseCard = (me, op) => {
+					//me.damage(6);
+				};
+				Cards.Add(card.Id, card);
+			}
+
 			{
 				var card = new Card();
 				card.Id = 301;
@@ -247,6 +274,20 @@ namespace DeepDark
 				};
 				card.OnBeginTurn = (serverChar, me, op) => {
 					serverChar.setAttackChance(1);
+				};
+				Cards.Add(card.Id, card);
+			}
+
+
+			{
+				var card = new Card();
+				card.Id = 401;
+				card.Name = "여행";
+				card.Description = "푸르른 바다, 찬란한 햇살, 아, 좋다\nHP +8";
+				card.Cost = 5;
+				card.IsNegative = false;
+				card.OnUseCard = (me, op) => {
+					me.spawnCard(card.Id);
 				};
 				Cards.Add(card.Id, card);
 			}

@@ -20,6 +20,8 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public bool IsCharacterCard;
 	public int InstanceId;
 
+	public bool IsDummy;
+	
 	public int _HP;
 	public int _Attack;
 	public int _Power;
@@ -42,6 +44,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	bool Dragging;
 	bool DraggingPunch;
 	public void OnBeginDrag(PointerEventData eventData) {
+		if (IsDummy) return;
 		if (!GameManager.Instance.CanAction)
 		{
 			Debug.Log($"Cant action {Card.Name}");

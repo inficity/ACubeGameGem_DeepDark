@@ -320,7 +320,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void TestGame() {
-		var samples = new int[]{101, 102, 103, 301, 302, 303};
+		var samples = new int[]{203, 102, 103, 301, 302, 303};
 		samples.ToObservable()
 			.Subscribe(id => {
 				var card = SpawnCard(id);
