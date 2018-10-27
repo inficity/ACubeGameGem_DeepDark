@@ -94,9 +94,10 @@ namespace DeepDark
 		{
 			public TurnActionEvent turnActionEvent;
 			
-			//HPChanged
+			//StateChanged
 			public int playerId;
 			public int hp;
+			public int cost;
 
 			//CharacterStateChanged
 			public int instanceId;

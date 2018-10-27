@@ -56,7 +56,7 @@ namespace DeepDark.Server.States
 						state.addHP(-damager.HP);
 						this.__sendResponseMessage(networkMessage.conn.connectionId, true);
 
-						this.__sendHPChangedMessage(networkMessage.conn.connectionId, state.HP);
+						this.__sendStateChangedMessage(networkMessage.conn.connectionId, state);
 						this.__sendCharacterStateChangedMessage(damager);
 					}
 					break;
@@ -120,6 +120,7 @@ namespace DeepDark.Server.States
 						state.addCost(-card.Cost);
 
 					this.__sendResponseMessage(networkMessage.conn.connectionId, true);
+					this.__sendStateChangedMessage(networkMessage.conn.connectionId, state);
 
 					if (card.OnUseCard != null)
 						card.OnUseCard(state, enemyState);
@@ -145,12 +146,13 @@ namespace DeepDark.Server.States
 			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
 		}
 
-		private void __sendHPChangedMessage(int playerId, int hp)
+		private void __sendStateChangedMessage(int playerId, PlayerGameState state)
 		{
 			var message = new Messages.TurnActionEventMessage();
 			message.turnActionEvent = TurnActionEvent.HPChanged;
 			message.playerId = playerId;
-			message.hp = hp;
+			message.hp = state.HP;
+			message.cost = state.Cost;
 
 			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
 		}
