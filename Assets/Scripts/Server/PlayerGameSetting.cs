@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace DeepDark.Server
@@ -38,8 +39,8 @@ namespace DeepDark.Server
 			if (this.MaxPositiveHand < 1)
 				this.MaxPositiveHand = 1;
 
-			this.NegativeDeck = CardManager.GetAllNegativeCards();
-			this.PositiveDeck = CardManager.GetAllPositiveCards();
+			this.NegativeDeck = CardManager.GetAllNegativeCards().ToList();
+			this.PositiveDeck = CardManager.GetAllPositiveCards().ToList();
 		}
 
 		public void shuffleDeck()
@@ -50,11 +51,9 @@ namespace DeepDark.Server
 
 		private static void __shuffleDeck(List<Card> deck)
 		{
-			Random rand = new Random();
-
 			for (int n = deck.Count; n-- > 1;)
 			{
-				int m = rand.Next(n + 1);
+				int m = UnityEngine.Random.Range(0, n);
 				Card card = deck[m];
 				deck[m] = deck[n];
 				deck[n] = card;

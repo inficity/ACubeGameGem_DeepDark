@@ -21,5 +21,6 @@ namespace DeepDark
 		public int HP { get; set; }
 
 		public Action<PlayerGameState, PlayerGameState> OnUseCard;
+		public Action<Server.ServerCharacter, PlayerGameState, PlayerGameState> OnBeginTurn;
 	}
 }
