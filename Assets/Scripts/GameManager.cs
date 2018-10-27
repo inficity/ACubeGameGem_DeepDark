@@ -200,10 +200,13 @@ public class GameManager : MonoBehaviour {
 					if (card != null)
 					{
 						Debug.Log($"Destroyed op {card.Card.Name}");
-						OpCharacters.Remove(card);
 						AddDirection(true, close => {
 							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);
-							Timer(0.6f, close);
+							Timer(0.6f, () => {
+								OpCharacters.Remove(card);
+								GameObject.Destroy(card);
+								close();
+							});
 						});
 						AddDirection(true, close => {
 							AlignCards();
@@ -214,10 +217,13 @@ public class GameManager : MonoBehaviour {
 					if (card != null)
 					{
 						Debug.Log($"Destroyed me {card.Card.Name}");
-						MyCharacters.Remove(card);
 						AddDirection(true, close => {
 							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);
-							Timer(0.6f, close);
+							Timer(0.6f, () => {
+								MyCharacters.Remove(card);
+								GameObject.Destroy(card);
+								close();
+							});
 						});
 						AddDirection(true, close => {
 							AlignCards();
