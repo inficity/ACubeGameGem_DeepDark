@@ -42,11 +42,20 @@ public class GameManager : MonoBehaviour {
 	public Text OpHpText;
 	public Text MyHpText;
 
+	public GameObject MyTurn;
+	public GameObject OpTurn;
+
+
 	void Awake() {
 		DOTween.Init();
 		Instance = this;
 	}
 
+	void Timer(float seconds, System.Action action)
+	{
+		Observable.Timer(TimeSpan.FromSeconds(seconds))
+			.Subscribe(_ => action());
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -60,13 +69,25 @@ public class GameManager : MonoBehaviour {
 			MyHpText.text = $"{msg.hp}";
 			OpHpText.text = $"{msg.enemyHP}";
 			msg.negativeHand.Concat(msg.positiveHand).ToObservable()
-				.Zip(Observable.Interval(TimeSpan.FromSeconds(0.6f))
-				, (id, _) => id)
 				.Subscribe(id => {
-					var card = SpawnCard(id);
-					(card.Card.IsNegative ? NegHands : PosHands).Add(card);
-					AlignCards();
+					AddDirection(true, close => {
+						var card = SpawnCard(id);
+						(card.Card.IsNegative ? NegHands : PosHands).Add(card);
+						AlignCards();
+						Timer(0.6f, close);
+					});
 				});
+		});
+		NetworkManager.Instance.onTurnStartedNotifier
+		.Subscribe(msg => {
+			var obj = (msg.clientId == NetworkManager.Instance.clientId) ? MyTurn : OpTurn;
+			AddDirection(true, close => {
+				obj.SetActive(true);
+				Timer(2f, () => {
+					obj.SetActive(false);
+					close();
+				});
+			});
 		});
 		NetworkManager.Instance.onTurnActionRespondedNotifier
 		.Subscribe(msg => {
