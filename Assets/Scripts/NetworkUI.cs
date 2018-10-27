@@ -31,11 +31,11 @@ public class NetworkUI : MonoBehaviour
 
 	void Start()
 	{
-		connectNotifier.Throttle(TimeSpan.FromSeconds(2))
+		connectNotifier.ThrottleFirst(TimeSpan.FromSeconds(2))
 			.Subscribe(_ => {
 				this.networkManager.connectServer(this.IP);
 			});
-		readyNotifier.Throttle(TimeSpan.FromSeconds(2))
+		readyNotifier.ThrottleFirst(TimeSpan.FromSeconds(2))
 			.Subscribe(_ => {
 				this.networkManager.sendReady();
 			});

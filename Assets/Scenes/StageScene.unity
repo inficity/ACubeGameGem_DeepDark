@@ -1590,7 +1590,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1188870830}
-        m_MethodName: OnConnectBtn
+        m_MethodName: OnReadyBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

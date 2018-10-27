@@ -41,6 +41,7 @@ namespace DeepDark
 
 		public void sendReady()
 		{
+			Debug.Log("send READY");
 			gameClient.sendMessage(Messages.Type.READY, new Messages.EmptyMessage());
 		}
 
