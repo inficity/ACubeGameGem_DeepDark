@@ -24,19 +24,17 @@ namespace DeepDark
 			this.gameClient = new GameClient("127.0.0.1", 8888, this);
 		}
 
-		int connectTryIndex = 0;
 		public void connectServer(string ip)
 		{
 			Debug.Log($"connectServer #{ip}");
 			this.gameClient = new GameClient(ip, 8888, this);
-			var connIndex = ++connectTryIndex;
 		}
 
+		public ScheduledNotifier<bool> onConnectionNotifier = new ScheduledNotifier<bool>();
 		public void onConnected()
 		{
 			Debug.Log("onConnected");
-			NetworkUI.Instance.ShowConnectUI(false);
-			NetworkUI.Instance.ShowReadyUI(true);
+			onConnectionNotifier.Report(true);
 		}
 
 		public void sendReady()
@@ -45,10 +43,10 @@ namespace DeepDark
 			gameClient.sendMessage(Messages.Type.READY, new Messages.EmptyMessage());
 		}
 
-		public ScheduledNotifier<bool> onDisconnectedNotifier = new ScheduledNotifier<bool>();
 		public void onDisconnected()
 		{
 			Debug.Log("onDisconnected");
+			onConnectionNotifier.Report(true);
 		}
 
 		public ScheduledNotifier<Messages.GameStartMessage> onGameStartedNotifier = new ScheduledNotifier<Messages.GameStartMessage>();
