@@ -13,4 +13,8 @@ public class Card : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public void OnUse() {
+		GameManager.Instance.UseCard(this);
+	}
 }
