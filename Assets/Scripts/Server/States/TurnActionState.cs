@@ -13,8 +13,6 @@ namespace DeepDark.Server.States
 
 			NetworkServer.RegisterHandler(MsgType.Disconnect, this.__handle_DISCONNECT);
 			NetworkServer.RegisterHandler(Messages.Type.TURN_ACTION, this.__handle_TURN_ACTION);
-
-
 		}
 
 		public void end()
@@ -108,6 +106,7 @@ namespace DeepDark.Server.States
 		private void __sendDestroyedMessage(ServerCharacter serverCharacter)
 		{
 			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.Destroyed;
 			message.instanceId = serverCharacter.Id;
 
 			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_RESPONSE, message);

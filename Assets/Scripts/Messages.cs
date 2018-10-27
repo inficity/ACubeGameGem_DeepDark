@@ -107,7 +107,7 @@ namespace DeepDark
 			///public int instanceId;
 			public int hp;
 			public int power;
-			public bool attack;
+			public int attack;
 
 			//Destroyed
 			///public int instanceId;

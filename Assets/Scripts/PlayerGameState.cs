@@ -88,26 +88,21 @@ namespace DeepDark
 			return null;
 		}
 
-		public bool spawnCard(int cardId)
+		public void spawnCard(int cardId)
 		{
-			Card card;
+			var serverCharacter = new ServerCharacter(CardManager.GetCard(cardId));
 
-			var cardInfo = CardManager.GetCard(cardId);
+			this.Field.Add(serverCharacter);
 
-			if (cardInfo == null)
-				return false;
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.Instantiated;
+			message.cardId = cardId;
+			message.instanceId = serverCharacter.Id;
+			message.hp = serverCharacter.HP;
+			message.power = serverCharacter.Power;
+			message.attack = serverCharacter.AttackChance;
 
-			if (cardInfo.IsNegative)
-				card = this.removeNegativeCard(cardId);
-			else
-				card = this.removePositiveCard(cardId);
-
-			if (card == null)
-				return false;
-
-			this.Field.Add(new ServerCharacter(card));
-
-			return true;
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
 		}
 	}
 }
