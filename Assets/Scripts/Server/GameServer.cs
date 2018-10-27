@@ -76,7 +76,7 @@ namespace DeepDark.Server
 				this.FirstId,
 				this.SecondId,
 				new PlayerGameState(this.FirstId, firstFirst, this.GlobalPlayerGameSetting.Map[this.FirstId]),
-				new PlayerGameState(this.SecondId, firstFirst, this.GlobalPlayerGameSetting.Map[this.SecondId]));
+				new PlayerGameState(this.SecondId, !firstFirst, this.GlobalPlayerGameSetting.Map[this.SecondId]));
 		}
 	}
 }
