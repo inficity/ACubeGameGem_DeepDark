@@ -20,6 +20,11 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		// var a = new Newtonsoft.Json.JsonSerializer();
+		var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(new {
+			A = 10,
+		});
+		Newtonsoft.Json.JsonConvert.DeserializeObject<GameManager>("{}");
+		// a.Serialize()
 	}
 }
