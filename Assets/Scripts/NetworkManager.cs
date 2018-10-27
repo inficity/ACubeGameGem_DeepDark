@@ -43,17 +43,29 @@ namespace DeepDark
 			gameClient.sendMessage(Messages.Type.READY, new Messages.EmptyMessage());
 		}
 
+		public void sendUseCard(int id)
+		{
+			Debug.Log($"send UseCard {id}");
+			var msg = new Messages.TurnActionMessage();
+			msg.clientId = clientId;
+			msg.turnAction = TurnAction.UseCard;
+			msg.id = id;
+			gameClient.sendMessage(Messages.Type.TURN_ACTION, msg);
+		}
+
 		public void onDisconnected()
 		{
 			Debug.Log("onDisconnected");
 			onConnectionNotifier.Report(true);
 		}
 
+		int clientId;
 		public ScheduledNotifier<Messages.GameStartMessage> onGameStartedNotifier = new ScheduledNotifier<Messages.GameStartMessage>();
 		public void onGameStarted(Messages.GameStartMessage message)
 		{
 			Debug.Log("onGameStarted");
 			onGameStartedNotifier.Report(message);
+			clientId = message.clientId;
 		}
 
 		public ScheduledNotifier<Messages.TurnStartMessage> onTurnStartedNotifier = new ScheduledNotifier<Messages.TurnStartMessage>();

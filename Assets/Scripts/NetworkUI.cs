@@ -19,11 +19,6 @@ public class NetworkUI : MonoBehaviour
 		IP = "192.168.13.121";
 		ShowReadyUI(false);
 		ShowReadyUI(false);
-
-		// Observable.Timer(TimeSpan.FromSeconds(30))
-		// .Subscribe(_ => {
-
-		// });
 	}
 
 	BooleanNotifier connectNotifier = new BooleanNotifier();

@@ -153,31 +153,12 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	bool waitActionResponse;
 	public void UseCard(PlayCard card) {
-		if (PosHands.Remove(card))
-		{
-			MyCharacters.Add(card);
-			AlignCards();
-		}
-		if (NegHands.Remove(card))
-		{
-			OpCharacters.Add(card);
-			AlignCards();
-		}
+		if (waitActionResponse) return;
+		waitActionResponse = true;
+		NetworkManager.Instance.sendUseCard(card.Card.Id);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
-	}
-
-	// void JsonTest() {
-	// 	// var a = new Newtonsoft.Json.JsonSerializer();
-	// 	var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(new {
-	// 		A = 10,
-	// 	});
-	// 	Newtonsoft.Json.JsonConvert.DeserializeObject<GameManager>("{}");
-	// 	// a.Serialize()
-	// }
 }
 }
