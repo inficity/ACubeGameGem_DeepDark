@@ -16,7 +16,7 @@ public class NetworkUI : MonoBehaviour
 	{
 		Instance = this;
 		this.networkManager = this.GetComponent<NetworkManager>();
-		IP = "192.168.13.121";
+		IP = "192.168.13.91";
 		ShowReadyUI(false);
 		ShowReadyUI(false);
 
