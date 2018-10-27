@@ -65,9 +65,6 @@ namespace DeepDark
 
 			public List<int> negative;
 			public List<int> positive;
-
-			public List<int> enemyNegative;
-			public List<int> enemyPositive;
 		}
 
 		public class TurnActionMessage

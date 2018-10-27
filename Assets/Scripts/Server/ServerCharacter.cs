@@ -3,7 +3,7 @@ namespace DeepDark.Server
 {
 	public class ServerCharacter
 	{
-		private static int GlobalId = 0;
+		private static int GlobalId = 1;
 
 		public Card card { get; private set; }
 		public int Id { get; private set; }

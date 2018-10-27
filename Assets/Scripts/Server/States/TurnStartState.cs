@@ -13,17 +13,16 @@ namespace DeepDark.Server.States
 
 			NetworkServer.RegisterHandler(MsgType.Disconnect, this.__handle_DISCONNECT);
 
-			var firstPair = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId].fillHand(GameServer.Instance.GlobalPlayerGameSetting.Map[GameServer.Instance.FirstId]);
-			var secondPair = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.SecondId].fillHand(GameServer.Instance.GlobalPlayerGameSetting.Map[GameServer.Instance.SecondId]);
 			var currentTurnId = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId].Turn ? GameServer.Instance.FirstId : GameServer.Instance.SecondId;
+			var pair = GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId].fillHand(GameServer.Instance.GlobalPlayerGameSetting.Map[currentTurnId]);
 
 			foreach (var serverCharacter in GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId].Field)
 				serverCharacter.onTurnBegin(
 					GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId],
 					GameServer.Instance.GlobalPlayerGameState.Map[currentTurnId == GameServer.Instance.FirstId ? GameServer.Instance.SecondId : GameServer.Instance.FirstId]);
 
-			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.FirstId, firstPair.Key, firstPair.Value, secondPair.Key, secondPair.Value);
-			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.SecondId, secondPair.Key, secondPair.Value, firstPair.Key, firstPair.Value);
+			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.FirstId, currentTurnId == GameServer.Instance.FirstId ? pair.Key : new List<int>(), currentTurnId == GameServer.Instance.FirstId ? pair.Value : new List<int>());
+			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.SecondId, currentTurnId == GameServer.Instance.SecondId ? pair.Key : new List<int>(), currentTurnId == GameServer.Instance.SecondId ? pair.Value : new List<int>());
 
 			StateManager.Instance.makeTransition<States.TurnActionState>();
 		}
@@ -42,15 +41,13 @@ namespace DeepDark.Server.States
 			StateManager.Instance.makeTransition<States.ReadyState>();
 		}
 
-		private static void __sendMessage(int turnPlayerId, int playerId, List<int> negative, List<int> positive, List<int> enemyNegative, List<int> enemyPositive)
+		private static void __sendMessage(int turnPlayerId, int playerId, List<int> negative, List<int> positive)
 		{
 			var message = new Messages.TurnStartMessage();
 			message.clientId = turnPlayerId;
 			message.timeout = GameServer.Instance.GlobalPlayerGameSetting.Map[turnPlayerId].TurnTimeout;
 			message.negative = negative;
 			message.positive = positive;
-			message.enemyNegative = enemyNegative;
-			message.enemyPositive = enemyPositive;
 
 			GameServer.Instance.sendMessage(playerId, Messages.Type.TURN_START, message);
 		}
