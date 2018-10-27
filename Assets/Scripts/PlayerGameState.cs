@@ -14,6 +14,7 @@ namespace DeepDark
 		public Queue<Card> PositiveDeck { get; private set; }
 		public List<Card> NegativeHand { get; private set; }
 		public List<Card> PositiveHand { get; private set; }
+		public List<Card> Field { get; private set; }
 
 		public PlayerGameState(bool turn, PlayerGameSetting playerGameSetting)
 		{
@@ -24,10 +25,21 @@ namespace DeepDark
 			this.PositiveDeck = new Queue<Card>(playerGameSetting.PositiveDeck);
 			this.NegativeHand = new List<Card>();
 			this.PositiveHand = new List<Card>();
+			this.Field = new List<Card>();
 
 			playerGameSetting.shuffleDeck();
 
 			this.fillHand(playerGameSetting);
+		}
+
+		public void swapTurn()
+		{
+			this.Turn = !this.Turn;
+		}
+
+		public void addCost(int amount)
+		{
+			this.Cost += amount;
 		}
 		
 		public void fillHand(PlayerGameSetting playerGameSetting)
@@ -66,6 +78,28 @@ namespace DeepDark
 				}
 
 			return null;
+		}
+
+		public bool spawnCard(int cardId)
+		{
+			Card card;
+
+			var cardInfo = CardManager.GetCard(cardId);
+
+			if (cardInfo == null)
+				return false;
+
+			if (cardInfo.IsNegative)
+				card = this.removeNegativeCard(cardId);
+			else
+				card = this.removePositiveCard(cardId);
+
+			if (card == null)
+				return false;
+
+			this.Field.Add(card);
+
+			return true;
 		}
 	}
 }

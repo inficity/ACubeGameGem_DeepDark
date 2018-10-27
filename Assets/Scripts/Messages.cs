@@ -66,7 +66,6 @@ namespace DeepDark
 
 		public class TurnActionMessage
 		{
-			public int clientId;
 			public TurnAction turnAction;
 
 			//Attack
@@ -74,7 +73,7 @@ namespace DeepDark
 			public int damageeInstanceId;
 
 			//UseCard
-			public int id;
+			public int cardId;
 
 			//TurnEnd
 			//Empty.
