@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour {
 		var card = CardManager.GetCard(cardId);
 		playCard.Card = card;
 
+		Debug.Log($"SpawnCard {cardId} neg {card.IsNegative} ");
 		var imageReferer = CardImages.FirstOrDefault(c => c.CardId == cardId);
 		if (imageReferer != null)
 			playCard.Image.sprite = imageReferer.Sprite;
