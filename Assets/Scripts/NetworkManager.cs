@@ -52,7 +52,7 @@ namespace DeepDark
 		public ScheduledNotifier<Messages.GameStartMessage> onGameStartedNotifier = new ScheduledNotifier<Messages.GameStartMessage>();
 		public void onGameStarted(Messages.GameStartMessage message)
 		{
-			Debug.Log("onConGameStartMessagenected");
+			Debug.Log("onGameStarted");
 			onGameStartedNotifier.Report(message);
 		}
 

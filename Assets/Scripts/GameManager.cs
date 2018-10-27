@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using UniRx;
 
@@ -28,6 +29,9 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	public List<CardImageReferer> CardImages;
 
+	public Text OpCostText;
+	public Text MyCostText;
+
 	void Awake() {
 		DOTween.Init();
 		Instance = this;
@@ -35,6 +39,18 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(DirectionLoop());
+		
+		NetworkManager.Instance.onGameStartedNotifier
+		.Subscribe(msg => {
+			MyCostText.text = $"{msg.cost}";
+			OpCostText.text = $"{msg.enemyCost}";
+			msg.negativeHand.Concat(msg.positiveHand).ToObservable()
+				.Zip(Observable.Interval(TimeSpan.FromSeconds(0.6f))
+				, (id, _) => id)
+				.Subscribe(id => {
+					SpawnCard(id);
+				});
+		});
 	}
 
 	public void TestGame() {
@@ -42,7 +58,7 @@ public class GameManager : MonoBehaviour {
 		Observable.Interval(TimeSpan.FromSeconds(0.7f))
 			.Take(6)
 			.Subscribe(_ => {
-				SpawnCard(samples[Random.Range(0, samples.Count())], _ < 3);
+				SpawnCard(samples[Random.Range(0, samples.Count())]);
 			});
 	}
 
@@ -51,7 +67,7 @@ public class GameManager : MonoBehaviour {
 
 	List<PlayCard> PosHands = new List<PlayCard>();
 	List<PlayCard> NegHands = new List<PlayCard>();
-	void SpawnCard(int cardId, bool isPositive) {
+	void SpawnCard(int cardId) {
 		var cardInst = Object.Instantiate(Prefab);
 		var playCard = cardInst.GetComponent<PlayCard>();
 
@@ -67,7 +83,7 @@ public class GameManager : MonoBehaviour {
 		playCard.HP.text = $"<b>{card.HP}</b>";
 		playCard.Cost.text = $"<b>{card.Cost}</b>";
 
-		(isPositive ? PosHands : NegHands).Add(playCard);
+		(card.IsNegative ? NegHands : PosHands).Add(playCard);
 		playCard.transform.SetParent(MyPosHandPosition);
 		playCard.transform.localScale = Vector3.one;
 		AlignCards();
