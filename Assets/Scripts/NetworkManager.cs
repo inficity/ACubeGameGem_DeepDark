@@ -60,7 +60,7 @@ namespace DeepDark
 			onConnectionNotifier.Report(true);
 		}
 
-		int clientId;
+		public int clientId;
 		public ScheduledNotifier<Messages.GameStartMessage> onGameStartedNotifier = new ScheduledNotifier<Messages.GameStartMessage>();
 		public void onGameStarted(Messages.GameStartMessage message)
 		{

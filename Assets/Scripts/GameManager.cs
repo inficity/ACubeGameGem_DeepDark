@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour {
 		DOTween.Init();
 		Instance = this;
 	}
+
+
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(DirectionLoop());
@@ -54,22 +56,85 @@ public class GameManager : MonoBehaviour {
 				.Zip(Observable.Interval(TimeSpan.FromSeconds(0.6f))
 				, (id, _) => id)
 				.Subscribe(id => {
-					SpawnCard(id);
+					var card = SpawnCard(id);
+					(card.Card.IsNegative ? NegHands : PosHands).Add(card);
+					AlignCards();
 				});
 		});
 		NetworkManager.Instance.onTurnActionRespondedNotifier
 		.Subscribe(msg => {
+			if (msg.approved) {
+				if (pendingCard != null)
+					(pendingCard.Card.IsNegative ? NegHands : PosHands).Remove(pendingCard);
+			}
+			else {
+				pendingCard = null;
+				AlignCards();
+			}
 			waitActionResponse = false;
 		});
+		NetworkManager.Instance.onTurnActionEventNotifier
+		.SelectMany(msg => {
+			switch (msg.turnActionEvent)
+			{
+				case TurnActionEvent.Instantiated:
+				{
+					if (pendingCard != null && pendingCard.Card.Id == msg.cardId)
+					{
+						pendingCard.IsCharacterCard = true;
+						pendingCard.InstanceId = msg.instanceId;
+						pendingCard.SetHP(msg.hp);
+						pendingCard.SetAttack(msg.attack);
+						(msg.clientId == NetworkManager.Instance.clientId ? MyCharacters : OpCharacters)
+							.Add(pendingCard);
+						pendingCard = null;
+						AlignCards();
+						return Observable.Timer(TimeSpan.FromSeconds(0.6)).ToAwaitableEnumerator();
+					}
+					else
+					{
+						return Observable.Timer(TimeSpan.FromSeconds(0)).ToAwaitableEnumerator();
+					}
+				}
+				break;
+				case TurnActionEvent.HPChanged:
+				{
+					
+				}
+				break;
+				case TurnActionEvent.CharacterHPChanged:
+				{
+					
+				}
+				break;
+				case TurnActionEvent.Destroyed:
+				{
+					
+				}
+				break;
+				case TurnActionEvent.BuffAttached:
+				{
+					
+				}
+				break;
+				case TurnActionEvent.BuffRemoved:
+				{
+					
+				}
+				break;
+			}
+			return Observable.Timer(TimeSpan.FromSeconds(0.6)).ToAwaitableEnumerator();
+		})
+		.Subscribe(_ => {});
 	}
 
 	public void TestGame() {
-		var samples = new int[]{101, 102, 103, 301, 302, 303};
-		Observable.Interval(TimeSpan.FromSeconds(0.7f))
-			.Take(6)
-			.Subscribe(_ => {
-				SpawnCard(samples[Random.Range(0, samples.Count())]);
-			});
+		// var samples = new int[]{101, 102, 103, 301, 302, 303};
+		// Observable.Interval(TimeSpan.FromSeconds(0.7f))
+		// 	.Take(6)
+		// 	.Subscribe(_ => {
+		// 		SpawnCard(samples[Random.Range(0, samples.Count())]);
+		// 	});
 	}
 
 	List<PlayCard> OpCharacters = new List<PlayCard>();
@@ -77,7 +142,8 @@ public class GameManager : MonoBehaviour {
 
 	List<PlayCard> PosHands = new List<PlayCard>();
 	List<PlayCard> NegHands = new List<PlayCard>();
-	void SpawnCard(int cardId) {
+
+	PlayCard SpawnCard(int cardId) {
 		var cardInst = Object.Instantiate(Prefab);
 		var playCard = cardInst.GetComponent<PlayCard>();
 
@@ -95,10 +161,10 @@ public class GameManager : MonoBehaviour {
 		playCard.Cost.text = $"<b>{card.Cost}</b>";
 		playCard.Glow.color = card.IsNegative ? Color.red : Color.blue;
 
-		(card.IsNegative ? NegHands : PosHands).Add(playCard);
 		playCard.transform.SetParent(MyPosHandPosition);
 		playCard.transform.localScale = Vector3.one;
-		AlignCards();
+
+		return playCard;
 	}
 
 	Queue<IEnumerator> DirectionQueue = new Queue<IEnumerator>();
@@ -168,9 +234,11 @@ public class GameManager : MonoBehaviour {
 	}}
 
 	bool waitActionResponse;
+	PlayCard pendingCard;
 	public void UseCard(PlayCard card) {
 		if (waitActionResponse) return;
 		waitActionResponse = true;
+		pendingCard = card;
 		NetworkManager.Instance.sendUseCard(card.Card.Id);
 	}
 

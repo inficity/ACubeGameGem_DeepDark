@@ -19,6 +19,23 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public Image Glow;
 	public bool IsCharacterCard;
 	public int InstanceId;
+
+	public int _HP;
+	public int _Attack;
+	public int _Power;
+
+	public void SetHP(int hp)
+	{
+		HP.text = $"<b>{hp}</b>";
+	}
+	public void SetAttack(int attack)
+	{
+		// HP.text = $"<b>hp</b>";
+	}
+	public void SetPower(int power)
+	{
+		Power.text = $"<b>{power}</b>";
+	}
 	
 	bool Dragging;
 	public void OnBeginDrag(PointerEventData eventData) {
