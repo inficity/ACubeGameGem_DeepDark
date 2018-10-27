@@ -25,9 +25,10 @@ namespace DeepDark.Server.States
 
 			var firstPair = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId].fillHand(GameServer.Instance.GlobalPlayerGameSetting.Map[GameServer.Instance.FirstId]);
 			var secondPair = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.SecondId].fillHand(GameServer.Instance.GlobalPlayerGameSetting.Map[GameServer.Instance.SecondId]);
+			var currentTurnId = GameServer.Instance.GlobalPlayerGameState.Map[GameServer.Instance.FirstId].Turn ? GameServer.Instance.FirstId : GameServer.Instance.SecondId;
 
-			TurnStartState.__sendMessage(GameServer.Instance.FirstId, firstPair.Key, firstPair.Value, secondPair.Key, secondPair.Value);
-			TurnStartState.__sendMessage(GameServer.Instance.SecondId, secondPair.Key, secondPair.Value, firstPair.Key, firstPair.Value);
+			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.FirstId, firstPair.Key, firstPair.Value, secondPair.Key, secondPair.Value);
+			TurnStartState.__sendMessage(currentTurnId, GameServer.Instance.SecondId, secondPair.Key, secondPair.Value, firstPair.Key, firstPair.Value);
 
 			StateManager.Instance.makeTransition<States.TurnActionState>();
 		}
@@ -46,11 +47,11 @@ namespace DeepDark.Server.States
 			StateManager.Instance.makeTransition<States.ReadyState>();
 		}
 
-		private static void __sendMessage(int playerId, List<int> negative, List<int> positive, List<int> enemyNegative, List<int> enemyPositive)
+		private static void __sendMessage(int turnPlayerId, int playerId, List<int> negative, List<int> positive, List<int> enemyNegative, List<int> enemyPositive)
 		{
 			var message = new Messages.TurnStartMessage();
-			message.clientId = playerId;
-			message.timeout = GameServer.Instance.GlobalPlayerGameSetting.Map[playerId].TurnTimeout;
+			message.clientId = turnPlayerId;
+			message.timeout = GameServer.Instance.GlobalPlayerGameSetting.Map[turnPlayerId].TurnTimeout;
 			message.negative = negative;
 			message.positive = positive;
 			message.enemyNegative = enemyNegative;
