@@ -8,6 +8,7 @@ namespace DeepDark.Server
 	{
 		public int HP { get; private set; }
 		public int Cost { get; private set; }
+		public int TurnTimeout { get; private set; }
 		public int MaxNegativeHand { get; private set; }
 		public int MaxPositiveHand { get; private set; }
 		public List<Card> NegativeDeck { get; private set; }
@@ -16,6 +17,7 @@ namespace DeepDark.Server
 		public PlayerGameSetting(
 			int hp,
 			int cost,
+			int turnTimeout,
 			int initNegativeHand,
 			int initPositiveHand,
 			int maxNegativeHand,
@@ -23,8 +25,12 @@ namespace DeepDark.Server
 		{
 			this.HP = hp;
 			this.Cost = cost;
+			this.TurnTimeout = turnTimeout;
 			this.MaxNegativeHand = maxNegativeHand;
 			this.MaxPositiveHand = maxPositiveHand;
+
+			if (this.TurnTimeout < 1)
+				this.TurnTimeout = 1;
 
 			if (this.MaxNegativeHand < 1)
 				this.MaxNegativeHand = 1;

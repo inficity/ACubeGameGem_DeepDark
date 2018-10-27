@@ -1,15 +1,17 @@
 ﻿
+using System.Collections.Generic;
+
 namespace DeepDark
 {
 	public class Global<T> where T : class
 	{
-		public T Top { get; private set; }
-		public T Bottom { get; private set; }
+		public Dictionary<int, T> Map { get; private set; }
 
-		public Global(T top, T bottom)
+		public Global(int firstId, int secondId, T first, T second)
 		{
-			this.Top = top;
-			this.Bottom = bottom;
+			this.Map = new Dictionary<int, T>();
+			this.Map[firstId] = first;
+			this.Map[secondId] = second;
 		}
 	}
 }

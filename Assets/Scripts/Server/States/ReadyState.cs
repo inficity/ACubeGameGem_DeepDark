@@ -1,4 +1,5 @@
 ﻿
+using System.Linq;
 using System.Collections.Generic;
 
 using UnityEngine.Networking;
@@ -11,6 +12,11 @@ namespace DeepDark.Server.States
 
 		public void start()
 		{
+			UnityEngine.Debug.Log("ReadyState.start");
+
+			foreach (var id in NetworkServer.connections)
+				this.readyMap[id.connectionId] = false;
+
 			NetworkServer.RegisterHandler(MsgType.Connect, this.__handle_CONNECT);
 			NetworkServer.RegisterHandler(MsgType.Disconnect, this.__handle_DISCONNECT);
 			NetworkServer.RegisterHandler(Messages.Type.READY, this.__handle_READY);
@@ -45,6 +51,12 @@ namespace DeepDark.Server.States
 			foreach (var pair in this.readyMap)
 				if (!pair.Value)
 					return;
+
+			var id =
+				(from pair in this.readyMap
+				 select pair.Key).ToList();
+
+			GameServer.Instance.readyPlayer(id[0], id[1]);
 
 			StateManager.Instance.makeTransition<GameStartState>();
 		}

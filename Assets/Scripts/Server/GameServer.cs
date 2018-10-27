@@ -1,6 +1,5 @@
 ﻿
-using DeepDark.Client;
-
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace DeepDark.Server
@@ -9,6 +8,8 @@ namespace DeepDark.Server
 	{
 		public static GameServer Instance { get; private set; }
 
+		public int FirstId { get; private set; }
+		public int SecondId { get; private set; }
 		public Global<PlayerGameSetting> GlobalPlayerGameSetting { get; private set; }
 		public Global<PlayerGameState> GlobalPlayerGameState { get; private set; }
 
@@ -17,23 +18,6 @@ namespace DeepDark.Server
 		public GameServer()
 		{
 			GameServer.Instance = this;
-
-			this.GlobalPlayerGameSetting = new Global<PlayerGameSetting>(
-				new PlayerGameSetting(
-					hp:					30,
-					cost:				0,
-					initNegativeHand:	3,
-					initPositiveHand:	3,
-					maxNegativeHand:	3,
-					maxPositiveHand:	3),
-
-				new PlayerGameSetting(
-					hp:					30,
-					cost:				0,
-					initNegativeHand:	3,
-					initPositiveHand:	3,
-					maxNegativeHand:	3,
-					maxPositiveHand:	3));
 
 			this.stateManager = new StateManager();
 			this.stateManager.makeTransition<States.ReadyState>();
@@ -49,12 +33,50 @@ namespace DeepDark.Server
 			NetworkServer.SendToAll(messageType, json);
 		}
 
-		public void sendMessage<T>(NetworkConnection connection, short messageType, T message)
+		public void sendMessage<T>(int playerId, short messageType, T message)
 		{
 			var json = new Messages.JSONMessage();
 			json.from(message);
 
-			NetworkServer.SendToClient(connection.connectionId, messageType, json);
+			NetworkServer.SendToClient(playerId, messageType, json);
+		}
+
+		public void readyPlayer(int firstId, int secondId)
+		{
+			this.FirstId = firstId;
+			this.SecondId = secondId;
+		}
+
+		public void startGame()
+		{
+			this.GlobalPlayerGameSetting = new Global<PlayerGameSetting>(
+				this.FirstId,
+				this.SecondId,
+				new PlayerGameSetting(
+					hp: 30,
+					cost: 0,
+					turnTimeout: 30,
+					initNegativeHand: 3,
+					initPositiveHand: 3,
+					maxNegativeHand: 3,
+					maxPositiveHand: 3),
+
+				new PlayerGameSetting(
+					hp: 30,
+					cost: 0,
+					turnTimeout: 30,
+					initNegativeHand: 3,
+					initPositiveHand: 3,
+					maxNegativeHand: 3,
+					maxPositiveHand: 3));
+
+			var firstFirst = Random.Range(0, 2) == 1;
+
+			this.GlobalPlayerGameState = new Global<PlayerGameState>(
+				this.FirstId,
+				this.SecondId,
+				new PlayerGameState(firstFirst, this.GlobalPlayerGameSetting.Map[this.FirstId]),
+				new PlayerGameState(!firstFirst, this.GlobalPlayerGameSetting.Map[this.SecondId]));
 		}
 	}
 }
