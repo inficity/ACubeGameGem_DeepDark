@@ -479,6 +479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 308782258}
   - component: {fileID: 308782259}
+  - component: {fileID: 308782260}
   m_Layer: 5
   m_Name: GameManager
   m_TagString: Untagged
@@ -537,6 +538,18 @@ MonoBehaviour:
   MyCostText: {fileID: 201860788}
   OpHpText: {fileID: 1608341166}
   MyHpText: {fileID: 1791894375}
+--- !u!114 &308782260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 308782257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 646192a0909304780a69c4014a29cf46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 1188870828}
 --- !u!1 &353828161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,7 +1641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1188870829
 RectTransform:
   m_ObjectHideFlags: 0
