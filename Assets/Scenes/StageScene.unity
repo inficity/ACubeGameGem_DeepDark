@@ -1399,7 +1399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConnectionUI: {fileID: 1804508697}
-  ReadyUI: {fileID: 0}
+  ReadyUI: {fileID: 1458437731}
 --- !u!114 &1188870831
 MonoBehaviour:
   m_ObjectHideFlags: 0
