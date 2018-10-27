@@ -20,6 +20,9 @@ namespace DeepDark
 				card.Power = 2;
 				card.HP = 2;
 				card.IsNegative = true;
+				card.OnUseCard = (me, op) => {
+					op.spawnCard(card.Id);
+				};
 				Cards.Add(card.Id, card);
 			}
 			{
@@ -31,6 +34,9 @@ namespace DeepDark
 				card.Power = 2;
 				card.HP = 2;
 				card.IsNegative = true;
+				card.OnUseCard = (me, op) => {
+					op.spawnCard(card.Id);
+				};
 				Cards.Add(card.Id, card);
 			}
 			{
@@ -42,6 +48,9 @@ namespace DeepDark
 				card.Power = 2;
 				card.HP = 2;
 				card.IsNegative = true;
+				card.OnUseCard = (me, op) => {
+					op.spawnCard(card.Id);
+				};
 				Cards.Add(card.Id, card);
 			}
 
@@ -55,6 +64,9 @@ namespace DeepDark
 				card.Power = 2;
 				card.HP = 2;
 				card.IsNegative = false;
+				card.OnUseCard = (me, op) => {
+					me.spawnCard(card.Id);
+				};
 				Cards.Add(card.Id, card);
 			}
 			{
@@ -66,6 +78,9 @@ namespace DeepDark
 				card.Power = 2;
 				card.HP = 2;
 				card.IsNegative = false;
+				card.OnUseCard = (me, op) => {
+					me.spawnCard(card.Id);
+				};
 				Cards.Add(card.Id, card);
 			}
 			{
@@ -77,6 +92,9 @@ namespace DeepDark
 				card.Power = 2;
 				card.HP = 2;
 				card.IsNegative = false;
+				card.OnUseCard = (me, op) => {
+					me.spawnCard(card.Id);
+				};
 				Cards.Add(card.Id, card);
 			}
 		}
