@@ -39,9 +39,10 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(DirectionLoop());
-		
+
 		NetworkManager.Instance.onGameStartedNotifier
 		.Subscribe(msg => {
+			NetworkUI.Instance.gameObject.SetActive(false);
 			MyCostText.text = $"{msg.cost}";
 			OpCostText.text = $"{msg.enemyCost}";
 			msg.negativeHand.Concat(msg.positiveHand).ToObservable()

@@ -464,6 +464,8 @@ MonoBehaviour:
     Sprite: {fileID: 21300000, guid: d9bc5f323788c4c619e271456b1b67f3, type: 3}
   - CardId: 303
     Sprite: {fileID: 21300000, guid: 8712fa9c8952347e38e69d41cf54822c, type: 3}
+  OpCostText: {fileID: 804261558}
+  MyCostText: {fileID: 201860788}
 --- !u!1 &353828161
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +475,7 @@ GameObject:
   m_Component:
   - component: {fileID: 353828162}
   m_Layer: 5
-  m_Name: OpMana
+  m_Name: OpCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -965,7 +967,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1010244713}
   m_Layer: 5
-  m_Name: MyMana
+  m_Name: MyCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1378,7 +1380,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1188870829
 RectTransform:
   m_ObjectHideFlags: 0
