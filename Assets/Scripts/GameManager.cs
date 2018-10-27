@@ -315,6 +315,8 @@ public class GameManager : MonoBehaviour {
 	public void EndTurn() {
 		if (waitActionResponse) return;
 		waitActionResponse = true;
+		pendingCard = null;
+		NetworkManager.Instance.sendEndTurn();
 	}
 	
 }

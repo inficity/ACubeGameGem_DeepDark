@@ -53,6 +53,14 @@ namespace DeepDark
 			msg.cardId = id;
 			gameClient.sendMessage(Messages.Type.TURN_ACTION, msg);
 		}
+		public void sendEndTurn()
+		{
+			if (gameClient == null) return;
+			Debug.Log("send End turn");
+			var msg = new Messages.TurnActionMessage();
+			msg.turnAction = TurnAction.TurnEnd;
+			gameClient.sendMessage(Messages.Type.TURN_ACTION, msg);
+		}
 
 		public void onDisconnected()
 		{
