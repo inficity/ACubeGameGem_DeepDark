@@ -49,15 +49,11 @@ namespace DeepDark
 
 			public int hp;
 			public int cost;
-			public List<int> negativeDeck;
-			public List<int> positiveDeck;
 			public List<int> negativeHand;
 			public List<int> positiveHand;
 
 			public int enemyHP;
 			public int enemyCost;
-			public List<int> enemyNegativeDeck;
-			public List<int> enemyPositiveDeck;
 			public List<int> enemyNegativeHand;
 			public List<int> enemyPositiveHand;
 		}

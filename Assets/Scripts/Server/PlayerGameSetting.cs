@@ -37,6 +37,9 @@ namespace DeepDark.Server
 
 			if (this.MaxPositiveHand < 1)
 				this.MaxPositiveHand = 1;
+
+			this.NegativeDeck = CardManager.GetAllNegativeCards();
+			this.PositiveDeck = CardManager.GetAllPositiveCards();
 		}
 
 		public void shuffleDeck()
