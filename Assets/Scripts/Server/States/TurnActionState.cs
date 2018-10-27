@@ -70,6 +70,12 @@ namespace DeepDark.Server.States
 
 						this.__sendStateChangedMessage(enemyState.Id, enemyState);
 						this.__sendCharacterStateChangedMessage(damager);
+
+						if (enemyState.HP < 1)
+						{
+							this.__sendGameEndMessage(networkMessage.conn.connectionId);
+							StateManager.Instance.makeTransition<ReadyState>();
+						}
 					}
 					break;
 				case TurnAction.AttackCharacter:
@@ -192,6 +198,14 @@ namespace DeepDark.Server.States
 			message.attack = serverCharacter.AttackChance;
 
 			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+		}
+
+		private void __sendGameEndMessage(int winner)
+		{
+			var message = new Messages.GameEndMessage();
+			message.winner = winner;
+
+			GameServer.Instance.sendMessage(Messages.Type.GAME_END, message);
 		}
 	}
 }
