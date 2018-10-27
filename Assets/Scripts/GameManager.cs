@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+
+namespace DeepDark.Client
+{
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
@@ -22,7 +25,7 @@ public class GameManager : MonoBehaviour {
 		card.transform.DOMove(MyHandPosition.position, 3).SetEase(Ease.InBounce);
 	}
 
-	public void UseCard(Card card) {
+	public void UseCard(PlayCard card) {
 		Debug.Log("asdasd");
 	}
 	
@@ -39,4 +42,5 @@ public class GameManager : MonoBehaviour {
 		Newtonsoft.Json.JsonConvert.DeserializeObject<GameManager>("{}");
 		// a.Serialize()
 	}
+}
 }
