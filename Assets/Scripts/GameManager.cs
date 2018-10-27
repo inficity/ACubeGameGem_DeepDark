@@ -204,7 +204,7 @@ public class GameManager : MonoBehaviour {
 							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);
 							Timer(0.6f, () => {
 								OpCharacters.Remove(card);
-								GameObject.Destroy(card);
+								GameObject.Destroy(card.gameObject);
 								close();
 							});
 						});
@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour {
 							card.transform.DOScale(Vector3.one * 0.1f, 0.5f);
 							Timer(0.6f, () => {
 								MyCharacters.Remove(card);
-								GameObject.Destroy(card);
+								GameObject.Destroy(card.gameObject);
 								close();
 							});
 						});
