@@ -53,7 +53,7 @@ namespace DeepDark.Server
 				this.FirstId,
 				this.SecondId,
 				new PlayerGameSetting(
-					hp: 1,
+					hp: 30,
 					cost: 0,
 					turnTimeout: 30,
 					initNegativeHand: 3,
@@ -62,7 +62,7 @@ namespace DeepDark.Server
 					maxPositiveHand: 3),
 
 				new PlayerGameSetting(
-					hp: 1,
+					hp: 30,
 					cost: 0,
 					turnTimeout: 30,
 					initNegativeHand: 3,

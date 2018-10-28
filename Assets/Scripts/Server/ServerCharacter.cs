@@ -55,7 +55,7 @@ namespace DeepDark.Server
 				return false;
 
 			this.HP -= serverCharacter.Power + extraAmount;
-			serverCharacter.HP -= this.HP;
+			serverCharacter.HP -= this.Power;
 
 			return true;
 		}
