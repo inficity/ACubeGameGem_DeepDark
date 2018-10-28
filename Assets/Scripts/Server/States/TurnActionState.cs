@@ -175,6 +175,7 @@ namespace DeepDark.Server.States
 						state.addCost(-card.Cost);
 
 					this.__sendResponseMessage(networkMessage.conn.connectionId, true);
+					this.__sendCardUsedMessage(networkMessage.conn.connectionId, card.Id);
 					this.__sendStateChangedMessage(networkMessage.conn.connectionId, state);
 
 					if (card.IsNegative)
@@ -195,6 +196,16 @@ namespace DeepDark.Server.States
 			message.approved = approved;
 
 			GameServer.Instance.sendMessage(playerId, Messages.Type.TURN_ACTION_RESPONSE, message);
+		}
+
+		private void __sendCardUsedMessage(int playerId, int cardId)
+		{
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.CardUsed;
+			message.playerId = playerId;
+			message.cardId = cardId;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
 		}
 
 		private void __sendDestroyedMessage(ServerCharacter serverCharacter)

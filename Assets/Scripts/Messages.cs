@@ -94,8 +94,12 @@ namespace DeepDark
 		{
 			public TurnActionEvent turnActionEvent;
 
-			//PlayerDamaged
+			//CardUsed
 			public int playerId;
+			public int cardId;
+
+			//PlayerDamaged
+			///public int playerId;
 			public int instanceId;
 
 			//CharacterDamaged
@@ -113,7 +117,7 @@ namespace DeepDark
 			public int attack;
 
 			//Instantiated
-			public int cardId;
+			///public int cardId;
 			///public int instanceId;
 			///public int hp;
 			public int power;
