@@ -19,7 +19,7 @@ namespace DeepDark.Server.States
 			var secondFaceId = Random.Range(0, 5);
 
 			GameStartState.__sendMessage(GameServer.Instance.FirstId, firstFaceId, secondFaceId);
-			GameStartState.__sendMessage(GameServer.Instance.SecondId, secondFaceId, secondFaceId);
+			GameStartState.__sendMessage(GameServer.Instance.SecondId, secondFaceId, firstFaceId);
 
 			StateManager.Instance.makeTransition<States.TurnStartState>();
 		}
