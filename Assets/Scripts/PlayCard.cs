@@ -142,12 +142,12 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 						d.gameObject.SetActive(false);
 					});
 			});
-		Debug.Log("OnPointerEnter");
+		// Debug.Log("OnPointerEnter");
 	}
     public void OnPointerExit(PointerEventData eventData)
 	{
 		++PointerEnterExitCount;
-		Debug.Log("OnPointerExit");
+		// Debug.Log("OnPointerExit");
 	}
 
 }
