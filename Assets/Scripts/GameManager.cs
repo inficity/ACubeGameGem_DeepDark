@@ -180,10 +180,11 @@ public class GameManager : MonoBehaviour {
 				{
 					var attacker = MyCharacters.Concat(OpCharacters).FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (attacker == null) return;
-					var pos = msg.playerId == NetworkManager.Instance.clientId ? MyCharacterPosition : OpCharacterPosition;
+					var pos = (msg.playerId == NetworkManager.Instance.clientId ? MyCharacterPosition : OpCharacterPosition).position;
 					var oldPos = attacker.transform.position;
+					pos = pos + (oldPos - pos).normalized * 100;
 					AddDirection(true, close => {
-						attacker.transform.DOMove(pos.position, 0.4f).SetEase(Ease.InBounce);
+						attacker.transform.DOMove(pos, 0.4f).SetEase(Ease.InBounce);
 						Timer(0.3f, () => {
 							attacker.transform.DOMove(oldPos, 0.3f);
 							close();
@@ -196,9 +197,11 @@ public class GameManager : MonoBehaviour {
 					var attacker = MyCharacters.Concat(OpCharacters).FirstOrDefault(c => c.InstanceId == msg.instanceIdDamager);
 					var attackee = MyCharacters.Concat(OpCharacters).FirstOrDefault(c => c.InstanceId == msg.instanceIdDamagee);
 					if (attacker == null || attackee == null) return;
+					var pos = attackee.transform.position;
+					var oldPos = attacker.transform.position;
+					pos = pos + (oldPos - pos).normalized * 100;
 					AddDirection(true, close => {
-						var oldPos = attacker.transform.position;
-						attacker.transform.DOMove(attackee.transform.position, 0.4f).SetEase(Ease.InBounce);
+						attacker.transform.DOMove(pos, 0.4f).SetEase(Ease.InBounce);
 						Timer(0.3f, () => {
 							attacker.transform.DOMove(oldPos, 0.3f);
 							close();
