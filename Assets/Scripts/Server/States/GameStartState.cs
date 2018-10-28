@@ -18,6 +18,9 @@ namespace DeepDark.Server.States
 			var firstFaceId = Random.Range(0, 5);
 			var secondFaceId = Random.Range(0, 5);
 
+			while (firstFaceId == secondFaceId)
+				secondFaceId = Random.Range(0, 5);
+
 			GameStartState.__sendMessage(GameServer.Instance.FirstId, firstFaceId, secondFaceId);
 			GameStartState.__sendMessage(GameServer.Instance.SecondId, secondFaceId, firstFaceId);
 
