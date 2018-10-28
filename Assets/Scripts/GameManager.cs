@@ -400,6 +400,9 @@ public class GameManager : MonoBehaviour {
 				WinUI.transform.DORotate(new Vector3(0, 0, 720), 5, RotateMode.LocalAxisAdd);
 				WinUI.transform.localScale = Vector3.zero;
 				WinUI.transform.DOScale(Vector3.one, 5);
+					
+				GetComponent<AudioSource>().clip = WinBGM;
+				GetComponent<AudioSource>().Play();
 			}
 			else
 			{
@@ -407,6 +410,8 @@ public class GameManager : MonoBehaviour {
 				LoseUI.transform.DORotate(new Vector3(0, 0, 720), 5, RotateMode.LocalAxisAdd);
 				LoseUI.transform.localScale = Vector3.zero;
 				LoseUI.transform.DOScale(Vector3.one, 5);
+				GetComponent<AudioSource>().clip = LoseBGM;
+				GetComponent<AudioSource>().Play();
 			}
 		});
 	}
