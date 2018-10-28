@@ -338,7 +338,7 @@ public class GameManager : MonoBehaviour {
 				{
 					Debug.Log($"add buff {msg.playerId} {msg.buffName}");
 					var buffs = msg.playerId == NetworkManager.Instance.clientId ? MeBuffs : OpBuffs;
-					var emptyBuff = buffs.FirstOrDefault(b => !b.active);
+					var emptyBuff = buffs.FirstOrDefault(b => !b.activeSelf);
 					if (emptyBuff != null)
 					{
 						emptyBuff.SetActive(true);
@@ -356,7 +356,7 @@ public class GameManager : MonoBehaviour {
 				{
 					Debug.Log($"remove buff {msg.playerId} {msg.buffName}");
 					var buffs = msg.playerId == NetworkManager.Instance.clientId ? MeBuffs : OpBuffs;
-					var emptyBuff = buffs.FirstOrDefault(b => b.active && b.GetComponentInChildren<Text>().text == msg.buffName);
+					var emptyBuff = buffs.FirstOrDefault(b => b.activeSelf && b.GetComponentInChildren<Text>().text == $"<b>{msg.buffName}</b>");
 					if (emptyBuff != null)
 					{
 						AddDirection(true, close => {
