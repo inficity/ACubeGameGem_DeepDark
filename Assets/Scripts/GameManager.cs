@@ -182,9 +182,10 @@ public class GameManager : MonoBehaviour {
 					if (attacker == null) return;
 					var pos = msg.playerId == NetworkManager.Instance.clientId ? MyCharacterPosition : OpCharacterPosition;
 					AddDirection(true, close => {
-						var tw = attacker.transform.DOMove(pos.position, 0.3f).SetEase(Ease.InBounce);
+						var oldPos = attacker.transform.position;
+						attacker.transform.DOMove(pos.position, 0.4f).SetEase(Ease.InBounce);
 						Timer(0.3f, () => {
-							tw.Rewind();
+							attacker.transform.DOMove(oldPos, 0.3f);
 							close();
 						});
 					});
@@ -196,9 +197,10 @@ public class GameManager : MonoBehaviour {
 					var attackee = MyCharacters.Concat(OpCharacters).FirstOrDefault(c => c.InstanceId == msg.instanceIdDamagee);
 					if (attacker == null || attackee == null) return;
 					AddDirection(true, close => {
-						var tw = attacker.transform.DOMove(attackee.transform.position, 0.3f).SetEase(Ease.InBounce);
+						var oldPos = attacker.transform.position;
+						attacker.transform.DOMove(attackee.transform.position, 0.4f).SetEase(Ease.InBounce);
 						Timer(0.3f, () => {
-							tw.Rewind();
+							attacker.transform.DOMove(oldPos, 0.3f);
 							close();
 						});
 					});
