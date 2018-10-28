@@ -332,6 +332,7 @@ public class GameManager : MonoBehaviour {
 				break;
 				case TurnActionEvent.BuffAttached:
 				{
+					Debug.Log($"add buff {msg.buffName}");
 					var buffs = msg.playerId == NetworkManager.Instance.clientId ? MeBuffs : OpBuffs;
 					var emptyBuff = buffs.FirstOrDefault(b => !b.active);
 					if (emptyBuff != null)
@@ -349,6 +350,7 @@ public class GameManager : MonoBehaviour {
 				break;
 				case TurnActionEvent.BuffRemoved:
 				{
+					Debug.Log($"remove buff {msg.buffName}");
 					var buffs = msg.playerId == NetworkManager.Instance.clientId ? MeBuffs : OpBuffs;
 					var emptyBuff = buffs.FirstOrDefault(b => b.active && b.GetComponentInChildren<Text>().text == msg.buffName);
 					if (emptyBuff != null)
