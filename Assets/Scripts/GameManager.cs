@@ -63,6 +63,14 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	public List<GameObject> MeBuffs;
 
+	public AudioClip LobbyBGM;
+	public AudioClip GameBGM;
+	public AudioClip WinBGM;
+	public AudioClip LoseBGM;
+	public AudioClip AttackClip;
+	public AudioClip DrawClip;
+	public AudioClip HealClip;
+
 	void Awake() {
 		DOTween.Init();
 		Instance = this;
@@ -86,6 +94,8 @@ public class GameManager : MonoBehaviour {
 
 		NetworkManager.Instance.onGameStartedNotifier
 		.Subscribe(msg => {
+			GetComponent<AudioSource>().clip = GameBGM;
+			GetComponent<AudioSource>().Play();
 			NetworkUI.Instance.gameObject.SetActive(false);
 			WinUI.SetActive(false);
 			LoseUI.SetActive(false);
@@ -98,6 +108,7 @@ public class GameManager : MonoBehaviour {
 			msg.negativeHand.Concat(msg.positiveHand).ToObservable()
 				.Subscribe(id => {
 					AddDirection(true, close => {
+						GetComponent<AudioSource>().PlayOneShot(DrawClip);
 						var card = SpawnCard(id);
 						(card.Card.IsNegative ? NegHands : PosHands).Add(card);
 						AlignCards();
@@ -112,6 +123,7 @@ public class GameManager : MonoBehaviour {
 				.Subscribe(id => {
 					Debug.Log($"draw card {id}");
 					AddDirection(true, close => {
+						GetComponent<AudioSource>().PlayOneShot(DrawClip);
 						var card = SpawnCard(id);
 						(card.Card.IsNegative ? NegHands : PosHands).Add(card);
 						AlignCards();
@@ -198,6 +210,7 @@ public class GameManager : MonoBehaviour {
 						if (dmg > 0)
 						{
 							AddDirection(true, close => {
+								GetComponent<AudioSource>().PlayOneShot(AttackClip);
 								DmgEffect.transform.position = MyDmgPos.position;
 								DmgText.text = $"{dmg}";
 								DmgEffect.SetActive(true);
@@ -218,6 +231,7 @@ public class GameManager : MonoBehaviour {
 						if (dmg > 0)
 						{
 							AddDirection(true, close => {
+								GetComponent<AudioSource>().PlayOneShot(AttackClip);
 								DmgEffect.transform.position = OpDmgPos.position;
 								DmgText.text = $"{dmg}";
 								DmgEffect.SetActive(true);
@@ -228,6 +242,10 @@ public class GameManager : MonoBehaviour {
 									close();
 								});
 							});
+						}
+						else
+						{
+							GetComponent<AudioSource>().PlayOneShot(HealClip);
 						}
 					}
 				}
@@ -242,6 +260,7 @@ public class GameManager : MonoBehaviour {
 						{
 							// 데미지
 							AddDirection(true, close => {
+								GetComponent<AudioSource>().PlayOneShot(AttackClip);
 								var dmg = card._HP - msg.hp;
 								DmgEffect.transform.position = card.transform.position;
 								DmgText.text = $"{dmg}";
@@ -273,6 +292,7 @@ public class GameManager : MonoBehaviour {
 						{
 							// 데미지
 							AddDirection(true, close => {
+								GetComponent<AudioSource>().PlayOneShot(AttackClip);
 								var dmg = card._HP - msg.hp;
 								DmgEffect.transform.position = card.transform.position;
 								DmgText.text = $"{dmg}";
