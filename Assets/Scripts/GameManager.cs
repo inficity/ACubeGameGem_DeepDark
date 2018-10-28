@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour {
 					var card = SpawnCard(msg.cardId);
 					card.transform.position = OpUseCardFrom.transform.position;
 					AddDirection(true, close => {
-						card.transform.DOMove(OpUseCardTo.transform.transform, 0.5f);
+						card.transform.DOMove(OpUseCardTo.transform.position, 0.5f);
 						card.transform.DOScale(Vector3.one * 1.3f, 0.5f);
 						Timer(1.5f, close);
 					});

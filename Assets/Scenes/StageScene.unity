@@ -798,6 +798,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 52dfe69386d754399b8000014899bd2d, type: 3}
   MyPortrait: {fileID: 1748455225}
   OpPortrait: {fileID: 683531796}
+  OpUseCardFrom: {fileID: 587985826}
+  OpUseCardTo: {fileID: 1572756460}
 --- !u!114 &308782260
 MonoBehaviour:
   m_ObjectHideFlags: 0
