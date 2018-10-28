@@ -17,6 +17,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public Text Power;
 	public Text HP;
 	public Text Cost;
+	public Text Effect;
 	public Image Glow;
 	public bool IsCharacterCard;
 	public int InstanceId;
@@ -135,6 +136,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 				d.SetHP(_HP);
 				d.Glow.color = Glow.color;
 				d.Image.sprite = Image.sprite;
+				d.Effect.text = Card.Effect;
 				Observable.Interval(System.TimeSpan.FromSeconds(0.5f)).StartWith(0)
 					.TakeWhile(a => t == PointerEnterExitCount)
 					.Last()

@@ -57,11 +57,20 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject WinUI;
 	public GameObject LoseUI;
+	public GameObject MyTurnLogo;
 
 	[SerializeField]
 	public List<GameObject> OpBuffs;
 	[SerializeField]
 	public List<GameObject> MeBuffs;
+
+	public AudioClip LobbyBGM;
+	public AudioClip GameBGM;
+	public AudioClip WinBGM;
+	public AudioClip LoseBGM;
+	public AudioClip AttackClip;
+	public AudioClip DrawClip;
+	public AudioClip HealClip;
 
 	void Awake() {
 		DOTween.Init();
@@ -80,12 +89,15 @@ public class GameManager : MonoBehaviour {
 
 		PunchEnd.SetActive(false);
 		DmgEffect.SetActive(false);
+		MyTurnLogo.SetActive(false);
 		DetailCard.gameObject.SetActive(false);
 		OpBuffs.Concat(MeBuffs).ToObservable()
 			.Subscribe(buff => buff.SetActive(false));
 
 		NetworkManager.Instance.onGameStartedNotifier
 		.Subscribe(msg => {
+			GetComponent<AudioSource>().clip = GameBGM;
+			GetComponent<AudioSource>().Play();
 			NetworkUI.Instance.gameObject.SetActive(false);
 			WinUI.SetActive(false);
 			LoseUI.SetActive(false);
@@ -98,6 +110,7 @@ public class GameManager : MonoBehaviour {
 			msg.negativeHand.Concat(msg.positiveHand).ToObservable()
 				.Subscribe(id => {
 					AddDirection(true, close => {
+						GetComponent<AudioSource>().PlayOneShot(DrawClip);
 						var card = SpawnCard(id);
 						(card.Card.IsNegative ? NegHands : PosHands).Add(card);
 						AlignCards();
@@ -107,11 +120,14 @@ public class GameManager : MonoBehaviour {
 		});
 		NetworkManager.Instance.onTurnStartedNotifier
 		.Subscribe(msg => {
-			var obj = (msg.clientId == NetworkManager.Instance.clientId) ? MyTurn : OpTurn;
+			var isMyTurn = msg.clientId == NetworkManager.Instance.clientId;
+			var obj = isMyTurn ? MyTurn : OpTurn;
+			MyTurnLogo.SetActive(isMyTurn);
 			msg.negative.Concat(msg.positive).ToObservable()
 				.Subscribe(id => {
 					Debug.Log($"draw card {id}");
 					AddDirection(true, close => {
+						GetComponent<AudioSource>().PlayOneShot(DrawClip);
 						var card = SpawnCard(id);
 						(card.Card.IsNegative ? NegHands : PosHands).Add(card);
 						AlignCards();
@@ -198,6 +214,7 @@ public class GameManager : MonoBehaviour {
 						if (dmg > 0)
 						{
 							AddDirection(true, close => {
+								GetComponent<AudioSource>().PlayOneShot(AttackClip);
 								DmgEffect.transform.position = MyDmgPos.position;
 								DmgText.text = $"{dmg}";
 								DmgEffect.SetActive(true);
@@ -218,6 +235,7 @@ public class GameManager : MonoBehaviour {
 						if (dmg > 0)
 						{
 							AddDirection(true, close => {
+								GetComponent<AudioSource>().PlayOneShot(AttackClip);
 								DmgEffect.transform.position = OpDmgPos.position;
 								DmgText.text = $"{dmg}";
 								DmgEffect.SetActive(true);
@@ -228,6 +246,10 @@ public class GameManager : MonoBehaviour {
 									close();
 								});
 							});
+						}
+						else
+						{
+							GetComponent<AudioSource>().PlayOneShot(HealClip);
 						}
 					}
 				}
@@ -242,6 +264,7 @@ public class GameManager : MonoBehaviour {
 						{
 							// 데미지
 							AddDirection(true, close => {
+								GetComponent<AudioSource>().PlayOneShot(AttackClip);
 								var dmg = card._HP - msg.hp;
 								DmgEffect.transform.position = card.transform.position;
 								DmgText.text = $"{dmg}";
@@ -273,6 +296,7 @@ public class GameManager : MonoBehaviour {
 						{
 							// 데미지
 							AddDirection(true, close => {
+								GetComponent<AudioSource>().PlayOneShot(AttackClip);
 								var dmg = card._HP - msg.hp;
 								DmgEffect.transform.position = card.transform.position;
 								DmgText.text = $"{dmg}";
@@ -380,6 +404,9 @@ public class GameManager : MonoBehaviour {
 				WinUI.transform.DORotate(new Vector3(0, 0, 720), 5, RotateMode.LocalAxisAdd);
 				WinUI.transform.localScale = Vector3.zero;
 				WinUI.transform.DOScale(Vector3.one, 5);
+					
+				GetComponent<AudioSource>().clip = WinBGM;
+				GetComponent<AudioSource>().Play();
 			}
 			else
 			{
@@ -387,6 +414,8 @@ public class GameManager : MonoBehaviour {
 				LoseUI.transform.DORotate(new Vector3(0, 0, 720), 5, RotateMode.LocalAxisAdd);
 				LoseUI.transform.localScale = Vector3.zero;
 				LoseUI.transform.DOScale(Vector3.one, 5);
+				GetComponent<AudioSource>().clip = LoseBGM;
+				GetComponent<AudioSource>().Play();
 			}
 		});
 	}
