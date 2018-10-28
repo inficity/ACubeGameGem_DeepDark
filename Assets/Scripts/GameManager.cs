@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour {
 				case TurnActionEvent.CardUsed:
 				{
 					if (msg.playerId == NetworkManager.Instance.clientId) return;
-					if ((cardId / 100) % 2 != 0) return;
+					if ((msg.cardId / 100) % 2 != 0) return;
 					var card = SpawnCard(msg.cardId);
 					card.transform.position = OpUseCardFrom.transform.position;
 					AddDirection(true, close => {
