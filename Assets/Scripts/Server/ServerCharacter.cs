@@ -49,12 +49,13 @@ namespace DeepDark.Server
 			return true;
 		}
 
-		public bool damagedBy(ServerCharacter serverCharacter)
+		public bool damagedBy(ServerCharacter serverCharacter, int extraAmount = 0)
 		{
 			if (!serverCharacter.attack())
 				return false;
 
-			this.HP -= serverCharacter.Power;
+			this.HP -= serverCharacter.Power + extraAmount;
+			serverCharacter.HP -= this.HP;
 
 			return true;
 		}
