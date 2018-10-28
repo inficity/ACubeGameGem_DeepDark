@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject WinUI;
 	public GameObject LoseUI;
+	public GameObject MyTurnLogo;
 
 	[SerializeField]
 	public List<GameObject> OpBuffs;
@@ -88,6 +89,7 @@ public class GameManager : MonoBehaviour {
 
 		PunchEnd.SetActive(false);
 		DmgEffect.SetActive(false);
+		MyTurnLogo.SetActive(false);
 		DetailCard.gameObject.SetActive(false);
 		OpBuffs.Concat(MeBuffs).ToObservable()
 			.Subscribe(buff => buff.SetActive(false));
@@ -118,7 +120,9 @@ public class GameManager : MonoBehaviour {
 		});
 		NetworkManager.Instance.onTurnStartedNotifier
 		.Subscribe(msg => {
-			var obj = (msg.clientId == NetworkManager.Instance.clientId) ? MyTurn : OpTurn;
+			var isMyTurn = msg.clientId == NetworkManager.Instance.clientId;
+			var obj = isMyTurn ? MyTurn : OpTurn;
+			MyTurnLogo.SetActive(isMyTurn);
 			msg.negative.Concat(msg.positive).ToObservable()
 				.Subscribe(id => {
 					Debug.Log($"draw card {id}");
