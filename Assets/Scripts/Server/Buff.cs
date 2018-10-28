@@ -15,6 +15,7 @@ namespace DeepDark.Server
 		{
 			this.Name = name;
 			this.Duration = duration;
+			this.Tag = new HashSet<string>();
 		}
 
 		public void addTag(string tag)
