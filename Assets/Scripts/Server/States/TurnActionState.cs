@@ -96,7 +96,7 @@ namespace DeepDark.Server.States
 						var damager = state.findServerCharacter(message.damagerInstanceId);
 						var damagee = enemyState.findServerCharacter(message.damageeInstanceId);
 
-						if (enemyState.haveTag("invinciblecat") && damagee.card.Id == 402)
+						if (enemyState.haveTag("invinciblecat") && damagee.card.Id == 306)
 						{
 							if (!damagee.damagedBy(damager, 0))
 							{
