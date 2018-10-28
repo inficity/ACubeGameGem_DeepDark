@@ -135,6 +135,7 @@ namespace DeepDark
 				card.Id = 107;
 				card.Name = "회장";
 				card.Description = "70세 / 병자 코스프레 말기 환자.";
+				card.Effect = "직장 선배를 2명 소환한다.";
 				card.Cost = 20;
 				card.Power = 15;
 				card.HP = 6;
@@ -156,6 +157,7 @@ namespace DeepDark
 				card.Id = 201;
 				card.Name = "저주받은 수녀";
 				card.Description = "억울한 죽음을 당한 수녀. [공포]";
+				card.Effect = "사용자가 한턴간 아무 행동도 할 수 없다.";
 				card.Cost = 3;
 				card.Power = 0;
 				card.HP = 0;
@@ -177,6 +179,7 @@ namespace DeepDark
 				card.Id = 202;
 				card.Name = "야근";
 				card.Description = "오늘도 새벽까지 야근이다……";
+				card.Effect = "사용자 체력 -3";
 				card.Cost = 2;
 				card.Power = 0;
 				card.HP = 0;
@@ -196,6 +199,7 @@ namespace DeepDark
 				card.Id = 203;
 				card.Name = "임금 체불";
 				card.Description = "내돈은 어디로… 벌써 3달 째다.";
+				card.Effect = "사용자 체력 -6";
 				card.Cost = 4;
 				card.Power = 0;
 				card.HP = 0;
@@ -215,6 +219,7 @@ namespace DeepDark
 				card.Id = 204;
 				card.Name = "알 수 없는 버그";
 				card.Description = "게임을 만들었는데 왜 안되는거니? 너란 버그 어디있는거니?";
+				card.Effect = "사용자에게 5턴간 체력 -1";
 				card.Cost = 4;
 				card.Power = 0;
 				card.HP = 0;
@@ -240,6 +245,7 @@ namespace DeepDark
 				card.Id = 205;
 				card.Name = "갑질 고객";
 				card.Description = "세상에 또라이는 많고, 그 또라이들은 다 나와 엮인다.";
+				card.Effect = "2턴간 사용자에게 공격 집중";
 				card.Cost = 5;
 				card.Power = 0;
 				card.HP = 0;
@@ -267,6 +273,7 @@ namespace DeepDark
 				card.Id = 206;
 				card.Name = "상사의 갈굼";
 				card.Description = "눼, 즤승합늬다……!";
+				card.Effect = "사용자가 데미지를 30% 추가로 받는다.";
 				card.Cost = 5;
 				card.Power = 0;
 				card.HP = 0;
@@ -288,6 +295,7 @@ namespace DeepDark
 				card.Id = 207;
 				card.Name = "권고 사직";
 				card.Description = "XX씨, 자네가 일을 잘하는거 아는데, 회사가 어려워서…";
+				card.Effect = "사용자 코스트 -10, 사용자 2턴간 체력 -5";
 				card.Cost = 7;
 				card.Power = 0;
 				card.HP = 0;
@@ -392,6 +400,7 @@ namespace DeepDark
 				card.Id = 305;
 				card.Name = "강아지(웰시코기)";
 				card.Description = "2살 / 커엽다, 빵댕이, 하악….♥";
+				card.Effect = "등장부터 공격 가능, 2번 공격";
 				card.Cost = 10;
 				card.Power = 5;
 				card.HP = 5;
@@ -449,6 +458,7 @@ namespace DeepDark
 				card.Id = 401;
 				card.Name = "여행";
 				card.Description = "푸르른 바다, 찬란한 햇살, 아, 좋다.";
+				card.Effect = "사용자 체력 +8";
 				card.Cost = 7;
 				card.Power = 0;
 				card.HP = 0;
@@ -465,6 +475,7 @@ namespace DeepDark
 				card.Id = 402;
 				card.Name = "게임";
 				card.Description = "푸슝 푸슝 푸시~융~";
+				card.Effect = "사용자 2턴간 무적";
 				card.Cost = 8;
 				card.Power = 0;
 				card.HP = 0;
@@ -483,6 +494,7 @@ namespace DeepDark
 				card.Id = 403;
 				card.Name = "데이트";
 				card.Description = "핑크 빛 찬란한 나날이다.";
+				card.Effect = "사용자 3턴 동안 체력 +2";
 				card.Cost = 8;
 				card.Power = 0;
 				card.HP = 0;
@@ -505,6 +517,7 @@ namespace DeepDark
 				card.Id = 404;
 				card.Name = "음악";
 				card.Description = "Music Is My Life";
+				card.Effect = "사용자가 네거티브 카드 하나를 방어";
 				card.Cost = 10;
 				card.Power = 0;
 				card.HP = 0;
@@ -523,6 +536,7 @@ namespace DeepDark
 				card.Id = 405;
 				card.Name = "보너스";
 				card.Description = "월급 X2";
+				card.Effect = "사용자 2턴간 체력 +5";
 				card.Cost = 12;
 				card.Power = 0;
 				card.HP = 0;
@@ -545,6 +559,7 @@ namespace DeepDark
 				card.Id = 406;
 				card.Name = "월급입금확인";
 				card.Description = "오늘은 금요일! 불금이다!!";
+				card.Effect = "사용자의 하수인 3턴간 공격력 +2";
 				card.Cost = 20;
 				card.Power = 0;
 				card.HP = 0;
@@ -563,6 +578,7 @@ namespace DeepDark
 				card.Id = 407;
 				card.Name = "덕질";
 				card.Description = "아… 미쿠짱… 하악";
+				card.Effect = "상대방의 하수인 2개를 데려옴";
 				card.Cost = 15;
 				card.Power = 0;
 				card.HP = 0;
