@@ -71,6 +71,9 @@ public class GameManager : MonoBehaviour {
 	public AudioClip AttackClip;
 	public AudioClip DrawClip;
 	public AudioClip HealClip;
+	public Sprite[] Portraits;
+	public Image MyPortrait;
+	public Image OpPortrait;
 
 	void Awake() {
 		DOTween.Init();
@@ -107,6 +110,8 @@ public class GameManager : MonoBehaviour {
 			OpHp = msg.enemyHP;
 			MyHpText.text = $"{msg.hp}";
 			OpHpText.text = $"{msg.enemyHP}";
+			MyPortrait.sprite = Portraits[msg.faceId];
+			OpPortrait.sprite = Portraits[msg.faceId];
 			msg.negativeHand.Concat(msg.positiveHand).ToObservable()
 				.Subscribe(id => {
 					AddDirection(true, close => {

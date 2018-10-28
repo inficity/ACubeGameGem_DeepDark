@@ -790,6 +790,14 @@ MonoBehaviour:
   AttackClip: {fileID: 8300000, guid: 87c24168c4ebd4f0ab7887c0230b96f4, type: 3}
   DrawClip: {fileID: 8300000, guid: be69b9a4edcf940f1beb18c3141c22f6, type: 3}
   HealClip: {fileID: 8300000, guid: 0d47719a0e8864e6fbdb4086d2754ce4, type: 3}
+  Portraits:
+  - {fileID: 21300000, guid: 017011eb8c9f042b7b09f706ecc5efd1, type: 3}
+  - {fileID: 21300000, guid: 4e7b4d5aa6dad4a9a892c795b679e01b, type: 3}
+  - {fileID: 21300000, guid: bb88baf60c8f54b5a904cf5721a78938, type: 3}
+  - {fileID: 21300000, guid: f6c485d0f57e54321b3f8f6025830d4c, type: 3}
+  - {fileID: 21300000, guid: 52dfe69386d754399b8000014899bd2d, type: 3}
+  MyPortrait: {fileID: 1748455225}
+  OpPortrait: {fileID: 683531796}
 --- !u!114 &308782260
 MonoBehaviour:
   m_ObjectHideFlags: 0
