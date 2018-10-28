@@ -58,6 +58,11 @@ public class GameManager : MonoBehaviour {
 	public GameObject WinUI;
 	public GameObject LoseUI;
 
+	[SerializeField]
+	public List<GameObject> OpBuffs;
+	[SerializeField]
+	public List<GameObject> MeBuffs;
+
 	void Awake() {
 		DOTween.Init();
 		Instance = this;
@@ -76,6 +81,8 @@ public class GameManager : MonoBehaviour {
 		PunchEnd.SetActive(false);
 		DmgEffect.SetActive(false);
 		DetailCard.gameObject.SetActive(false);
+		OpBuffs.Concat(MeBuffs).ToObservable()
+			.Subscribe(buff => buff.SetActive(false));
 
 		NetworkManager.Instance.onGameStartedNotifier
 		.Subscribe(msg => {
@@ -325,12 +332,36 @@ public class GameManager : MonoBehaviour {
 				break;
 				case TurnActionEvent.BuffAttached:
 				{
-					
+					var buffs = msg.playerId == NetworkManager.Instance.clientId ? MeBuffs : OpBuffs;
+					var emptyBuff = buffs.FirstOrDefault(b => !b.active);
+					if (emptyBuff != null)
+					{
+						emptyBuff.SetActive(true);
+						emptyBuff.GetComponentInChildren<Text>().text = $"<b>{msg.buffName}</b>";
+						emptyBuff.transform.localScale = Vector3.zero;
+						AddDirection(true, close => {
+							emptyBuff.transform.DOScale(Vector3.one, 0.5f);
+							emptyBuff.transform.DOShakeRotation(0.5f, 90, 20);
+							Timer(0.5f, close);
+						});
+					}
 				}
 				break;
 				case TurnActionEvent.BuffRemoved:
 				{
-					
+					var buffs = msg.playerId == NetworkManager.Instance.clientId ? MeBuffs : OpBuffs;
+					var emptyBuff = buffs.FirstOrDefault(b => b.active && b.GetComponentInChildren<Text>().text == msg.buffName);
+					if (emptyBuff != null)
+					{
+						AddDirection(true, close => {
+							emptyBuff.transform.DOScale(Vector3.zero, 0.5f);
+							emptyBuff.transform.DOShakeRotation(0.5f, 90, 20);
+							Timer(0.5f, () => {
+								emptyBuff.SetActive(false);
+								close();
+							});
+						});
+					}
 				}
 				break;
 			}
