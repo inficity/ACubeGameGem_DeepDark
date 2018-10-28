@@ -249,6 +249,8 @@ public class GameManager : MonoBehaviour {
 								DmgEffect.transform.DOShakePosition(0.6f);
 								GameUI.transform.DOShakePosition(0.4f, 30, 30);
 								Timer(0.8f, () => {
+									card.SetHP(msg.hp);
+									card.SetAttack(msg.attack);
 									DmgEffect.SetActive(false);
 									close();
 								});
@@ -278,6 +280,8 @@ public class GameManager : MonoBehaviour {
 								DmgEffect.transform.DOShakePosition(0.6f);
 								GameUI.transform.DOShakePosition(0.4f, 30, 30);
 								Timer(0.8f, () => {
+									card.SetHP(msg.hp);
+									card.SetAttack(msg.attack);
 									DmgEffect.SetActive(false);
 									close();
 								});
@@ -332,9 +336,9 @@ public class GameManager : MonoBehaviour {
 				break;
 				case TurnActionEvent.BuffAttached:
 				{
-					Debug.Log($"add buff {msg.buffName}");
+					Debug.Log($"add buff {msg.playerId} {msg.buffName}");
 					var buffs = msg.playerId == NetworkManager.Instance.clientId ? MeBuffs : OpBuffs;
-					var emptyBuff = buffs.FirstOrDefault(b => !b.active);
+					var emptyBuff = buffs.FirstOrDefault(b => !b.activeSelf);
 					if (emptyBuff != null)
 					{
 						emptyBuff.SetActive(true);
@@ -350,9 +354,9 @@ public class GameManager : MonoBehaviour {
 				break;
 				case TurnActionEvent.BuffRemoved:
 				{
-					Debug.Log($"remove buff {msg.buffName}");
+					Debug.Log($"remove buff {msg.playerId} {msg.buffName}");
 					var buffs = msg.playerId == NetworkManager.Instance.clientId ? MeBuffs : OpBuffs;
-					var emptyBuff = buffs.FirstOrDefault(b => b.active && b.GetComponentInChildren<Text>().text == msg.buffName);
+					var emptyBuff = buffs.FirstOrDefault(b => b.activeSelf && b.GetComponentInChildren<Text>().text == $"<b>{msg.buffName}</b>");
 					if (emptyBuff != null)
 					{
 						AddDirection(true, close => {
