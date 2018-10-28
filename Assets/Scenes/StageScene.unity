@@ -1299,6 +1299,31 @@ Prefab:
       propertyPath: Effect
       value: 
       objectReference: {fileID: 1754682790}
+    - target: {fileID: 114544435346739418, guid: f838034f5a1c44b29a09110bacf548ba,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114835781303356254, guid: f838034f5a1c44b29a09110bacf548ba,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114757128332812264, guid: f838034f5a1c44b29a09110bacf548ba,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114865055368353232, guid: f838034f5a1c44b29a09110bacf548ba,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114079257936647862, guid: f838034f5a1c44b29a09110bacf548ba,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f838034f5a1c44b29a09110bacf548ba, type: 2}
   m_IsPrefabAsset: 0
@@ -5282,7 +5307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
