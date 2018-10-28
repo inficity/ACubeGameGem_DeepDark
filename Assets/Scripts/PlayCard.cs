@@ -17,6 +17,7 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public Text Power;
 	public Text HP;
 	public Text Cost;
+	public Text Effect;
 	public Image Glow;
 	public bool IsCharacterCard;
 	public int InstanceId;
