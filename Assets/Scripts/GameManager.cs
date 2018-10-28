@@ -181,8 +181,8 @@ public class GameManager : MonoBehaviour {
 					var attacker = MyCharacters.Concat(OpCharacters).FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (attacker == null) return;
 					var pos = msg.playerId == NetworkManager.Instance.clientId ? MyCharacterPosition : OpCharacterPosition;
+					var oldPos = attacker.transform.position;
 					AddDirection(true, close => {
-						var oldPos = attacker.transform.position;
 						attacker.transform.DOMove(pos.position, 0.4f).SetEase(Ease.InBounce);
 						Timer(0.3f, () => {
 							attacker.transform.DOMove(oldPos, 0.3f);
