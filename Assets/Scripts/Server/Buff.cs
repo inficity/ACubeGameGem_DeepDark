@@ -35,6 +35,8 @@ namespace DeepDark.Server
 
 		public bool ended(int playerId)
 		{
+			--this.Duration;
+
 			if (this.Duration < 1)
 			{
 				var message = new Messages.TurnActionEventMessage();
@@ -46,8 +48,6 @@ namespace DeepDark.Server
 
 				return true;
 			}
-
-			--this.Duration;
 
 			return false;
 		}
