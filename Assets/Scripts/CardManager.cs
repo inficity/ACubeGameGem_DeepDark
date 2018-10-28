@@ -255,7 +255,7 @@ namespace DeepDark
 						me.sendChangedMessage();
 					}
 
-					var buff = new Buff("도박", 2);
+					var buff = new Buff("도발", 2);
 					buff.addTag("aggro");
 
 					me.addBuff(buff);
