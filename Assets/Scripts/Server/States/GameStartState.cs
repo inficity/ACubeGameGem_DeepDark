@@ -1,6 +1,7 @@
 ﻿
 using System.Linq;
 
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace DeepDark.Server.States
@@ -41,6 +42,7 @@ namespace DeepDark.Server.States
 			var message = new Messages.GameStartMessage();
 
 			message.clientId = playerId;
+			message.faceId = Random.Range(0, 5);
 			message.firstTurn = state.Turn;
 
 			message.hp = state.HP;

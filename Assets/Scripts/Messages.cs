@@ -45,6 +45,7 @@ namespace DeepDark
 		public class GameStartMessage
 		{
 			public int clientId;
+			public int faceId;
 			public bool firstTurn;
 
 			public int hp;
