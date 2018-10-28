@@ -3,6 +3,7 @@ namespace DeepDark
 {
 	public enum TurnActionEvent
 	{
+		CardUsed,
 		PlayerDamaged,
 		CharacterDamaged,
 		StateChanged,
