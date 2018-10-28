@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour {
 	public Sprite[] Portraits;
 	public Image MyPortrait;
 	public Image OpPortrait;
+	public GameObject OpUseCardFrom;
+	public GameObject OpUseCardTo;
 
 	void Awake() {
 		DOTween.Init();
@@ -176,11 +178,31 @@ public class GameManager : MonoBehaviour {
 		.Subscribe(msg => {
 			switch (msg.turnActionEvent)
 			{
+				case TurnActionEvent.CardUsed:
+				{
+					if (msg.playerId == NetworkManager.Instance.clientId) return;
+					var card = SpawnCard(msg.cardId);
+					card.transform.position = OpUseCardFrom.transform.position;
+					AddDirection(true, close => {
+						card.transform.DOMove(OpUseCardTo.transform.transform, 0.5f);
+						card.transform.DOScale(Vector3.one * 1.3f, 0.5f);
+						Timer(1.5f, close);
+					});
+					AddDirection(true, close => {
+						card.transform.DOScale(Vector3.zero, 0.3f);
+						card.transform.DORotate(new Vector3(0, 0, 720), 0.3f, RotateMode.LocalAxisAdd);
+						Timer(0.3f, () => {
+							GameObject.Destroy(card.gameObject);
+							close();
+						});
+					});
+				}
+				break;
 				case TurnActionEvent.PlayerDamaged:
 				{
 					var attacker = MyCharacters.Concat(OpCharacters).FirstOrDefault(c => c.InstanceId == msg.instanceId);
 					if (attacker == null) return;
-					var pos = (msg.playerId == NetworkManager.Instance.clientId ? MyCharacterPosition : OpCharacterPosition).position;
+					var pos = (msg.playerId == NetworkManager.Instance.clientId ? MyDmgPos : OpDmgPos).position;
 					var oldPos = attacker.transform.position;
 					pos = pos + (oldPos - pos).normalized * 250;
 					AddDirection(true, close => {
