@@ -136,7 +136,10 @@ public class PlayCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 				d.SetHP(_HP);
 				d.Glow.color = Glow.color;
 				d.Image.sprite = Image.sprite;
-				d.Effect.text = Card.Effect;
+				if (d.Effect != null)
+				{
+					d.Effect.text = Card?.Effect == null ? "" : Card.Effect;
+				}
 				Observable.Interval(System.TimeSpan.FromSeconds(0.5f)).StartWith(0)
 					.TakeWhile(a => t == PointerEnterExitCount)
 					.Last()
