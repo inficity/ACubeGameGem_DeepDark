@@ -3,6 +3,8 @@ using DeepDark.Server;
 
 using System.Collections.Generic;
 
+using UnityEngine;
+
 namespace DeepDark
 {
 	public class PlayerGameState
@@ -43,6 +45,12 @@ namespace DeepDark
 
 		public void addHP(int amount)
 		{
+			if (this.haveTag("+30%") && amount < 0)
+				amount = (int)(amount * 1.3);
+
+			if (this.haveTag("invincible"))
+				amount = 0;
+
 			this.HP += amount;
 		}
 
@@ -139,6 +147,24 @@ namespace DeepDark
 			return serverCharacter;
 		}
 
+		public ServerCharacter spawnCard(ServerCharacter serverCharacter)
+		{
+			this.Field.Add(serverCharacter);
+
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.Instantiated;
+			message.playerId = this.Id;
+			message.cardId = serverCharacter.card.Id;
+			message.instanceId = serverCharacter.Id;
+			message.hp = serverCharacter.HP;
+			message.power = serverCharacter.Power;
+			message.attack = serverCharacter.AttackChance;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+
+			return serverCharacter;
+		}
+
 		public ServerCharacter findServerCharacter(int instanceId)
 		{
 			foreach (var serverCharacter in this.Field)
@@ -151,6 +177,22 @@ namespace DeepDark
 		public void removeServerCharacter(ServerCharacter serverCharacter)
 		{
 			this.Field.Remove(serverCharacter);
+		}
+
+		public ServerCharacter destroyServerCharacterRandom()
+		{
+			var index = Random.Range(0, this.Field.Count);
+			var serverCharacter = this.Field[index];
+
+			this.Field.RemoveAt(index);
+
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.Destroyed;
+			message.instanceId = serverCharacter.Id;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+
+			return serverCharacter;
 		}
 
 		public void addBuff(Buff buff)

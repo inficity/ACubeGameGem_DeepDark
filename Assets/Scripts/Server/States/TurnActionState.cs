@@ -47,11 +47,17 @@ namespace DeepDark.Server.States
 				return;
 			}
 
+			if (message.turnAction != TurnAction.TurnEnd && state.haveTag("freeze"))
+			{
+				this.__sendResponseMessage(networkMessage.conn.connectionId, false);
+				return;
+			}
+
 			switch (message.turnAction)
 			{
 				case TurnAction.AttackPlayer:
 					{
-						if (enemyState.Field.Count != 0)
+						if (!enemyState.haveTag("aggro") && enemyState.Field.Count != 0)
 						{
 							this.__sendResponseMessage(networkMessage.conn.connectionId, false);
 							return;
@@ -65,7 +71,7 @@ namespace DeepDark.Server.States
 							return;
 						}
 
-						enemyState.addHP(-damager.Power);
+						enemyState.addHP(-damager.Power - (state.haveTag("+2") ? 2 : 0));
 						this.__sendResponseMessage(networkMessage.conn.connectionId, true);
 
 						this.__sendStateChangedMessage(enemyState.Id, enemyState);
@@ -80,10 +86,16 @@ namespace DeepDark.Server.States
 					break;
 				case TurnAction.AttackCharacter:
 					{
+						if (enemyState.haveTag("aggro"))
+						{
+							this.__sendResponseMessage(networkMessage.conn.connectionId, false);
+							return;
+						}
+
 						var damager = state.findServerCharacter(message.damagerInstanceId);
 						var damagee = enemyState.findServerCharacter(message.damageeInstanceId);
 
-						if (!damagee.damagedBy(damager))
+						if (!damagee.damagedBy(damager, state.haveTag("+2") ? 2 : 0))
 						{
 							this.__sendResponseMessage(networkMessage.conn.connectionId, false);
 							return;
@@ -93,6 +105,12 @@ namespace DeepDark.Server.States
 
 						this.__sendCharacterStateChangedMessage(damager);
 						this.__sendCharacterStateChangedMessage(damagee);
+
+						if (damager.HP < 1)
+						{
+							enemyState.removeServerCharacter(damager);
+							this.__sendDestroyedMessage(damager);
+						}
 
 						if (damagee.HP < 1)
 						{
