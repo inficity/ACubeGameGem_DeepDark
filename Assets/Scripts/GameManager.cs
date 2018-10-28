@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour {
 								GameObject.Destroy(pendingCard.gameObject);
 							});						
 						});
+						AlignCards();
 					}
 				}
 			}
@@ -175,6 +176,34 @@ public class GameManager : MonoBehaviour {
 		.Subscribe(msg => {
 			switch (msg.turnActionEvent)
 			{
+				case TurnActionEvent.PlayerDamaged:
+				{
+					var attacker = MyCharacters.Concat(OpCharacters).FirstOrDefault(c => c.InstanceId == msg.instanceId);
+					if (attacker == null) return;
+					var pos = msg.playerId == NetworkManager.Instance.clientId ? MyCharacterPosition : OpCharacterPosition;
+					AddDirection(true, close => {
+						var tw = attacker.transform.DOMove(pos.position, 0.3f).SetEase(Ease.InBounce);
+						Timer(0.3f, () => {
+							tw.Rewind();
+							close();
+						});
+					});
+				}
+				break;
+				case TurnActionEvent.CharacterDamaged:
+				{
+					var attacker = MyCharacters.Concat(OpCharacters).FirstOrDefault(c => c.InstanceId == msg.instanceIdDamager);
+					var attackee = MyCharacters.Concat(OpCharacters).FirstOrDefault(c => c.InstanceId == msg.instanceIdDamagee);
+					if (attacker == null || attackee == null) return;
+					AddDirection(true, close => {
+						var tw = attacker.transform.DOMove(attackee.transform.position, 0.3f).SetEase(Ease.InBounce);
+						Timer(0.3f, () => {
+							tw.Rewind();
+							close();
+						});
+					});
+				}
+				break;
 				case TurnActionEvent.Instantiated:
 				{
 					if (pendingCard != null && pendingCard.Card.Id == msg.cardId)
