@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour {
 					if (attacker == null) return;
 					var pos = (msg.playerId == NetworkManager.Instance.clientId ? MyCharacterPosition : OpCharacterPosition).position;
 					var oldPos = attacker.transform.position;
-					pos = pos + (oldPos - pos).normalized * 100;
+					pos = pos + (oldPos - pos).normalized * 250;
 					AddDirection(true, close => {
 						attacker.transform.DOMove(pos, 0.4f).SetEase(Ease.InBounce);
 						Timer(0.3f, () => {
@@ -199,7 +199,7 @@ public class GameManager : MonoBehaviour {
 					if (attacker == null || attackee == null) return;
 					var pos = attackee.transform.position;
 					var oldPos = attacker.transform.position;
-					pos = pos + (oldPos - pos).normalized * 100;
+					pos = pos + (oldPos - pos).normalized * 250;
 					AddDirection(true, close => {
 						attacker.transform.DOMove(pos, 0.4f).SetEase(Ease.InBounce);
 						Timer(0.3f, () => {
