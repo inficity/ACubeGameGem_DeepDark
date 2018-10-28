@@ -420,12 +420,18 @@ namespace DeepDark
 				card.Id = 306;
 				card.Name = "고양이(검은고양이)";
 				card.Description = "1살 / 뽀시래기, 귀엽지 않았다면 벌써 죽었다.";
+				card.Effect = "2턴간 무적";
 				card.Cost = 10;
 				card.Power = 8;
 				card.HP = 3;
 				card.IsNegative = false;
 				card.OnUseCard = (me, op) =>
 				{
+					var buff = new Buff("무적고양이", 2);
+					buff.addTag("invinciblecat");
+
+					me.addBuff(buff);
+
 					me.spawnCard(card.Id);
 				};
 				card.OnBeginTurn = (serverChar, me, op) =>
