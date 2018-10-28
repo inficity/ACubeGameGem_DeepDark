@@ -74,6 +74,7 @@ namespace DeepDark.Server.States
 						this.__sendResponseMessage(networkMessage.conn.connectionId, true);
 						enemyState.addHP(-damager.Power - (state.haveTag("+2") ? 2 : 0));
 
+						this.__sendPlayerDamagedMessage(enemyState.Id, message.damagerInstanceId);
 						this.__sendStateChangedMessage(enemyState.Id, enemyState);
 						this.__sendCharacterStateChangedMessage(damager);
 
@@ -111,6 +112,7 @@ namespace DeepDark.Server.States
 
 						this.__sendResponseMessage(networkMessage.conn.connectionId, true);
 
+						this.__sendCharacterDamagedMessage(message.damageeInstanceId, message.damagerInstanceId);
 						this.__sendCharacterStateChangedMessage(damager);
 						this.__sendCharacterStateChangedMessage(damagee);
 
@@ -200,6 +202,26 @@ namespace DeepDark.Server.States
 			var message = new Messages.TurnActionEventMessage();
 			message.turnActionEvent = TurnActionEvent.Destroyed;
 			message.instanceId = serverCharacter.Id;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+		}
+
+		private void __sendPlayerDamagedMessage(int playerId, int damagerId)
+		{
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.PlayerDamaged;
+			message.playerId = playerId;
+			message.instanceId = damagerId;
+
+			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
+		}
+
+		private void __sendCharacterDamagedMessage(int damageeId, int damagerId)
+		{
+			var message = new Messages.TurnActionEventMessage();
+			message.turnActionEvent = TurnActionEvent.CharacterDamaged;
+			message.instanceIdDamager = damagerId;
+			message.instanceIdDamagee = damageeId;
 
 			GameServer.Instance.sendMessage(Messages.Type.TURN_ACTION_EVENT, message);
 		}

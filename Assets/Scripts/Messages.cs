@@ -93,14 +93,22 @@ namespace DeepDark
 		public class TurnActionEventMessage
 		{
 			public TurnActionEvent turnActionEvent;
-			
-			//StateChanged
+
+			//PlayerDamaged
 			public int playerId;
+			public int instanceId;
+
+			//CharacterDamaged
+			public int instanceIdDamager;
+			public int instanceIdDamagee;
+
+			//StateChanged
+			///public int playerId;
 			public int hp;
 			public int cost;
 
 			//CharacterStateChanged
-			public int instanceId;
+			///public int instanceId;
 			///public int hp;
 			public int attack;
 
