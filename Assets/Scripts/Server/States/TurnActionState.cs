@@ -71,8 +71,8 @@ namespace DeepDark.Server.States
 							return;
 						}
 
-						enemyState.addHP(-damager.Power - (state.haveTag("+2") ? 2 : 0));
 						this.__sendResponseMessage(networkMessage.conn.connectionId, true);
+						enemyState.addHP(-damager.Power - (state.haveTag("+2") ? 2 : 0));
 
 						this.__sendStateChangedMessage(enemyState.Id, enemyState);
 						this.__sendCharacterStateChangedMessage(damager);
