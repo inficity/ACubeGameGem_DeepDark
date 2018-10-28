@@ -123,7 +123,19 @@ public class GameManager : MonoBehaviour {
 		.Subscribe(msg => {
 			if (msg.approved) {
 				if (pendingCard != null)
+				{
 					(pendingCard.Card.IsNegative ? NegHands : PosHands).Remove(pendingCard);
+					if (pendingCard.Card.Id / 100 == 2 || pendingCard.Card.Id / 100 == 4)
+					{
+						AddDirection(true, close => {
+							pendingCard.transform.DOScale(Vector3.zero, 0.3f);
+							Timer(0.3f, () => {
+								close();
+								GameObject.Destroy(pendingCard.gameObject);
+							});						
+						});
+					}
+				}
 			}
 			else {
 				pendingCard = null;
