@@ -118,7 +118,7 @@ namespace DeepDark.Server.States
 
 						if (damager.HP < 1)
 						{
-							enemyState.removeServerCharacter(damager);
+							state.removeServerCharacter(damager);
 							this.__sendDestroyedMessage(damager);
 						}
 
